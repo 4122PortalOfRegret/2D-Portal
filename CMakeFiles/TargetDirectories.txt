@@ -1,0 +1,3 @@
+/home/eric/Desktop/SDLTest/CMakeFiles/rebuild_cache.dir
+/home/eric/Desktop/SDLTest/CMakeFiles/edit_cache.dir
+/home/eric/Desktop/SDLTest/CMakeFiles/SDL2Test.dir
