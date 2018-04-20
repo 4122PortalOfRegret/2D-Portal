@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.5)
 project(SDL2Test)
 
 find_package(SDL2 REQUIRED)

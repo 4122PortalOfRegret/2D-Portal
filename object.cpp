@@ -5,6 +5,8 @@ Object::Object(int x, int y, int h, int w){
     setY(y);
     setHeight(h);
     setWidth(w);
+    setXSpeed(0);
+    setYSpeed(0);
 }
 
 void Object::setX(int x){
@@ -31,6 +33,26 @@ int Object::getY(){
     return yLoc;
 }
 
+int Object::getNewX(){
+    return newXLoc;
+}
+
+int Object::getNewY(){
+    return newYLoc;
+}
+
+void Object::setXSpeed(int x){
+    xSpeed = x;
+}
+
+void Object::setYSpeed(int y){
+    ySpeed = y;
+}
+
+void Object::update(){
+
+}
+
 int Object::getHeight(){
     return height;
 }
@@ -39,6 +61,7 @@ int Object::getWidth(){
     return width;
 }
 
+/*
 void Object::draw(){
 
     //draw gray at xLoc, yLoc
@@ -47,7 +70,8 @@ void Object::draw(){
     yLoc = newYLoc;
 
 }
-
+*/
+/*
 void Object::hitDetection(){
     int mapColor;
 
@@ -127,3 +151,4 @@ void Object::hitDetection(){
 }
 
 void Object::
+*/

@@ -3,11 +3,16 @@ class Object{
         explicit Object(int x, int y, int h, int w);
         int getX();
         int getY();
+        int getNewX();
+        int getNewY();
         int getHeight();
         int getWidth();
+        void setXSpeed(int x);
+        void setYSpeed(int y);
         void setX(int x);
         void setY(int y);
-        void draw();
+        void update();
+//        void draw();
 
     private:
         int xLoc;
