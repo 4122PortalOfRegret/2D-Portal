@@ -1,4 +1,4 @@
-#include "polygon.h"
+#include "object.h"
 
 class Block : public Object
 {
