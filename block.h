@@ -1,4 +1,7 @@
-class Object{
+#include "polygon.h"
+
+class Block : public Object
+{
     public:
         explicit Object(int x, int y, int h, int w);
         virtual void getColor() = 0;

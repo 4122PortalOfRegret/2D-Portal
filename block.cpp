@@ -1,35 +1,30 @@
-#include "object.h"
+#include "block.h"
 
-Object::Object(int x, int y, int h, int w){
-    setX(x);
-    setY(y);
-    setHeight(h);
-    setWidth(w);
-    //setXSpeed(0);
-    //setYSpeed(0);
-}
 
-void Object::setX(int x){
+Block::Block(int x, int y int h, int w) : 
+	Object(x, y, h, w) {}
+
+void Block::setX(int x){
     xLoc = x;
 }
 
-void Object::setY(int y){
+void Block::setY(int y){
     yLoc = y;
 }
 
-void Object::setHeight(int h){
+void Block::setHeight(int h){
     height = h;
 }
 
-void Object::setWidth(int w){
+void Block::setWidth(int w){
     width = w;
 }
 
-int Object::getX(){
+int Block::getX(){
     return xLoc;
 }
 
-int Object::getY(){
+int Block::getY(){
     return yLoc;
 }
 
@@ -53,10 +48,10 @@ int Object::getY(){
 
 //}
 
-int Object::getHeight(){
+int Block::getHeight(){
     return height;
 }
 
-int Object::getWidth(){
+int Block::getWidth(){
     return width;
 }
