@@ -1,7 +1,7 @@
 #include "block.h"
 
 
-Block::Block(int x, int y int h, int w) : 
+Block::Block(int x, int y, int h, int w) : 
 	obj(x, y, h, w) {}
 
 void Block::setX(int x){
@@ -56,34 +56,34 @@ int Block::getWidth(){
     return width;
 }
 
-Uint8 getColorR() {
+Uint8 Block::getColorR() {
 	return red;
 }
 
-Uint8 getColorG() {
+Uint8 Block::getColorG() {
 	return green;
 }
 
-Uint8 getColorB() {
+Uint8 Block::getColorB() {
 	return blue;
 }
 
-Uint8 getColorA() {
+Uint8 Block::getColorA() {
 	return alpha;
 }
 
-void setColorR(Uint8 r) {
+void Block::setColorR(Uint8 r) {
 	red = r;
 }
 
-void setColorA(Uint8 a) {
+void Block::setColorA(Uint8 a) {
 	alpha = a;
 }
 
-void setColorB(Uint8 b) {
+void Block::setColorB(Uint8 b) {
 	blue = b;
 }
 
-void setColorG(Uint8 g) {
+void Block::setColorG(Uint8 g) {
 	green = g;
 }
