@@ -1,6 +1,6 @@
 #include "object.h"
 
-class Block : public object
+class Block : public obj
 {
     public:
         explicit Block(int x, int y, int h, int w);

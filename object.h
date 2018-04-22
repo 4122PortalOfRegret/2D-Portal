@@ -1,6 +1,6 @@
-class object{
+class obj{
     public:
-        explicit object(int x, int y, int h, int w);
+        explicit obj(int x, int y, int h, int w);
         virtual Uint8 getColorA();
         int getX();
         int getY();
