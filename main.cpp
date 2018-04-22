@@ -28,15 +28,15 @@ void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
     if (xSpeed == 0 && ySpeed == 0)
         return;
     *xLoc = *xLoc + xSpeed;
-    if (*xLoc < 0)
-        *xLoc = 0;
-    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
-        *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
+    if (*xLoc < 10)
+        *xLoc = 10;
+    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH - 10)
+        *xLoc = WINDOW_WIDTH - CHAR_WIDTH - 10;
     *yLoc = *yLoc + ySpeed;
-    if (*yLoc < 0)
-        *yLoc = 0;
-    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
-        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
+    if (*yLoc < 10)
+        *yLoc = 10;
+    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT - 10) {
+        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT - 10;
         ground = true;
     }
 }
@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect myRect = {50, 50, CHAR_WIDTH, CHAR_HEIGHT};
+    SDL_Rect myRect = {30, 640, CHAR_WIDTH, CHAR_HEIGHT};
     int xSpeed = 0; int ySpeed = 0;
     long int delayTime;
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -111,9 +111,39 @@ int main(int argc, char** argv) {
 
     clock_t start; clock_t end;
 
-    SDL_Rect platform = {700,400,500,320};
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderFillRect(renderer, &platform);
+    SDL_Rect left_edge = {0,0,10,720};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &left_edge);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect right_edge = {1270,0,10,720};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &right_edge);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect top_edge = {10,0,1260,10};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &top_edge);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect bottom_edge = {10,710,1260,10};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &bottom_edge);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect small_box = {440,510,200,200};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &small_box);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect big_box = {310,640,200,300};
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+    SDL_RenderFillRect(renderer, &big_box);
+    SDL_RenderPresent(renderer);
+
+    SDL_Rect portal = {1176,646,64,64};
+    SDL_SetRenderDrawColor(renderer, 0,0,255,255);
+    SDL_RenderFillRect(renderer, &portal);
     SDL_RenderPresent(renderer);
 
 
@@ -215,8 +245,8 @@ int main(int argc, char** argv) {
                 break;
         }
 
-        if ( CheckCollision(myRect,platform) )
-            ResetPlayerPos(&myRect.x,&myRect.y);
+        // if ( CheckCollision(myRect,platform) )
+        //     ResetPlayerPos(&myRect.x,&myRect.y);
 
         // update location based on button press
         update(&myRect.x, &myRect.y, xSpeed, ySpeed);
