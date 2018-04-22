@@ -3,7 +3,7 @@
 class Block : public Object
 {
     public:
-        explicit Object(int x, int y, int h, int w);
+        explicit Block(int x, int y, int h, int w);
         virtual void getColor() = 0;
         int getX();
         int getY();
