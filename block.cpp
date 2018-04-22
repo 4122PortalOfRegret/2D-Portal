@@ -2,7 +2,7 @@
 
 
 Block::Block(int x, int y int h, int w) : 
-	Object(x, y, h, w) {}
+	object(x, y, h, w) {}
 
 void Block::setX(int x){
     xLoc = x;

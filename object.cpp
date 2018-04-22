@@ -1,6 +1,6 @@
 #include "object.h"
 
-Object::Object(int x, int y, int h, int w){
+object::object(int x, int y, int h, int w){
     setX(x);
     setY(y);
     setHeight(h);
@@ -9,27 +9,27 @@ Object::Object(int x, int y, int h, int w){
     //setYSpeed(0);
 }
 
-void Object::setX(int x){
+void object::setX(int x){
     xLoc = x;
 }
 
-void Object::setY(int y){
+void object::setY(int y){
     yLoc = y;
 }
 
-void Object::setHeight(int h){
+void object::setHeight(int h){
     height = h;
 }
 
-void Object::setWidth(int w){
+void object::setWidth(int w){
     width = w;
 }
 
-int Object::getX(){
+int object::getX(){
     return xLoc;
 }
 
-int Object::getY(){
+int object::getY(){
     return yLoc;
 }
 
@@ -53,10 +53,10 @@ int Object::getY(){
 
 //}
 
-int Object::getHeight(){
+int object::getHeight(){
     return height;
 }
 
-int Object::getWidth(){
+int object::getWidth(){
     return width;
 }
