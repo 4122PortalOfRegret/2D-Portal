@@ -1,4 +1,4 @@
-# Install script for directory: /home/kmcclelland3/SDLTest/build
+# Install script for directory: /home/kmcclelland3/SDLTest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

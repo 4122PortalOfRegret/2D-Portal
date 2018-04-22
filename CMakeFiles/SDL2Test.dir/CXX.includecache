@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,11 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/eric/Desktop/SDLTest/main.cpp
+/home/kmcclelland3/SDLTest/main.cpp
 iostream
 -
 SDL.h
-/home/eric/Desktop/SDLTest/SDL.h
+/home/kmcclelland3/SDLTest/SDL.h
+object.h
+/home/kmcclelland3/SDLTest/object.h
+ctime
+-
+chrono
+-
+
+/home/kmcclelland3/SDLTest/object.h
 
 /usr/include/SDL2/SDL.h
 SDL_main.h

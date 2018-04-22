@@ -48,7 +48,7 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kmcclelland3/SDLTest/build
+CMAKE_SOURCE_DIR = /home/kmcclelland3/SDLTest
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/kmcclelland3/SDLTest
