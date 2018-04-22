@@ -41,42 +41,55 @@ void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
     }
 }
 
-bool CheckCollision( const SDL_Rect &rect1, const SDL_Rect &rect2 )
+void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, int* playerY, int xSpeed, int ySpeed)
 {
     // Find edges of rect1
-    int left1 = rect1.x;
-    int right1 = rect1.x + rect1.w;
-    int top1 = rect1.y;
-    int bottom1 = rect1.y + rect1.h;
+    int left1 = rect1.x;                    // playerx
+    int right1 = rect1.x + rect1.w;         // playerx+width
+    int top1 = rect1.y;                     // playerY
+    int bottom1 = rect1.y + rect1.h;        // playerY+height
 
     // Find edges of rect2
-    int left2 = rect2.x;
-    int right2 = rect2.x + rect2.w;
-    int top2 = rect2.y;
-    int bottom2 = rect2.y + rect2.h;
+    int left2 = rect2.x;                    // blockX
+    int right2 = rect2.x + rect2.w;         // blockX+width
+    int top2 = rect2.y;                     // blockY          
+    int bottom2 = rect2.y + rect2.h;        // blocky+height
+    bool rb = false;
+    bool lb = false;
+    bool tr = false;
+    bool tl = false;
 
-    // Check edges
-    if ( left1 > right2 )// Left 1 is right of right 2
-        return false; // No collision
 
-    if ( right1 < left2 ) // Right 1 is left of left 2
-        return false; // No collision
+    // playerX >= blockX && playerX <= blockX+width && playerY >= blockY && playerY <= blockY+height
+    if (left1 >= left2 && left1 <= right2 && top1 >= top2 && top1 <= bottom2)
+        rb = true;
+    //  playerX+width >= blockX && playerX+width <= blockX+width && playerY >= blockY && playerY <= blockY+height
+    if (right1 >= left2 && right1 <= right2 && top1 >= top2 && top1 <= bottom2)
+        lb = true;
+        
+    //playerX >= blockX && playerX <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
+    if (left1 >= left2 && left1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
+        tr = true;
 
-    if ( top1 > bottom2 ) // Top 1 is below bottom 2
-        return false; // No collision
+    // playerX+width >= blockX && playerX+width <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
+    if (right1 >= left2 && right1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
+        tl = true;
 
-    if ( bottom1 < top2 ) // Bottom 1 is above top 2 
-        return false; // No collision
-
-    return true;
+    if (rb && lb)                   // if bottom
+        *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
+        ySpeed = 0;
+    if (rb && tr)                   // if right
+        *playerX = right2 + 5;
+        xSpeed = 0;    
+    if (tr && tl)                   // if top
+        *playerY = top2 - rect1.h - 10;
+        ySpeed = 0;
+    if (lb && tl)                   // if left
+        *playerX = left2 - rect1.w - 5;
+        xSpeed = 0;     
 }
 
-void ResetPlayerPos(int* xLoc, int* yLoc)
-{
-    *xLoc = 50;
-    *yLoc = 50;
-    return;
-}
+
 
 
 int main(int argc, char** argv) {
@@ -102,7 +115,7 @@ int main(int argc, char** argv) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect myRect = {50, 50, CHAR_WIDTH, CHAR_HEIGHT};
+    SDL_Rect myRect = {600, 100, CHAR_WIDTH, CHAR_HEIGHT};
     int xSpeed = 0; int ySpeed = 0;
     long int delayTime;
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -111,8 +124,8 @@ int main(int argc, char** argv) {
 
     clock_t start; clock_t end;
 
-    SDL_Rect platform = {700,400,500,320};
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_Rect platform = {200,400,600,220};
+    SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     SDL_RenderFillRect(renderer, &platform);
     SDL_RenderPresent(renderer);
 
@@ -215,8 +228,8 @@ int main(int argc, char** argv) {
                 break;
         }
 
-        if ( CheckCollision(myRect,platform) )
-            ResetPlayerPos(&myRect.x,&myRect.y);
+        CheckCollision(myRect,platform,&myRect.x,&myRect.y,xSpeed,ySpeed);
+
 
         // update location based on button press
         update(&myRect.x, &myRect.y, xSpeed, ySpeed);
