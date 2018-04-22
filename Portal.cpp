@@ -1,7 +1,10 @@
 #include "Portal.h"
 
+// Make sure there are only ever 2 instances of this object
+// One will be blue and the other will be orange
 
-Portal::Portal(int x, int y, bool pc, bool vertOrHoriz) {
+
+Portal::Portal(int x, int y, bool portalclr, bool vertOrHoriz) {
     setX(x);
     setY(y);
     setColorA(255);
@@ -12,7 +15,7 @@ Portal::Portal(int x, int y, bool pc, bool vertOrHoriz) {
       setHeight(20);
       setWidth(50);
     }
-    if (!pc) {  // Colors correspond to blue portal
+    if (!portalclr) {  // Colors correspond to blue portal
       portalColor = 0;
       setColorR(0);
       setColorG(120);
@@ -112,4 +115,18 @@ void Portal::setColorG(Uint8 g) {
 // This function is toggling if you want the portal to be drawn or not
 void Portal::toggleClick() {
   isActive = !isActive;
+}
+
+void Portal::draw(SDL_Renderer* ref) {
+  if (isActive) {
+    SDL_Rect r;
+    r.x = getX();
+    r.y = getY();
+    r.w = getWidth();
+    r.h = getHeight();
+    SDL_SetRenderDrawColor( ref, getColorR(), getColorG(), getColorB(), getColorA() );
+    SDL_RenderFillRect( renderer, &r );
+    // Render the rect to the screen
+    SDL_RenderPresent(renderer);
+  }
 }

@@ -24,6 +24,7 @@ class Portal : public Block
         Uint8 getColorA();
         void toggleClick();
         //void update();
+        void draw(SDL_Renderer* ref);
 
 //        void draw();
 
