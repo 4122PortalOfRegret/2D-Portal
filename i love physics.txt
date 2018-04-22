@@ -5,15 +5,19 @@ if(events.type == SDL_MOUSEBUTTONUP) {
 
 void EventManager::mousePress(SDL_MouseButtonEvent& press) {
 	bool portalColor;  // 0 = Blue | 1 = Orange
+	int mouseX = 0;
+	int mouseY = 0;
+	uint32 uint32Return = SDL_GetMouseState(&mouseX, &mouseY);
+
 	if(press.button == SDL_BUTTON_LEFT){
 		portalColor = false;
 	} else if(press.button == SDL_BUTTON_RIGHT){
 		portalColor = true;
 	} else {
-		return "your mouse is broken"
+		return;
 	}
-	int pX = playerX + height/2;
-	int pY = playerY + width/2;
+	int pY = myRect.y + myRect.h/2;
+	int pX = myRect.x + myRect.w/2;
 
 	int deltaX = mouseX - pX;
 	int deltaY =  mouseY - pY;
