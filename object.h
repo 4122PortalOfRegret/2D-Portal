@@ -1,7 +1,7 @@
 class Object{
     public:
         explicit Object(int x, int y, int h, int w);
-        virtual void getColor() = 0;
+        virtual void getColorA();
         int getX();
         int getY();
         //int getNewX();

@@ -55,3 +55,35 @@ int Block::getHeight(){
 int Block::getWidth(){
     return width;
 }
+
+Uint8 getColorR() {
+	return red;
+}
+
+Uint8 getColorG() {
+	return green;
+}
+
+Uint8 getColorB() {
+	return blue;
+}
+
+Uint8 getColorA() {
+	return alpha;
+}
+
+void setColorR(Uint8 r) {
+	red = r;
+}
+
+void setColorA(Uint8 a) {
+	alpha = a;
+}
+
+void setColorB(Uint8 b) {
+	blue = b;
+}
+
+void setColorG(Uint8 g) {
+	green = g;
+}
