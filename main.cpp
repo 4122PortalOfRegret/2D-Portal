@@ -41,6 +41,43 @@ void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
     }
 }
 
+bool CheckCollision( const SDL_Rect &rect1, const SDL_Rect &rect2 )
+{
+    // Find edges of rect1
+    int left1 = rect1.x;
+    int right1 = rect1.x + rect1.w;
+    int top1 = rect1.y;
+    int bottom1 = rect1.y + rect1.h;
+
+    // Find edges of rect2
+    int left2 = rect2.x;
+    int right2 = rect2.x + rect2.w;
+    int top2 = rect2.y;
+    int bottom2 = rect2.y + rect2.h;
+
+    // Check edges
+    if ( left1 > right2 )// Left 1 is right of right 2
+        return false; // No collision
+
+    if ( right1 < left2 ) // Right 1 is left of left 2
+        return false; // No collision
+
+    if ( top1 > bottom2 ) // Top 1 is below bottom 2
+        return false; // No collision
+
+    if ( bottom1 < top2 ) // Bottom 1 is above top 2 
+        return false; // No collision
+
+    return true;
+}
+
+void ResetPlayerPos(int* xLoc, int* yLoc)
+{
+    *xLoc = 50;
+    *yLoc = 50;
+    return;
+}
+
 
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
@@ -74,6 +111,13 @@ int main(int argc, char** argv) {
 
     clock_t start; clock_t end;
 
+    SDL_Rect platform = {700,400,500,320};
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &platform);
+    SDL_RenderPresent(renderer);
+
+
+
     while(!quit){
 	frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
@@ -92,10 +136,10 @@ int main(int argc, char** argv) {
             //ySpeed = -GRAVITY;
             // x direction
             if(state[SDL_SCANCODE_A]) {
-                xSpeed -= 2;;
+                xSpeed -= 5;;
             }
             if(state[SDL_SCANCODE_D]) {
-                xSpeed += 2;
+                xSpeed += 5;
             }
             // y direction
             if(state[SDL_SCANCODE_W]) {
@@ -170,6 +214,9 @@ int main(int argc, char** argv) {
                 ySpeed = GRAVITY;
                 break;
         }
+
+        if ( CheckCollision(myRect,platform) )
+            ResetPlayerPos(&myRect.x,&myRect.y);
 
         // update location based on button press
         update(&myRect.x, &myRect.y, xSpeed, ySpeed);
