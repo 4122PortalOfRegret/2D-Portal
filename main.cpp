@@ -54,39 +54,79 @@ void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, 
     int right2 = rect2.x + rect2.w;         // blockX+width
     int top2 = rect2.y;                     // blockY          
     int bottom2 = rect2.y + rect2.h;        // blocky+height
-    bool rb = false;
-    bool lb = false;
-    bool tr = false;
-    bool tl = false;
 
 
-    // playerX >= blockX && playerX <= blockX+width && playerY >= blockY && playerY <= blockY+height
-    if (left1 >= left2 && left1 <= right2 && top1 >= top2 && top1 <= bottom2)
-        rb = true;
-    //  playerX+width >= blockX && playerX+width <= blockX+width && playerY >= blockY && playerY <= blockY+height
-    if (right1 >= left2 && right1 <= right2 && top1 >= top2 && top1 <= bottom2)
-        lb = true;
-        
-    //playerX >= blockX && playerX <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
-    if (left1 >= left2 && left1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
-        tr = true;
+        // Check edges
+    if ( left1 > right2 )// Left 1 is right of right 2
+        return; // No collision
 
-    // playerX+width >= blockX && playerX+width <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
-    if (right1 >= left2 && right1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
-        tl = true;
+    if ( right1 < left2 ) // Right 1 is left of left 2 
+        return; // No collision 
 
-    if (rb && lb)                   // if bottom
-        *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
-        ySpeed = 0;
-    if (rb && tr)                   // if right
-        *playerX = right2 + 5;
-        xSpeed = 0;    
-    if (tr && tl)                   // if top
+    if ( top1 > bottom2 ) // Top 1 is below bottom 2
+        return; // No collision
+
+    if ( bottom1 < top2 ) // Bottom 1 is above top 2
+        return; // No collision 
+
+    if (right1 >= left2 && left1 <= right2 && top1 <= top2)
+    {
         *playerY = top2 - rect1.h - 10;
         ySpeed = 0;
-    if (lb && tl)                   // if left
+    }
+
+    if (right1 >= left2 && left1 <= right2 && bottom1 >= bottom2)
+    {
+        *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
+        ySpeed = 0;
+    }
+
+    if (top1 <= bottom2 && bottom1 >= top2 && left1 <= left2)
+    {
         *playerX = left2 - rect1.w - 5;
         xSpeed = 0;     
+    }
+
+    if (top1 <= bottom2 && bottom1 >= top2 && right1 >= right2)
+    {
+        *playerX = right2 + 5;
+        xSpeed = 0;    
+    }
+
+
+
+    // bool rb = false;
+    // bool lb = false;
+    // bool tr = false;
+    // bool tl = false;
+
+    // // playerX >= blockX && playerX <= blockX+width && playerY >= blockY && playerY <= blockY+height
+    // if (left1 >= left2 && left1 <= right2 && top1 >= top2 && top1 <= bottom2)
+    //     rb = true;
+    // //  playerX+width >= blockX && playerX+width <= blockX+width && playerY >= blockY && playerY <= blockY+height
+    // if (right1 >= left2 && right1 <= right2 && top1 >= top2 && top1 <= bottom2)
+    //     lb = true;
+        
+    // //playerX >= blockX && playerX <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
+    // if (left1 >= left2 && left1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
+    //     tr = true;
+
+    // // playerX+width >= blockX && playerX+width <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
+    // if (right1 >= left2 && right1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
+    //     tl = true;
+
+    // if (rb && lb)                   // if bottom
+    //     *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
+    //     ySpeed = 0;
+    // if (rb && tr)                   // if right
+    //     *playerX = right2 + 5;
+    //     xSpeed = 0;    
+    // if (tr && tl)                   // if top
+    //     *playerY = top2 - rect1.h - 10;
+    //     ySpeed = 0;
+    // if (lb && tl)                   // if left
+    //     *playerX = left2 - rect1.w - 5;
+    //     xSpeed = 0;     
 }
 
 
