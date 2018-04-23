@@ -44,10 +44,10 @@ void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
 void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, int* playerY, int xSpeed, int ySpeed)
 {
     // Find edges of rect1
-    int left1 = rect1.x;                    // playerx
-    int right1 = rect1.x + rect1.w;         // playerx+width
-    int top1 = rect1.y;                     // playerY
-    int bottom1 = rect1.y + rect1.h;        // playerY+height
+    // int left1 = rect1.x;                    // playerx
+    // int right1 = rect1.x + rect1.w;         // playerx+width
+    // int top1 = rect1.y;                     // playerY
+    // int bottom1 = rect1.y + rect1.h;        // playerY+height
 
     // Find edges of rect2
     int left2 = rect2.x;                    // blockX
@@ -55,6 +55,11 @@ void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, 
     int top2 = rect2.y;                     // blockY          
     int bottom2 = rect2.y + rect2.h;        // blocky+height
 
+    // use future positions of the player
+    int left1 = rect1.x + xSpeed;
+    int right1 = rect1.x + rect1.w + xSpeed;
+    int top1 = rect1.y + ySpeed;
+    int bottom1 = rect1.y + rect1.h + ySpeed;
 
         // Check edges
     if ( left1 > right2 )// Left 1 is right of right 2
@@ -73,24 +78,27 @@ void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, 
     {
         *playerY = top2 - rect1.h - 10;
         ySpeed = 0;
+        ground = true;
     }
 
     if (right1 >= left2 && left1 <= right2 && bottom1 >= bottom2)
     {
         *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
         ySpeed = 0;
+        ground = true;
     }
 
+    // block is below player?
     if (top1 <= bottom2 && bottom1 >= top2 && left1 <= left2)
     {
         *playerX = left2 - rect1.w - 5;
-        xSpeed = 0;     
+        xSpeed = 0;   
     }
 
     if (top1 <= bottom2 && bottom1 >= top2 && right1 >= right2)
     {
         *playerX = right2 + 5;
-        xSpeed = 0;    
+        xSpeed = 0;
     }
 
 
@@ -172,7 +180,7 @@ int main(int argc, char** argv) {
 
 
     while(!quit){
-	frameStart = sc::high_resolution_clock::now();
+	    frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
         if(events.type == SDL_QUIT) {
             quit = true;
@@ -180,73 +188,56 @@ int main(int argc, char** argv) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         SDL_RenderFillRect(renderer, &myRect);
         const Uint8 *state = SDL_GetKeyboardState(NULL);
-        
 
         xSpeed = 0;
-       // if (event.type == SDL_KEYDOWN) {
 
-//            xSpeed = 0; 
-            //ySpeed = -GRAVITY;
-            // x direction
-            if(state[SDL_SCANCODE_A]) {
-                xSpeed -= 5;;
+        if(state[SDL_SCANCODE_A]) {
+            xSpeed -= 5;;
+        }
+        if(state[SDL_SCANCODE_D]) {
+            xSpeed += 5;
+        }
+        // y direction
+        if(state[SDL_SCANCODE_W]) {
+    		++pastPress[KEY_W];
+    		if(pastPress[KEY_W] == 1) {
+    			canJump = true;
+    		}
+            if (jump == READY) {
+                start = clock();
+                jump = BUTTON_PRESS;
             }
-            if(state[SDL_SCANCODE_D]) {
-                xSpeed += 5;
-            }
-            // y direction
-            if(state[SDL_SCANCODE_W]) {
-/*            if (event.type == SDL_KEYDOWN) {
-                 if (jump == READY) {
-                    start = clock();
-                    jump = BUTTON_PRESS;
-                    canJump = false;
-                }
-            } else if (event.type == SDL_KEYUP) {
-                canJump = true;
-            }*/
-		++pastPress[KEY_W];
-		if(pastPress[KEY_W] == 1) {
-			canJump = true;
-		}
-                if (jump == READY) {
-                    start = clock();
-                    jump = BUTTON_PRESS;
-                    //ySpeed += 10;
-                }
-            } else {
-		pastPress[KEY_W] = 0;
-		canJump = true;
+        } else {
+    		pastPress[KEY_W] = 0;
+    		canJump = true;
 	    }
-            // escape
-            if(state[SDL_SCANCODE_ESCAPE]) {
-                quit = true;
-            }
-       // } else if (event.type == SDL_KEYUP) {
-            if(!state[SDL_SCANCODE_W]) {
-                canJump = true;
-            }
-       // 
+        // escape
+        if(state[SDL_SCANCODE_ESCAPE]) {
+            quit = true;
+        }
+        if(!state[SDL_SCANCODE_W]) {
+            canJump = true;
+        }
+
+        // state machine for player jumping
         switch(jump) {
             case BUTTON_PRESS:
-//                if (canJump) {
-		    canJump = false;
-		    ySpeed = -16;
-                    end = clock();
-                    if (jumpframes > 10) {
-                        jumpframes = 0;
-			jump = DECELERATE;
-                    }
-		    ++jumpframes;
-		    ground = false;
-//                }
+    		    canJump = false;
+    		    ySpeed = -16;
+                end = clock();
+                if (jumpframes > 10) {
+                    jumpframes = 0;
+    			    jump = DECELERATE;
+                }
+    		    ++jumpframes;
+    		    ground = false;
                 break;
             case DECELERATE  :
                 ySpeed += 2;
                 if (ySpeed <= 0){
                     ySpeed = 0;
-		    jump = DESCEND;
-		}
+                    jump = DESCEND;
+		        }
                 break;
             case DESCEND     :
                 ySpeed += 5;
@@ -267,9 +258,9 @@ int main(int argc, char** argv) {
                 ySpeed = GRAVITY;
                 break;
         }
+        //std::cout << jump << endl;
 
         CheckCollision(myRect,platform,&myRect.x,&myRect.y,xSpeed,ySpeed);
-
 
         // update location based on button press
         update(&myRect.x, &myRect.y, xSpeed, ySpeed);
@@ -277,11 +268,11 @@ int main(int argc, char** argv) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &myRect);
         SDL_RenderPresent(renderer);
-	frameEnd = sc::high_resolution_clock::now();
-	delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
-	if(delayTime > 0) {
-	    SDL_Delay(delayTime);
-	}
+    	frameEnd = sc::high_resolution_clock::now();
+    	delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
+    	if(delayTime > 0) {
+    	    SDL_Delay(delayTime);
+    	}
     }
     SDL_DestroyWindow(window);
     SDL_Quit();
