@@ -24,26 +24,27 @@ auto frameEnd = sc::high_resolution_clock::now();
 #define KEY_D 2
 #define KEY_S 3
 
-void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
-    if (xSpeed == 0 && ySpeed == 0)
-        return;
-    *xLoc = *xLoc + xSpeed;
-    if (*xLoc < 0)
-        *xLoc = 0;
-    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
-        *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
-    *yLoc = *yLoc + ySpeed;
-    if (*yLoc < 0)
-        *yLoc = 0;
-    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
-        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
-        ground = true;
-    }
-}
+// void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
+//     if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2)
+//     {
+//     if (xSpeed == 0 && ySpeed == 0)
+//         return;
+//     *xLoc = *xLoc + xSpeed;
+//     if (*xLoc < 0)
+//         *xLoc = 0;
+//     if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
+//         *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
+//     *yLoc = *yLoc + ySpeed;
+//     if (*yLoc < 0)
+//         *yLoc = 0;
+//     if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
+//         *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
+//         ground = true;
+//     }
+//     }
+// }
 
-void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, int* playerY, int xSpeed, int ySpeed)
-{
-    // Find edges of rect1
+void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed){
     int left1 = rect1.x;                    // playerx
     int right1 = rect1.x + rect1.w;         // playerx+width
     int top1 = rect1.y;                     // playerY
@@ -55,8 +56,79 @@ void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, 
     int top2 = rect2.y;                     // blockY          
     int bottom2 = rect2.y + rect2.h;        // blocky+height
 
+    int oldleft1 = rect1.x - xSpeed;
+    int oldright1 = rect1.x + rect1.w - xSpeed;
+    int oldtop1 = rect1.y - ySpeed;
+    int oldbottom1 = rect1.y + rect1.h - ySpeed;
 
-        // Check edges
+    if (xSpeed == 0)
+        return;
+    *xLoc = *xLoc + xSpeed;
+
+    if (*xLoc < 0)
+        *xLoc = 0;
+    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
+        *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
+
+    if ( left1 > right2 )// Left 1 is right of right 2
+    return; // No collision
+
+    if ( right1 < left2 ) // Right 1 is left of left 2 
+        return; // No collision 
+
+    if ( top1 > bottom2 ) // Top 1 is below bottom 2
+        return; // No collision
+
+    if ( bottom1 < top2 ) // Bottom 1 is above top 2
+        return; // No collision 
+    
+
+    if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
+    {
+        *xLoc = *xLoc - xSpeed - 0;
+    }
+
+    if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))  // right
+    {
+        *xLoc = *xLoc - xSpeed + 0; 
+    }
+
+    return;
+    
+    
+
+
+}
+
+void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols)
+    {
+    int left1 = rect1.x;                    // playerx
+    int right1 = rect1.x + rect1.w;         // playerx+width
+    int top1 = rect1.y;                     // playerY
+    int bottom1 = rect1.y + rect1.h;        // playerY+height
+
+    // Find edges of rect2
+    int left2 = rect2.x;                    // blockX
+    int right2 = rect2.x + rect2.w;         // blockX+width
+    int top2 = rect2.y;                     // blockY          
+    int bottom2 = rect2.y + rect2.h;        // blocky+height
+
+    int oldleft1 = rect1.x - xSpeed;
+    int oldright1 = rect1.x + rect1.w - xSpeed;
+    int oldtop1 = rect1.y - ySpeed;
+    int oldbottom1 = rect1.y + rect1.h - ySpeed;
+
+    if (ySpeed == 0)
+        return;
+
+    *yLoc = *yLoc + ySpeed;
+    if (*yLoc < 0)
+        *yLoc = 0;
+    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
+        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
+        ground = true;
+    }
+
     if ( left1 > right2 )// Left 1 is right of right 2
         return; // No collision
 
@@ -69,65 +141,122 @@ void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2, int* playerX, 
     if ( bottom1 < top2 ) // Bottom 1 is above top 2
         return; // No collision 
 
-    if (right1 >= left2 && left1 <= right2 && top1 <= top2)
+    if (oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)     			// top   
     {
-        *playerY = top2 - rect1.h - 10;
-        ySpeed = 0;
+    	*yLoc = *yLoc - ySpeed - 11;
+    	ground = true;
+    	// need to change state to free fall
     }
 
-    if (right1 >= left2 && left1 <= right2 && bottom1 >= bottom2)
+    if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1))				// bot
     {
-        *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
-        ySpeed = 0;
+    	*yLoc = *yLoc - ySpeed + 11;
+    	*lols = FREEFALL;
     }
+    return;
+    
 
-    if (top1 <= bottom2 && bottom1 >= top2 && left1 <= left2)
-    {
-        *playerX = left2 - rect1.w - 5;
-        xSpeed = 0;     
-    }
-
-    if (top1 <= bottom2 && bottom1 >= top2 && right1 >= right2)
-    {
-        *playerX = right2 + 5;
-        xSpeed = 0;    
-    }
-
-
-
-    // bool rb = false;
-    // bool lb = false;
-    // bool tr = false;
-    // bool tl = false;
-
-    // // playerX >= blockX && playerX <= blockX+width && playerY >= blockY && playerY <= blockY+height
-    // if (left1 >= left2 && left1 <= right2 && top1 >= top2 && top1 <= bottom2)
-    //     rb = true;
-    // //  playerX+width >= blockX && playerX+width <= blockX+width && playerY >= blockY && playerY <= blockY+height
-    // if (right1 >= left2 && right1 <= right2 && top1 >= top2 && top1 <= bottom2)
-    //     lb = true;
-        
-    // //playerX >= blockX && playerX <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
-    // if (left1 >= left2 && left1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
-    //     tr = true;
-
-    // // playerX+width >= blockX && playerX+width <= blockX+width && playerY+height >= blockY && playerY+height <= blockY+height
-    // if (right1 >= left2 && right1 <= right2 && bottom1 >= top2 && bottom1 <= bottom2)
-    //     tl = true;
-
-    // if (rb && lb)                   // if bottom
-    //     *playerY = bottom2 + 10;         // add some constant value because it clips otherwise
-    //     ySpeed = 0;
-    // if (rb && tr)                   // if right
-    //     *playerX = right2 + 5;
-    //     xSpeed = 0;    
-    // if (tr && tl)                   // if top
-    //     *playerY = top2 - rect1.h - 10;
-    //     ySpeed = 0;
-    // if (lb && tl)                   // if left
-    //     *playerX = left2 - rect1.w - 5;
-    //     xSpeed = 0;     
 }
+
+
+
+
+
+// void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2)//, int* playerX, int* playerY, int xSpeed, int ySpeed)
+// {
+//     // Find edges of rect1
+//     int left1 = rect1.x;                    // playerx
+//     int right1 = rect1.x + rect1.w;         // playerx+width
+//     int top1 = rect1.y;                     // playerY
+//     int bottom1 = rect1.y + rect1.h;        // playerY+height
+
+//     // Find edges of rect2
+//     int left2 = rect2.x;                    // blockX
+//     int right2 = rect2.x + rect2.w;         // blockX+width
+//     int top2 = rect2.y;                     // blockY          
+//     int bottom2 = rect2.y + rect2.h;        // blocky+height
+
+
+
+// }
+
+    // // not really
+
+    // int oldleft1 = rect1.x - xSpeed;
+    // int oldright1 = rect1.x + rect1.w - xSpeed;
+    // int oldtop1 = rect1.y - ySpeed;
+    // int oldbottom1 = rect1.y + rect1.h - ySpeed;
+    // //left
+    // if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))
+    // {
+    //     *playerX = left2 - rect1.w - 2;
+    //     xSpeed = 0;     
+    // }
+    // // right
+    // if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))
+    // {
+    //     *playerX = right2 + 2;
+    //     xSpeed = 0;       
+    // }
+    // //top
+    // if(oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)
+    // {
+    //     *playerY = top2 - rect1.h - 2;
+    //     ySpeed = -10;
+    // }
+
+    // //bot
+    // if(top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1)
+    // // not bad
+    // {
+    //     *playerY = bottom2 + 2;         // add some constant value because it clips otherwise
+    //     ySpeed = 0;
+    // }
+
+
+
+
+    //     // Check edges
+
+
+    // if ( left1 > right2 )// Left 1 is right of right 2
+    //     return; // No collision
+
+    // if ( right1 < left2 ) // Right 1 is left of left 2 
+    //     return; // No collision 
+
+    // if ( top1 > bottom2 ) // Top 1 is below bottom 2
+    //     return; // No collision
+
+    // if ( bottom1 < top2 ) // Bottom 1 is above top 2
+    //     return; // No collision 
+
+    // if (right1 >= left2 && left1 <= right2 && top1 <= top2)             // top
+    // {
+    //     *playerY = top2 - rect1.h - 15;
+    //     ySpeed = -10;
+    // }
+
+    // if (right1 >= left2 && left1 <= right2 && bottom1 >= bottom2)       // bottom
+    // {
+    //     *playerY = bottom2 + 15;         // add some constant value because it clips otherwise
+    //     ySpeed = 0;
+    // }
+
+    // if (top1 <= bottom2 && bottom1 >= top2 && left1 <= left2)           // left
+    // {
+    //     *playerX = left2 - rect1.w - 2;
+    //     xSpeed = 0;     
+    // }
+
+    // if (top1 <= bottom2 && bottom1 >= top2 && right1 >= right2)         //right
+    // {
+    //     *playerX = right2 + 2;
+    //     xSpeed = 0;    
+    // }
+
+
+
 
 
 
@@ -164,11 +293,10 @@ int main(int argc, char** argv) {
 
     clock_t start; clock_t end;
 
-    SDL_Rect platform = {200,400,600,220};
+    SDL_Rect platform = {200,300,400,320};
     SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     SDL_RenderFillRect(renderer, &platform);
     SDL_RenderPresent(renderer);
-
 
 
     while(!quit){
@@ -195,26 +323,20 @@ int main(int argc, char** argv) {
                 xSpeed += 5;
             }
             // y direction
-            if(state[SDL_SCANCODE_W]) {
-/*            if (event.type == SDL_KEYDOWN) {
-                 if (jump == READY) {
-                    start = clock();
-                    jump = BUTTON_PRESS;
-                    canJump = false;
-                }
-            } else if (event.type == SDL_KEYUP) {
-                canJump = true;
-            }*/
-		++pastPress[KEY_W];
-		if(pastPress[KEY_W] == 1) {
-			canJump = true;
-		}
+            if(state[SDL_SCANCODE_W])
+            {
+		        ++pastPress[KEY_W];
+		        if(pastPress[KEY_W] == 1)
+                {
+			      canJump = true;
+		        }
                 if (jump == READY) {
                     start = clock();
                     jump = BUTTON_PRESS;
                     //ySpeed += 10;
                 }
-            } else {
+            }
+        else {
 		pastPress[KEY_W] = 0;
 		canJump = true;
 	    }
@@ -233,20 +355,21 @@ int main(int argc, char** argv) {
 		    canJump = false;
 		    ySpeed = -16;
                     end = clock();
-                    if (jumpframes > 10) {
-                        jumpframes = 0;
-			jump = DECELERATE;
-                    }
+            if (jumpframes > 10)
+            {
+            	jumpframes = 0;
+				jump = DECELERATE;
+            }
 		    ++jumpframes;
 		    ground = false;
 //                }
-                break;
+            break;
             case DECELERATE  :
-                ySpeed += 2;
-                if (ySpeed <= 0){
-                    ySpeed = 0;
-		    jump = DESCEND;
-		}
+            ySpeed += 2;
+            if (ySpeed <= 0){
+                ySpeed = 0;
+		    	jump = DESCEND;
+			}
                 break;
             case DESCEND     :
                 ySpeed += 5;
@@ -268,11 +391,16 @@ int main(int argc, char** argv) {
                 break;
         }
 
-        CheckCollision(myRect,platform,&myRect.x,&myRect.y,xSpeed,ySpeed);
+
+        // are there collisions?
+        //CheckCollision(myRect,platform,&myRect.x,&myRect.y,xSpeed,ySpeed);
 
 
         // update location based on button press
-        update(&myRect.x, &myRect.y, xSpeed, ySpeed);
+        updatex(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed);
+        updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump);
+
+
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &myRect);
