@@ -141,17 +141,17 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     if ( bottom1 < top2 ) // Bottom 1 is above top 2
         return; // No collision 
 
-    if (oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)     			// top   
+    if (oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)                // top   
     {
-    	*yLoc = *yLoc - ySpeed - 11;
-    	ground = true;
-    	// need to change state to free fall
+        *yLoc = *yLoc - ySpeed  - 11;
+        ground = true;
+        // need to change state to free fall
     }
 
-    if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1))				// bot
+    if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1))             // bot
     {
-    	*yLoc = *yLoc - ySpeed + 11;
-    	*lols = FREEFALL;
+        *yLoc = *yLoc - ySpeed + 11;
+        *lols = FREEFALL;
     }
     return;
     
@@ -275,7 +275,7 @@ int main(int argc, char** argv) {
     bool quit = false;
     SDL_Event event;
     int x = 288;
-    int y = 208;	
+    int y = 208;    
     
     SDL_Renderer* renderer;
     SDL_Renderer* wRender;
@@ -300,7 +300,7 @@ int main(int argc, char** argv) {
 
 
     while(!quit){
-	frameStart = sc::high_resolution_clock::now();
+    frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
         if(events.type == SDL_QUIT) {
             quit = true;
@@ -325,11 +325,11 @@ int main(int argc, char** argv) {
             // y direction
             if(state[SDL_SCANCODE_W])
             {
-		        ++pastPress[KEY_W];
-		        if(pastPress[KEY_W] == 1)
+                ++pastPress[KEY_W];
+                if(pastPress[KEY_W] == 1)
                 {
-			      canJump = true;
-		        }
+                  canJump = true;
+                }
                 if (jump == READY) {
                     start = clock();
                     jump = BUTTON_PRESS;
@@ -337,9 +337,9 @@ int main(int argc, char** argv) {
                 }
             }
         else {
-		pastPress[KEY_W] = 0;
-		canJump = true;
-	    }
+        pastPress[KEY_W] = 0;
+        canJump = true;
+        }
             // escape
             if(state[SDL_SCANCODE_ESCAPE]) {
                 quit = true;
@@ -352,24 +352,24 @@ int main(int argc, char** argv) {
         switch(jump) {
             case BUTTON_PRESS:
 //                if (canJump) {
-		    canJump = false;
-		    ySpeed = -16;
+            canJump = false;
+            ySpeed = -16;
                     end = clock();
             if (jumpframes > 10)
             {
-            	jumpframes = 0;
-				jump = DECELERATE;
+                jumpframes = 0;
+                jump = DECELERATE;
             }
-		    ++jumpframes;
-		    ground = false;
+            ++jumpframes;
+            ground = false;
 //                }
             break;
             case DECELERATE  :
-            ySpeed += 2;
-            if (ySpeed <= 0){
+            ySpeed += 4;
+            if (ySpeed >= 0){
                 ySpeed = 0;
-		    	jump = DESCEND;
-			}
+                jump = DESCEND;
+            }
                 break;
             case DESCEND     :
                 ySpeed += 5;
@@ -379,6 +379,7 @@ int main(int argc, char** argv) {
                 }
                 break;
             case FREEFALL    :
+                jumpframes = 0;
                 ySpeed = GRAVITY;
                 if (canJump && ground) {
                     if (canJump) {
@@ -405,15 +406,14 @@ int main(int argc, char** argv) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &myRect);
         SDL_RenderPresent(renderer);
-	frameEnd = sc::high_resolution_clock::now();
-	delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
-	if(delayTime > 0) {
-	    SDL_Delay(delayTime);
-	}
+    frameEnd = sc::high_resolution_clock::now();
+    delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
+    if(delayTime > 0) {
+        SDL_Delay(delayTime);
+    }
     }
     SDL_DestroyWindow(window);
     SDL_Quit();
 
     return 0;
 }
-
