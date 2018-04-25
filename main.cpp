@@ -45,6 +45,15 @@ auto frameEnd = sc::high_resolution_clock::now();
 // }
 
 void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed){
+    if (xSpeed == 0)
+        return;
+    *xLoc = *xLoc + xSpeed;
+
+    if (*xLoc < 0)
+        *xLoc = 0;
+    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
+        *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
+
     int left1 = rect1.x;                    // playerx
     int right1 = rect1.x + rect1.w;         // playerx+width
     int top1 = rect1.y;                     // playerY
@@ -56,32 +65,15 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     int top2 = rect2.y;                     // blockY          
     int bottom2 = rect2.y + rect2.h;        // blocky+height
 
+
     int oldleft1 = rect1.x - xSpeed;
     int oldright1 = rect1.x + rect1.w - xSpeed;
-    int oldtop1 = rect1.y - ySpeed;
-    int oldbottom1 = rect1.y + rect1.h - ySpeed;
 
-    if (xSpeed == 0)
-        return;
-    *xLoc = *xLoc + xSpeed;
 
-    if (*xLoc < 0)
-        *xLoc = 0;
-    if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
-        *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
-
-    if ( left1 > right2 )// Left 1 is right of right 2
+    if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2 )// Left 1 is right of right 2
     return; // No collision
 
-    if ( right1 < left2 ) // Right 1 is left of left 2 
-        return; // No collision 
 
-    if ( top1 > bottom2 ) // Top 1 is below bottom 2
-        return; // No collision
-
-    if ( bottom1 < top2 ) // Bottom 1 is above top 2
-        return; // No collision 
-    
 
     if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
     {
@@ -102,6 +94,18 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
 
 void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols)
     {
+    ground = false;
+    if (ySpeed == 0)
+        return;
+
+    *yLoc = *yLoc + ySpeed;
+    if (*yLoc < 0)
+        *yLoc = 0;
+    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
+        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
+        ground = true;
+    }
+    
     int left1 = rect1.x;                    // playerx
     int right1 = rect1.x + rect1.w;         // playerx+width
     int top1 = rect1.y;                     // playerY
@@ -113,44 +117,24 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     int top2 = rect2.y;                     // blockY          
     int bottom2 = rect2.y + rect2.h;        // blocky+height
 
-    int oldleft1 = rect1.x - xSpeed;
-    int oldright1 = rect1.x + rect1.w - xSpeed;
     int oldtop1 = rect1.y - ySpeed;
     int oldbottom1 = rect1.y + rect1.h - ySpeed;
 
-    if (ySpeed == 0)
-        return;
 
-    *yLoc = *yLoc + ySpeed;
-    if (*yLoc < 0)
-        *yLoc = 0;
-    if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
-        *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
-        ground = true;
-    }
-
-    if ( left1 > right2 )// Left 1 is right of right 2
+    if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)// Left 1 is right of right 2
         return; // No collision
 
-    if ( right1 < left2 ) // Right 1 is left of left 2 
-        return; // No collision 
-
-    if ( top1 > bottom2 ) // Top 1 is below bottom 2
-        return; // No collision
-
-    if ( bottom1 < top2 ) // Bottom 1 is above top 2
-        return; // No collision 
 
     if (oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)                // top   
     {
-        *yLoc = *yLoc - ySpeed  - 11;
+        *yLoc = *yLoc - ySpeed  - 0;
         ground = true;
         // need to change state to free fall
     }
 
     if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1))             // bot
     {
-        *yLoc = *yLoc - ySpeed + 11;
+        *yLoc = *yLoc - ySpeed + 20;
         *lols = FREEFALL;
     }
     return;
