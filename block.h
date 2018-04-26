@@ -1,9 +1,14 @@
+#ifndef BLOCK_H
+#define BLOCK_H
+
 #include "object.h"
+#include "SDL.h"
 
 class Block : public obj
 {
     public:
-        explicit Block(int x, int y, int h, int w);
+        explicit Block();
+        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect);
         int getX();
         int getY();
         //int getNewX();
@@ -22,10 +27,9 @@ class Block : public obj
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        void draw();
         //void update();
-
-//        void draw();
-
+       
     private:
         int xLoc;
         int yLoc;
@@ -37,4 +41,8 @@ class Block : public obj
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
+        SDL_Renderer* renderer;
+        SDL_Rect rectangle;
 };
+
+#endif

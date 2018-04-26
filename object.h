@@ -1,6 +1,10 @@
+#ifndef OBJECT_H
+#define OBJECT_H
+
 class obj{
     public:
-        explicit obj(int x, int y, int h, int w);
+        explicit obj();
+        explicit obj(int x, int y, int w, int h);
         virtual Uint8 getColorA();
         int getX();
         int getY();
@@ -14,7 +18,7 @@ class obj{
         void setWidth(int w);
         //void update();
 
-//        void draw();
+        virtual void draw();
 
     private:
         int xLoc;
@@ -24,3 +28,5 @@ class obj{
         int height;
         int width;
 };
+
+#endif

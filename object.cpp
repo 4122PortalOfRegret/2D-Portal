@@ -1,6 +1,13 @@
 #include "obj.h"
 
-obj::obj(int x, int y, int h, int w){
+obj::obj() {
+    setX(0);
+    setY(0);
+    setHeight(0);
+    setWidth(0);
+}
+
+obj::obj(int x, int y, int w, int h){
     setX(x);
     setY(y);
     setHeight(h);

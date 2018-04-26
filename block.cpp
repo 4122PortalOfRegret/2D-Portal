@@ -1,31 +1,35 @@
 #include "block.h"
+#include "SDL.h"
 
+Block::Block() : obj() {}
 
-Block::Block(int x, int y, int h, int w) : 
-	obj(x, y, h, w) {}
+Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect) : obj(x, y, h, w) {
+    renderer = r;
+    rectangle = *rect;
+}
 
 void Block::setX(int x){
-    xLoc = x;
+    obj::setX(x);
 }
 
 void Block::setY(int y){
-    yLoc = y;
+    obj::setY(y);
 }
 
 void Block::setHeight(int h){
-    height = h;
+    obj::setHeight(h);
 }
 
 void Block::setWidth(int w){
-    width = w;
+    obj::setWidth(w);
 }
 
 int Block::getX(){
-    return xLoc;
+    return obj::getX();
 }
 
 int Block::getY(){
-    return yLoc;
+    return obj::getY();
 }
 
 //int Object::getNewX(){
@@ -49,41 +53,50 @@ int Block::getY(){
 //}
 
 int Block::getHeight(){
-    return height;
+    return obj::getHeight();
 }
 
 int Block::getWidth(){
-    return width;
+    return obj::getWidth();
 }
 
 Uint8 Block::getColorR() {
-	return red;
+	  return red;
 }
 
 Uint8 Block::getColorG() {
-	return green;
+	  return green;
 }
 
 Uint8 Block::getColorB() {
-	return blue;
+	  return blue;
 }
 
 Uint8 Block::getColorA() {
-	return alpha;
+	  return alpha;
 }
 
 void Block::setColorR(Uint8 r) {
-	red = r;
+	  red = r;
 }
 
 void Block::setColorA(Uint8 a) {
-	alpha = a;
+	  alpha = a;
 }
 
 void Block::setColorB(Uint8 b) {
-	blue = b;
+	  blue = b;
 }
 
 void Block::setColorG(Uint8 g) {
-	green = g;
+	  green = g;
+}
+
+void Block::draw() {
+    // draw the block, should only need to draw one time
+    rectangle.x = xLoc;
+    rectangle.y = yLoc;
+    SDL_SetRenderDrawColor(renderer, red, blue, green, alpha);
+    SDL_RenderFillRect(renderer, &rectangle);
+    SDL_RendererPresent(renderer);
 }

@@ -1,8 +1,19 @@
-##include "Block.h"
+#ifndef PLAYER_H
+#define PLAYER_H
+
+#include "block.h"
+#include "SDL.h"
+
+#ifndef WINDOW_SIZE
+#define WINDOW_SIZE
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 720;
+#endif
 
 class Player : public Block {
     public:
-        explicit Object(int x, int y, int h, int w);
+        explicit Player();
+        explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect);
         int getX();
         int getY();
         int getNewX();
@@ -13,6 +24,8 @@ class Player : public Block {
         int getWidth();
         int getXSpeed();
         int getYSpeed();
+        void changeXSpeed(int x);
+        void changeYSpeed(int y);
         void setXSpeed(int x);
         void setYSpeed(int y);
         void setColorR(Uint8 color);
@@ -23,8 +36,10 @@ class Player : public Block {
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        void draw();
         // move the player to a new location based on speeds
         void update();
+
     private:
         int xLoc;
         int yLoc;
@@ -38,4 +53,8 @@ class Player : public Block {
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
-}
+        SDL_Renderer* renderer;
+        SDL_Rect rectangle;
+};
+
+#endif
