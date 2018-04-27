@@ -1,14 +1,13 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "object.h"
 #include "SDL.h"
 
-class Block : public obj
+class Block
 {
     public:
         explicit Block();
-        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect);
+        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
         int getX();
         int getY();
         //int getNewX();

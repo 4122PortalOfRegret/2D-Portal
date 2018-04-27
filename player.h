@@ -13,7 +13,7 @@ const int WINDOW_HEIGHT = 720;
 class Player : public Block {
     public:
         explicit Player();
-        explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect);
+        explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
         int getX();
         int getY();
         int getNewX();
@@ -24,6 +24,8 @@ class Player : public Block {
         int getWidth();
         int getXSpeed();
         int getYSpeed();
+        void setHeight(int h);
+        void setWidth(int w);
         void changeXSpeed(int x);
         void changeYSpeed(int y);
         void setXSpeed(int x);

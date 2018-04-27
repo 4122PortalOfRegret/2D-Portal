@@ -1,10 +1,35 @@
 #include "player.h"
 #include "SDL.h"
 
-Player::Player() : Block() {}
+Player::Player() : Block() {
+    setColorR(216);
+    setColorG(191);
+    setColorB(216);
+    setColorA(255);
+}
 
-Player::Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect) : Block(x, y, h, w, r, rect) {}
+Player::Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect) {
+    setXSpeed(0);
+    setYSpeed(0);
+    setX(x);
+    setY(y);
+    setHeight(h);
+    setWidth(w);
+    renderer = r;
+    rectangle = rect;
+    setColorR(216);
+    setColorG(191);
+    setColorB(216);
+    setColorA(255);
+}
 
+void Player::setHeight(int h) {
+    height = h;
+}
+
+void Player::setWidth(int w) {
+    width = w;
+}
 int Player::getX() {
     return Block::getX();
 }
@@ -22,11 +47,11 @@ int Player::getNewY() {
 }
 
 void Player::setX(int x) {
-    Block::setX(x);
+    xLoc = x;
 }
 
 void Player::setY(int y) {
-    Block::setY(y);
+    yLoc = y;
 }
 
 int Player::getHeight() {
@@ -62,19 +87,19 @@ void Player::setYSpeed(int y) {
 }
 
 void Player::setColorR(Uint8 color) {
-    Block::setColorR(color);
+    red = color;
 }
 
 void Player::setColorG(Uint8 color) {
-    Block::setColorG(color);
+    green = color;
 }
 
 void Player::setColorB(Uint8 color) {
-    Block::setColorB(color);
+    blue = color;
 }
 
 void Player::setColorA(Uint8 color) {
-    Block::setColorA(color);
+    alpha = color;
 }
 
 Uint8 Player::getColorR() {
@@ -117,9 +142,14 @@ void Player::draw() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rectangle);
     // draw new player
+    std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
+    std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
     rectangle.x = newXLoc;
     rectangle.y = newYLoc;
-    SDL_SetRenderDrawColor(renderer, red, blue, green, alpha);
+    xLoc = newXLoc;
+    yLoc = newYLoc;
+    SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
     SDL_RenderFillRect(renderer, &rectangle);
-    SDL_RendererPresent(renderer);
+
+    //SDL_RenderPresent(renderer);
 }

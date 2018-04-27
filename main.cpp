@@ -2,7 +2,6 @@
 #include "SDL.h"
 #include <ctime>
 #include <chrono>
-#include "object.h"
 #include "block.h"
 #include "player.h"
 #include "block.cpp"
@@ -77,17 +76,22 @@ int main(int argc, char** argv) {
 
     // player
     SDL_Rect myRect = {50, 50, CHAR_WIDTH, CHAR_HEIGHT};
-    Player player(50, 50, CHAR_WIDTH, CHAR_HEIGHT, renderer, &myRect);
+    Player player(50, 50, CHAR_WIDTH, CHAR_HEIGHT, renderer, myRect);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &myRect);
     SDL_RenderPresent(renderer);
 
     // block
     SDL_Rect blockRect = {200, 400, 600, 220};
-    Block block(200, 400, 600, 220, renderer, &blockRect);
-    SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
-    SDL_RenderFillRect(renderer, &blockRect);
-    SDL_RenderPresent(renderer);
+    Block block(200, 400, 600, 220, renderer, blockRect);
+    //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
+    //SDL_RenderFillRect(renderer, &blockRect);
+    //SDL_RenderPresent(renderer);
+
+
+    block.draw();
+    //SDL_RenderFillRect(renderer, &myRect);
+
 
     //int xSpeed = 0; int ySpeed = 0;
     long int delayTime;
@@ -106,6 +110,7 @@ int main(int argc, char** argv) {
         const Uint8 *state = SDL_GetKeyboardState(NULL);
 
         // xSpeed = 0;
+        player.setXSpeed(0);
         // x direction
         if(state[SDL_SCANCODE_A]) {
             // xSpeed -= 5;
@@ -113,7 +118,7 @@ int main(int argc, char** argv) {
         }
         if(state[SDL_SCANCODE_D]) {
             // xSpeed += 5;
-            player.changeYSpeed(+5);
+            player.changeXSpeed(5);
         }
 
         // y direction
@@ -155,7 +160,7 @@ int main(int argc, char** argv) {
     		    // ground = false;
                 break;
             case DECELERATE  :
-                player.changeYSpeed(+2);
+                player.changeYSpeed(2);
                 // ySpeed += 2;
                 // if (ySpeed <= 0){
                 if (player.getYSpeed() <= 0) {
@@ -165,7 +170,7 @@ int main(int argc, char** argv) {
 		        }
                 break;
             case DESCEND     :
-                player.changeYSpeed(+5);
+                player.changeYSpeed(5);
                 // ySpeed += 5;
                 // if (ySpeed == GRAVITY) {
                 if (player.getYSpeed() == GRAVITY) {
@@ -195,7 +200,7 @@ int main(int argc, char** argv) {
 
         // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         // SDL_RenderFillRect(renderer, &myRect);
-        // SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer);
     	frameEnd = sc::high_resolution_clock::now();
     	delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
     	if(delayTime > 0) {

@@ -1,35 +1,52 @@
 #include "block.h"
 #include "SDL.h"
 
-Block::Block() : obj() {}
+Block::Block() {
+    setX(0);
+    setY(0);
+    setHeight(0);
+    setWidth(0);
+    setColorR(100);
+    setColorB(100);
+    setColorG(100);
+    setColorA(255);
+}
 
-Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect* rect) : obj(x, y, h, w) {
+Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect) {
+    setX(x);
+    setY(y);
+    setHeight(h);
+    setWidth(w);
     renderer = r;
-    rectangle = *rect;
+    rectangle = rect;
+    setColorR(100);
+    setColorB(100);
+    setColorG(100);
+    setColorA(255);
 }
 
 void Block::setX(int x){
-    obj::setX(x);
+    xLoc = x;
 }
 
 void Block::setY(int y){
-    obj::setY(y);
+    yLoc = y;
 }
 
 void Block::setHeight(int h){
-    obj::setHeight(h);
+    height = h;
 }
 
 void Block::setWidth(int w){
-    obj::setWidth(w);
+    width = w;
 }
 
 int Block::getX(){
-    return obj::getX();
+    return xLoc;
 }
 
 int Block::getY(){
-    return obj::getY();
+    return yLoc;
 }
 
 //int Object::getNewX(){
@@ -53,11 +70,11 @@ int Block::getY(){
 //}
 
 int Block::getHeight(){
-    return obj::getHeight();
+    return height;
 }
 
 int Block::getWidth(){
-    return obj::getWidth();
+    return width;
 }
 
 Uint8 Block::getColorR() {
@@ -98,5 +115,5 @@ void Block::draw() {
     rectangle.y = yLoc;
     SDL_SetRenderDrawColor(renderer, red, blue, green, alpha);
     SDL_RenderFillRect(renderer, &rectangle);
-    SDL_RendererPresent(renderer);
+    //SDL_RenderPresent(renderer);
 }
