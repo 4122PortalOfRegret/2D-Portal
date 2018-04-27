@@ -60,10 +60,10 @@ int obj::getY(){
 
 //}
 
-int object::getHeight(){
+int obj::getHeight(){
     return height;
 }
 
-int object::getWidth(){
+int obj::getWidth(){
     return width;
 }
