@@ -18,6 +18,10 @@ class Portal : public Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        void setColorR(Uint8 color);
+        void setColorG(Uint8 color);
+        void setColorB(Uint8 color);
+        void setColorA(Uint8 color);
         void toggleClick();
         //void update();
         void draw(SDL_Renderer* ref);
@@ -37,8 +41,5 @@ class Portal : public Block
         Uint8 alpha;
         bool isActive;
         bool portalColor; // blue == 0 | orange == 1
-        void setColorR(Uint8 color);
-        void setColorG(Uint8 color);
-        void setColorB(Uint8 color);
-        void setColorA(Uint8 color);
+        
 };
