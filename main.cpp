@@ -13,7 +13,7 @@ const int CHAR_WIDTH = 64;
 const int CHAR_HEIGHT = 64;
 const int FRAMES_PER_SEC = 20;
 // globals
-enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
+enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY1, BUTTON_PRESS2, DECELERATE2, DESCEND2, FREEFALL2, READY};
 STATE jump = READY;
 bool canJump = false;
 bool ground = true;
@@ -44,7 +44,7 @@ auto frameEnd = sc::high_resolution_clock::now();
 //     }
 // }
 
-void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed){
+void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols,bool* prevPlat){
     if (xSpeed == 0)
         return;
     *xLoc = *xLoc + xSpeed;
@@ -71,8 +71,7 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
 
 
     if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2 )// Left 1 is right of right 2
-    return; // No collision
-
+        return; // No collision
 
 
     if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
@@ -92,9 +91,8 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
 
 }
 
-void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols)
+void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols,bool* prevPlat)
     {
-    ground = false;
     if (ySpeed == 0)
         return;
 
@@ -121,21 +119,28 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     int oldbottom1 = rect1.y + rect1.h - ySpeed;
 
 
-    if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)// Left 1 is right of right 2
+    if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2){
         return; // No collision
+    }
 
 
     if (oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)                // top   
     {
         *yLoc = *yLoc - ySpeed  - 0;
         ground = true;
+        *lols = READY;
+        *prevPlat = true;
+    }            
         // need to change state to free fall
-    }
 
     if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1))             // bot
     {
         *yLoc = *yLoc - ySpeed + 20;
-        *lols = FREEFALL;
+        if (*lols == BUTTON_PRESS || *lols == DECELERATE || *lols == DESCEND)
+            *lols = FREEFALL;
+
+        if (*lols == BUTTON_PRESS2 || *lols == DECELERATE2 || *lols == DESCEND2)
+            *lols = FREEFALL2;
     }
     return;
     
@@ -144,100 +149,6 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
 
 
 
-
-
-// void CheckCollision(const SDL_Rect &rect1, const SDL_Rect &rect2)//, int* playerX, int* playerY, int xSpeed, int ySpeed)
-// {
-//     // Find edges of rect1
-//     int left1 = rect1.x;                    // playerx
-//     int right1 = rect1.x + rect1.w;         // playerx+width
-//     int top1 = rect1.y;                     // playerY
-//     int bottom1 = rect1.y + rect1.h;        // playerY+height
-
-//     // Find edges of rect2
-//     int left2 = rect2.x;                    // blockX
-//     int right2 = rect2.x + rect2.w;         // blockX+width
-//     int top2 = rect2.y;                     // blockY          
-//     int bottom2 = rect2.y + rect2.h;        // blocky+height
-
-
-
-// }
-
-    // // not really
-
-    // int oldleft1 = rect1.x - xSpeed;
-    // int oldright1 = rect1.x + rect1.w - xSpeed;
-    // int oldtop1 = rect1.y - ySpeed;
-    // int oldbottom1 = rect1.y + rect1.h - ySpeed;
-    // //left
-    // if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))
-    // {
-    //     *playerX = left2 - rect1.w - 2;
-    //     xSpeed = 0;     
-    // }
-    // // right
-    // if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))
-    // {
-    //     *playerX = right2 + 2;
-    //     xSpeed = 0;       
-    // }
-    // //top
-    // if(oldtop1 < top2 && top2 < oldbottom1 && oldbottom1 < bottom2)
-    // {
-    //     *playerY = top2 - rect1.h - 2;
-    //     ySpeed = -10;
-    // }
-
-    // //bot
-    // if(top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1)
-    // // not bad
-    // {
-    //     *playerY = bottom2 + 2;         // add some constant value because it clips otherwise
-    //     ySpeed = 0;
-    // }
-
-
-
-
-    //     // Check edges
-
-
-    // if ( left1 > right2 )// Left 1 is right of right 2
-    //     return; // No collision
-
-    // if ( right1 < left2 ) // Right 1 is left of left 2 
-    //     return; // No collision 
-
-    // if ( top1 > bottom2 ) // Top 1 is below bottom 2
-    //     return; // No collision
-
-    // if ( bottom1 < top2 ) // Bottom 1 is above top 2
-    //     return; // No collision 
-
-    // if (right1 >= left2 && left1 <= right2 && top1 <= top2)             // top
-    // {
-    //     *playerY = top2 - rect1.h - 15;
-    //     ySpeed = -10;
-    // }
-
-    // if (right1 >= left2 && left1 <= right2 && bottom1 >= bottom2)       // bottom
-    // {
-    //     *playerY = bottom2 + 15;         // add some constant value because it clips otherwise
-    //     ySpeed = 0;
-    // }
-
-    // if (top1 <= bottom2 && bottom1 >= top2 && left1 <= left2)           // left
-    // {
-    //     *playerX = left2 - rect1.w - 2;
-    //     xSpeed = 0;     
-    // }
-
-    // if (top1 <= bottom2 && bottom1 >= top2 && right1 >= right2)         //right
-    // {
-    //     *playerX = right2 + 2;
-    //     xSpeed = 0;    
-    // }
 
 
 
@@ -254,6 +165,7 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
+    bool pastPlat = false;
     int pastPress[] = {0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
@@ -277,7 +189,7 @@ int main(int argc, char** argv) {
 
     clock_t start; clock_t end;
 
-    SDL_Rect platform = {200,300,400,320};
+    SDL_Rect platform = {200,670,400,50};
     SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     SDL_RenderFillRect(renderer, &platform);
     SDL_RenderPresent(renderer);
@@ -319,6 +231,10 @@ int main(int argc, char** argv) {
                     jump = BUTTON_PRESS;
                     //ySpeed += 10;
                 }
+                if (jump == READY1){
+                    start = clock();
+                    jump = BUTTON_PRESS2;
+                }
             }
         else {
         pastPress[KEY_W] = 0;
@@ -337,19 +253,18 @@ int main(int argc, char** argv) {
             case BUTTON_PRESS:
 //                if (canJump) {
             canJump = false;
-            ySpeed = -16;
+            ySpeed = -12;
                     end = clock();
-            if (jumpframes > 10)
+            if (jumpframes > 6)
             {
                 jumpframes = 0;
                 jump = DECELERATE;
             }
             ++jumpframes;
             ground = false;
-//                }
             break;
             case DECELERATE  :
-            ySpeed += 4;
+            ySpeed += 3;
             if (ySpeed >= 0){
                 ySpeed = 0;
                 jump = DESCEND;
@@ -363,6 +278,45 @@ int main(int argc, char** argv) {
                 }
                 break;
             case FREEFALL    :
+                jumpframes = 0;
+                ySpeed = GRAVITY;
+                if (canJump) {
+                    if (canJump) {
+                        jump = READY1;
+                    }
+                }
+                break;
+            case READY1      :
+                jumpframes = 0;
+                ySpeed = GRAVITY;
+                break;
+            case BUTTON_PRESS2:
+//                if (canJump) {
+            canJump = false;
+            ySpeed = -12;
+                    end = clock();
+            if (jumpframes > 6)
+            {
+                jumpframes = 0;
+                jump = DECELERATE2;
+            }
+            ++jumpframes;
+            ground = false;
+            break;
+            case DECELERATE2:
+            ySpeed += 3;
+            if (ySpeed >= 0){
+                ySpeed = 0;
+                jump = DESCEND2;
+            }
+            case DESCEND2   :
+                ySpeed += 5;
+                if (ySpeed == GRAVITY) {
+                    jump = FREEFALL2;
+                    start = clock();
+                }
+                break;
+            case FREEFALL2    :
                 jumpframes = 0;
                 ySpeed = GRAVITY;
                 if (canJump && ground) {
@@ -382,8 +336,8 @@ int main(int argc, char** argv) {
 
 
         // update location based on button press
-        updatex(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed);
-        updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump);
+        updatex(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
+        updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
 
 
 
