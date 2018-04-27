@@ -14,10 +14,6 @@ class Portal : public Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
-        void setColorR(Uint8 color);
-        void setColorG(Uint8 color);
-        void setColorB(Uint8 color);
-        void setColorA(Uint8 color);
         Uint8 getColorR();
         Uint8 getColorG();
         Uint8 getColorB();
@@ -41,4 +37,8 @@ class Portal : public Block
         Uint8 alpha;
         bool isActive;
         bool portalColor; // blue == 0 | orange == 1
+        void setColorR(Uint8 color);
+        void setColorG(Uint8 color);
+        void setColorB(Uint8 color);
+        void setColorA(Uint8 color);
 };
