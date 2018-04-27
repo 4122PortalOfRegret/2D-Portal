@@ -1,0 +1,69 @@
+// Put this under events in the while loops where the quit event is taken into account
+if(events.type == SDL_MOUSEBUTTONUP) {
+            mousePress(e.button);
+}
+
+void EventManager::mousePress(SDL_MouseButtonEvent& press) {
+	bool portalColor;  // 0 = Blue | 1 = Orange
+	int mouseX = 0;
+	int mouseY = 0;
+	uint32 uint32Return = SDL_GetMouseState(&mouseX, &mouseY);
+
+	if(press.button == SDL_BUTTON_LEFT){
+		portalColor = false;
+	} else if(press.button == SDL_BUTTON_RIGHT){
+		portalColor = true;
+	} else {
+		return;
+	}
+	int pY = myRect.y + myRect.h/2;
+	int pX = myRect.x + myRect.w/2;
+
+	int deltaX = mouseX - pX;
+	int deltaY =  mouseY - pY;
+
+	double stepX = deltaX / 1000;
+	double stepY = deltaY / 1000;
+
+	for(int i = 0; i < 1000; i++){
+		pixelX = pX + floor(stepX * i);
+		pixelY = pY + floor(stepY * i);
+	
+		mapColor = map(pixelX,pixelY);
+		if(mapColor != 0) {
+			if(mapColor == 1) { //lightGray
+				//HIT			
+			
+				//CHECK WALL DIRECTION
+			if((map(pixelX+1,pixelY) == 1) || (map(pixelX-1,pixelY) == 1)){	//vertical wall
+				bool portalOpened = true;
+				for(int i = pixelY - 10; i < pixelY + 10; i++){
+					if(map(pixelX,i) != 1){
+						portalOpened = false;
+						break;
+					}
+				}
+				if(portalOpened){
+					//CREATE PORTAL, pixelX, pixelY, color, direction
+				}
+			} else if( (map(pixelX,pixelY+1) == 1) || (map(pixelX,pixelY-1) == 1) ) {  //horizontal wall
+				bool portalOpened = true;
+				for(int i = pixelX - 10; i < pixelX + 10; i++){
+					if(map(i,pixelY) != 1){
+						portalOpened = false;
+						break;
+					}
+				}
+				if(portalOpened){
+					//CREATE PORTAL, pixelX, pixelY, color, direction
+				}
+			} 
+				break;
+			} else {	//Bad wall
+				break;
+			}
+		}
+	}
+}
+
+

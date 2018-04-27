@@ -82,6 +82,7 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))  // right
     {
         *xLoc = rect2.x + rect2.w + 1;
+
     }
     
     return;
@@ -123,10 +124,10 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
         return; // No collision
     }
     
-    
     if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2)                // top
     {
         *yLoc = rect2.y - rect1.h - 1;
+
         ground = true;
         *lols = READY;
         *prevPlat = true;
@@ -143,16 +144,7 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
             *lols = FREEFALL2;
     }
     return;
-
 }
-
-
-
-
-
-
-
-
 
 
 int main(int argc, char** argv) {
@@ -365,18 +357,42 @@ int main(int argc, char** argv) {
         updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
         
         ++frameTime;
-        if (FPS/frameTime == 4)
+        if (xSpeed == 0)
         {
+            if (FPS/frameTime == 4)
+            {
+                playerRect.x +=framewidth;
+                if(playerRect.x >= texturewidth)
+                    playerRect.x = 0;
+                frameTime = 0;
+            }
+        }
+        else if(xSpeed < 0)
+        {
+            if (FPS/frameTime == 4){
+            playerRect.y = frameheight;
             playerRect.x +=framewidth;
             if(playerRect.x >= texturewidth)
                 playerRect.x = 0;
             frameTime = 0;
+            }
+        }
+        else if (xSpeed > 0)
+        {
+            if (FPS/frameTime == 4){
+                playerRect.y = frameheight*2;
+                playerRect.x +=framewidth;
+                if(playerRect.x >= texturewidth)
+                    playerRect.x = 0;
+                frameTime = 0;
+            }
         }
         
         //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         SDL_RenderCopy(renderer,currentimage,&playerRect,&myRect);
-        
+
+        // draw some platforms
         SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         SDL_RenderFillRect(renderer, &platform);
         SDL_RenderPresent(renderer);
@@ -391,4 +407,5 @@ int main(int argc, char** argv) {
     SDL_Quit();
     
     return 0;
+
 }
