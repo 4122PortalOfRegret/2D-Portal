@@ -366,6 +366,7 @@ int main(int argc, char** argv) {
         updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
         
         ++frameTime;
+        if (xSpeed == 0){ 
         if (FPS/frameTime == 4)
         {
             playerRect.x +=framewidth;
@@ -373,11 +374,34 @@ int main(int argc, char** argv) {
                 playerRect.x = 0;
             frameTime = 0;
         }
+        }
+        else if(xSpeed < 0)
+        {
+            if (FPS/frameTime == 4){
+            playerRect.y = frameheight;
+            playerRect.x +=framewidth;
+            if(playerRect.x >= texturewidth)
+                playerRect.x = 0;
+            frameTime = 0;
+        }
+
+        }
+        else if (xSpeed > 0)
+        {
+            if (FPS/frameTime == 4){
+            playerRect.y = frameheight*2;
+            playerRect.x +=framewidth;
+            if(playerRect.x >= texturewidth)
+                playerRect.x = 0;
+            frameTime = 0;
+        }
+        }
         
         //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         SDL_RenderCopy(renderer,currentimage,&playerRect,&myRect);
         
+        // draw some platforms
         SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         SDL_RenderFillRect(renderer, &platform);
         SDL_RenderPresent(renderer);
