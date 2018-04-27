@@ -202,7 +202,9 @@ int main(int argc, char** argv) {
             quit = true;
         }
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderFillRect(renderer, &myRect);
+        //SDL_RenderFillRect(renderer, &myRect);
+
+        SDL_RenderClear(renderer);
         const Uint8 *state = SDL_GetKeyboardState(NULL);
         
 
@@ -343,6 +345,9 @@ int main(int argc, char** argv) {
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderFillRect(renderer, &myRect);
+
+        SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
+        SDL_RenderFillRect(renderer, &platform);
         SDL_RenderPresent(renderer);
     frameEnd = sc::high_resolution_clock::now();
     delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
