@@ -239,7 +239,6 @@ int main(int argc, char** argv) {
         //ySpeed = -GRAVITY;
         // x direction
         if(state[SDL_SCANCODE_A]) {
-            xSpeed -= 5;;
             xSpeed -= 5;
         }
         if(state[SDL_SCANCODE_D]) {
