@@ -1,0 +1,84 @@
+// Put this under events in the while loops where the quit event is taken into account
+if(events.type == SDL_MOUSEBUTTONUP) {
+            mousePress(e.button);
+}
+
+void EventManager::mousePress(SDL_MouseButtonEvent& press, int& portalX, int& portalY) {
+	bool portalColor;  // 0 = Blue | 1 = Orange
+	int mouseX = 0;
+	int mouseY = 0;
+	uint32 uint32Return = SDL_GetMouseState(&mouseX, &mouseY);
+
+	if(press.button == SDL_BUTTON_LEFT){
+		portalColor = false;
+	} else if(press.button == SDL_BUTTON_RIGHT){
+		portalColor = true;
+	} else {
+		return;
+	}
+
+
+	SDL_bool SDL_EnclosePoints(const SDL_Point* points,
+                           int              count,
+                           const SDL_Rect*  clip,
+                           SDL_Rect*        result)
+
+
+	int pY = myRect.y + myRect.h/2;
+	int pX = myRect.x + myRect.w/2;
+	
+
+	int deltaX = mouseX - pX;
+	int deltaY =  mouseY - pY;
+	
+	double stepX = deltaX / 1000;
+	double stepY = deltaY / 1000;
+
+	SDL_Point testPoint;
+	for(int i = 0; i < 1000; i++){
+		testPoint.x = pX + floor(stepX * i);
+		testPoint.y = pY + floor(stepY * i);
+		//iterate objects here
+			if( SDL_EnclosePoints(testPoint,1,testOjbect,fuckno) ){
+				BLOCK objectHit = testObject;
+				if(block.type == lightgray){
+					//check points around it
+					SDL_Point testPointUp = testPoint;	
+					testPointUp.y = testPointUp.y - 1;
+					SDL_Point testPointDown = testPoint;		
+					testPointDown.y = testPointDown.y + 1;
+					SDL_Point testPointLeft = testPoint;
+					testPointLeft.x = testPointLeft.x - 1;	
+					SDL_Point testPointRight = testPoint;	
+					testPointRight.x = testPointRight.x + 1;
+					if( SDL_EnclosePoints(testPointLeft,1,testOjbect,fuckno) == 0 || SDL_EnclosePoints(testPointRight,1,testOjbect,fuckno) == 0){
+						//WALL IS UP TO DOWN
+						bool portalOpened = true;
+						SDL_Point testPointArea = testPoint;
+						for(int i = - 10; i < 10; i++){
+							testPointArea.y = testPoint.y + i;
+							if( SDL_EnclosePoints(testPointArea,1,testOjbect,fuckno) == 0 ){
+								portalOpened = false;
+								break;
+							}
+						}
+						if(portalOpened){
+							//CREATE PORTAL, pixelX, pixelY, color, direction
+						}
+					} else if ( SDL_EnclosePoints(testPointUp,1,testOjbect,fuckno) == 0 || SDL_EnclosePoints(testPointDown,1,testOjbect,fuckno) == 0) { 
+						//WALL IS LEFT TO RIGHT
+						bool portalOpened = true;
+						SDL_Point testPointArea = testPoint;
+						for(int i = - 10; i < 10; i++){
+							testPointArea.x = testPoint.x + i;
+							if( SDL_EnclosePoints(testPointArea,1,testOjbect,fuckno) == 0 ){
+								portalOpened = false;
+								break;
+							}
+						}
+					} 
+					return;
+				}
+			}
+	}
+}
