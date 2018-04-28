@@ -9,8 +9,8 @@ namespace sc = std::chrono;
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
 const int GRAVITY = 10;
-const int CHAR_WIDTH = 64;
-const int CHAR_HEIGHT = 64;
+const int CHAR_WIDTH = 65;
+const int CHAR_HEIGHT = 96;
 const int FRAMES_PER_SEC = 20;
 // globals
 enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
@@ -128,7 +128,6 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     {
         *yLoc = rect2.y - rect1.h - 1;
         ground = true;
-        *lols = READY;
         *prevPlat = true;
     }
     // need to change state to free fall
@@ -172,7 +171,7 @@ int main(int argc, char** argv) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
     
-    SDL_Surface * image = SDL_LoadBMP("charachip4.bmp");
+    SDL_Surface * image = SDL_LoadBMP("lols.bmp");
     SDL_Texture * currentimage = SDL_CreateTextureFromSurface(renderer, image);
     
     
@@ -190,7 +189,7 @@ int main(int argc, char** argv) {
     
     SDL_QueryTexture(currentimage,NULL,NULL,&texturewidth,&textureheight);
     
-    framewidth = texturewidth/3;
+    framewidth = texturewidth/4 ;
     frameheight = textureheight/4;
     
     playerRect.x = playerRect.y = 0;
