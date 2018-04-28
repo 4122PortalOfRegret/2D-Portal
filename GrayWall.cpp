@@ -1,12 +1,14 @@
 #include "GrayWall.h"
 
 
-GrayWall::GrayWall(int x, int y, int h, int w) : 
+GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref) : 
 	Block(x, y, h, w) {
     setColorR(200);
     setColorG(200);
     setColorB(200);
     setColorA(255);
+	renderer = ref;
+	draw();
   }
 
 void GrayWall::setX(int x){
@@ -91,4 +93,16 @@ void GrayWall::setColorB(Uint8 b) {
 
 void GrayWall::setColorG(Uint8 g) {
 	green = g;
+}
+
+void GrayWall:draw() {
+        // erase old player
+        // draw new player
+        //std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
+        //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
+        //rectangle.x = xLoc;
+        //rectangle.y = yLoc;
+        SDL_Rect rectangle = {xLoc, yLoc, width, height};
+        SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
+        SDL_RenderFillRect(renderer, &rectangle);
 }
