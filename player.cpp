@@ -142,8 +142,6 @@ void Player::draw() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rectangle);
     // draw new player
-    std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
-    std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
     rectangle.x = newXLoc;
     rectangle.y = newYLoc;
     xLoc = newXLoc;

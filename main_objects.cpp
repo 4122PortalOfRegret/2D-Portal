@@ -6,6 +6,8 @@
 #include "player.h"
 #include "block.cpp"
 #include "player.cpp"
+#include "portal.h"
+#include "portal.cpp"
 
 #define KEY_W 0
 #define KEY_A 1
@@ -88,6 +90,10 @@ int main(int argc, char** argv) {
     //SDL_RenderFillRect(renderer, &blockRect);
     //SDL_RenderPresent(renderer);
 
+    Portal portal(0, 0, renderer);
+    portal.toggleClick();
+    portal.draw(100, 100, 0);
+
 
     block.draw();
     //SDL_RenderFillRect(renderer, &myRect);
@@ -96,6 +102,8 @@ int main(int argc, char** argv) {
     //int xSpeed = 0; int ySpeed = 0;
     long int delayTime;
     clock_t start; clock_t end;
+
+    int count = 0;
 
     while(!quit){
 	    frameStart = sc::high_resolution_clock::now();
@@ -191,6 +199,13 @@ int main(int argc, char** argv) {
                 player.setYSpeed(GRAVITY);
                 // ySpeed = GRAVITY;
                 break;
+        }
+
+        count++;
+        if (count % 1000 == 0) {
+            count = 0;
+            portal.toggleClick();
+            portal.draw(100, 100, 0);
         }
 
         // update location based on button press
