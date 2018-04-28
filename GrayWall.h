@@ -1,13 +1,9 @@
-#ifndef BLOCK_H
-#define BLOCK_H
+#include "Block.h"
 
-#include "SDL.h"
-
-class Block
+class GrayWall : public Block
 {
     public:
-        explicit Block();
-        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
+        explicit GrayWall(int x, int y, int h, int w);
         int getX();
         int getY();
         //int getNewX();
@@ -26,10 +22,10 @@ class Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
-
-        void draw();
         //void update();
-       
+
+//        void draw();
+
     private:
         int xLoc;
         int yLoc;
@@ -41,8 +37,4 @@ class Block
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
-        SDL_Renderer* renderer;
-        SDL_Rect rectangle;
 };
-
-#endif
