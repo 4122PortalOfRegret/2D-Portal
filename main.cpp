@@ -161,7 +161,7 @@ int main(int argc, char** argv) {
     int y = 208;
     const int FPS = 60;
     int frameTime;
-    
+    int mouse_x, mouse_y;
     
     
     SDL_Renderer* renderer;
@@ -224,12 +224,20 @@ int main(int argc, char** argv) {
                     pastPress[LEFT_MOUSE]++;
                     if (pastPress[LEFT_MOUSE] == 1) {
                         std::cout << "LEFT BUTTON PRESSED" << std::endl;
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+                        SDL_RenderFillRect(renderer, &draw);
                     }
                 }
                 else if (events.button.button == SDL_BUTTON_RIGHT){
                     pastPress[RIGHT_MOUSE]++;
                     if (pastPress[RIGHT_MOUSE] == 1) {
                         std::cout << "RIGHT BUTTON PRESSED" << std::endl;
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+                        SDL_RenderFillRect(renderer, &draw);
                     }
                 }
                 break;
