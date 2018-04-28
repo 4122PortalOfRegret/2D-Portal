@@ -205,6 +205,9 @@ int main(int argc, char** argv) {
     SDL_RenderFillRect(renderer, &platform);
     SDL_RenderPresent(renderer);
     
+
+    SDL_Rect portal1;
+    SDL_Rect portal2;
     
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
@@ -212,6 +215,12 @@ int main(int argc, char** argv) {
         if(events.type == SDL_QUIT) {
             quit = true;
         }
+	if(events.type == SDL_MOUSEBUTTONDOWN){
+        if (events.button == SDL_BUTTON_LEFT){
+                    
+        }
+        else if (events.button == SDL_BUTTON_RIGHT)
+	}
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         
