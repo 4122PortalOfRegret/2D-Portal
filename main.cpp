@@ -13,7 +13,7 @@ const int CHAR_WIDTH = 64;
 const int CHAR_HEIGHT = 64;
 const int FRAMES_PER_SEC = 20;
 // globals
-enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY1, BUTTON_PRESS2, DECELERATE2, DESCEND2, FREEFALL2, READY};
+enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
 STATE jump = READY;
 bool canJump = false;
 bool ground = true;
@@ -127,7 +127,6 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2)                // top
     {
         *yLoc = rect2.y - rect1.h - 1;
-
         ground = true;
         *lols = READY;
         *prevPlat = true;
@@ -140,8 +139,6 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
         if (*lols == BUTTON_PRESS || *lols == DECELERATE || *lols == DESCEND)
             *lols = FREEFALL;
 
-        if (*lols == BUTTON_PRESS2 || *lols == DECELERATE2 || *lols == DESCEND2)
-            *lols = FREEFALL2;
     }
     return;
 }
@@ -248,10 +245,6 @@ int main(int argc, char** argv) {
                 jump = BUTTON_PRESS;
                 //ySpeed += 10;
             }
-            if (jump == READY1){
-                start = clock();
-                jump = BUTTON_PRESS2;
-            }
         }
         else {
             pastPress[KEY_W] = 0;
@@ -297,52 +290,12 @@ int main(int argc, char** argv) {
             case FREEFALL    :
                 jumpframes = 0;
                 ySpeed = GRAVITY;
-                if (canJump) {
-                    if (canJump) {
-                        jump = READY1;
-                    }
-                }
-                break;
-            case READY1      :
-                jumpframes = 0;
-                ySpeed = GRAVITY;
-                break;
-            case BUTTON_PRESS2:
-                //                if (canJump) {
-                canJump = false;
-                ySpeed = -12;
-                end = clock();
-                if (jumpframes > 6)
-                {
-                    jumpframes = 0;
-                    jump = DECELERATE2;
-                }
-                ++jumpframes;
-                ground = false;
-                break;
-            case DECELERATE2:
-                ySpeed += 3;
-                if (ySpeed >= 0){
-                    ySpeed = 0;
-                    jump = DESCEND2;
-                }
-            case DESCEND2   :
-                ySpeed += 5;
-                if (ySpeed == GRAVITY) {
-                    jump = FREEFALL2;
-                    start = clock();
-                }
-                break;
-            case FREEFALL2    :
-                jumpframes = 0;
-                ySpeed = GRAVITY;
                 if (canJump && ground) {
-                    if (canJump) {
-                        jump = READY;
-                    }
+                    jump = READY;
                 }
                 break;
             case READY      :
+                jumpframes = 0;
                 ySpeed = GRAVITY;
                 break;
         }
