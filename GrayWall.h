@@ -22,6 +22,7 @@ class GrayWall : public Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        void draw();
         //void update();
 
 //        void draw();
