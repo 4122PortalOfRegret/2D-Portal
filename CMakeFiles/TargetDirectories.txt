@@ -1,3 +1,0 @@
-/home/kmcclelland3/SDLTest/CMakeFiles/edit_cache.dir
-/home/kmcclelland3/SDLTest/CMakeFiles/rebuild_cache.dir
-/home/kmcclelland3/SDLTest/CMakeFiles/SDL2Test.dir
