@@ -128,7 +128,6 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     {
         *yLoc = rect2.y - rect1.h - 1;
         ground = true;
-        *lols = READY;
         *prevPlat = true;
     }
     // need to change state to free fall
