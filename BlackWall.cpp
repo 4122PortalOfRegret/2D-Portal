@@ -1,30 +1,31 @@
 #include "BlackWall.h"
 
 
-BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref) : 
+BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rectangle) : 
 	Block(x, y, h, w) {
     setColorR(40);
     setColorG(40);
     setColorB(40);
     setColorA(255);
+	rectangle = rect;
 	renderer = ref;
 	draw();
   }
 
 void BlackWall::setX(int x){
-    xLoc = x;
+    rectangle.x = x;
 }
 
 void BlackWall::setY(int y){
-    yLoc = y;
+    rectangle.y = y;
 }
 
 void BlackWall::setHeight(int h){
-    height = h;
+    rectangle.x = h;
 }
 
 void BlackWall::setWidth(int w){
-    width = w;
+    rectangle.w = w;
 }
 
 int BlackWall::getX(){
@@ -102,7 +103,7 @@ void BlackWall:draw() {
         //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
         //rectangle.x = xLoc;
         //rectangle.y = yLoc;
-        SDL_Rect rectangle = {xLoc, yLoc, width, height};
+        //SDL_Rect rectangle = {xLoc, yLoc, width, height};
         SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
         SDL_RenderFillRect(renderer, &rectangle);
 }
