@@ -1,12 +1,14 @@
 #include "BlackWall.h"
 
 
-BlackWall::BlackWall(int x, int y, int h, int w) : 
+BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref) : 
 	Block(x, y, h, w) {
     setColorR(40);
     setColorG(40);
     setColorB(40);
     setColorA(255);
+	renderer = ref;
+	draw();
   }
 
 void BlackWall::setX(int x){
@@ -91,4 +93,16 @@ void BlackWall::setColorB(Uint8 b) {
 
 void BlackWall::setColorG(Uint8 g) {
 	green = g;
+}
+
+void BlackWall:draw() {
+        // erase old player
+        // draw new player
+        //std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
+        //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
+        //rectangle.x = xLoc;
+        //rectangle.y = yLoc;
+        SDL_Rect rectangle = {xLoc, yLoc, width, height};
+        SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
+        SDL_RenderFillRect(renderer, &rectangle);
 }
