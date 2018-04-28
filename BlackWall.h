@@ -3,7 +3,7 @@
 class BlackWall : public Block
 {
     public:
-        explicit BlackWall(int x, int y, int h, int w);
+        explicit BlackWall(int x, int y, int h, int w, SDL_Renderer* renderer);
         int getX();
         int getY();
         //int getNewX();
@@ -27,6 +27,7 @@ class BlackWall : public Block
 //        void draw();
 
     private:
+        SDL_Renderer* renderer;
         int xLoc;
         int yLoc;
         //int newXLoc;

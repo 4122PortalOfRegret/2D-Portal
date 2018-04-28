@@ -3,7 +3,7 @@
 class GrayWall : public Block
 {
     public:
-        explicit GrayWall(int x, int y, int h, int w);
+        explicit GrayWall(int x, int y, int h, int w, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
@@ -22,11 +22,13 @@ class GrayWall : public Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        void draw();
         //void update();
 
 //        void draw();
 
     private:
+        SDL_Renderer* renderer;
         int xLoc;
         int yLoc;
         //int newXLoc;
