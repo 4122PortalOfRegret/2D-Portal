@@ -1,30 +1,31 @@
 #include "GrayWall.h"
 
 
-GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref) : 
+GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rectangle) : 
 	Block(x, y, h, w) {
     setColorR(200);
     setColorG(200);
     setColorB(200);
     setColorA(255);
+	rectangle = rect;
 	renderer = ref;
 	draw();
   }
 
 void GrayWall::setX(int x){
-    xLoc = x;
+    rectangle.x = x;
 }
 
 void GrayWall::setY(int y){
-    yLoc = y;
+    rectangle.y = y;
 }
 
 void GrayWall::setHeight(int h){
-    height = h;
+    rectangle.x = h;
 }
 
 void GrayWall::setWidth(int w){
-    width = w;
+    rectangle.w = w;
 }
 
 int GrayWall::getX(){
@@ -102,7 +103,7 @@ void GrayWall:draw() {
         //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
         //rectangle.x = xLoc;
         //rectangle.y = yLoc;
-        SDL_Rect rectangle = {xLoc, yLoc, width, height};
+        //SDL_Rect rectangle = {xLoc, yLoc, width, height};
         SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
         SDL_RenderFillRect(renderer, &rectangle);
 }
