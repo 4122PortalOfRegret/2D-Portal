@@ -211,6 +211,8 @@ int main(int argc, char** argv) {
     
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
         SDL_PollEvent(&events);
         switch (events.type)
         {
@@ -241,10 +243,6 @@ int main(int argc, char** argv) {
             default:
                 break;
         }
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        //SDL_RenderFillRect(renderer, &myRect);
-        
-        SDL_RenderClear(renderer);
         const Uint8 *state = SDL_GetKeyboardState(NULL);
         
         
