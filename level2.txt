@@ -19,9 +19,9 @@ void level1(){
 	BlackWall stair1(10,540,100,170,rendered,&wall5);
 	BlackWall stair2(110,590,100,120,rendered,&wall6);
 	BlackWall stair3(210,640,100,70,rendered,&wall7);
-	BlackWall floor1(310,690,200,20,rendered,&wall8);
+	GrayWall floor1(310,690,200,20,rendered,&wall8);
 	BlackWall bigwall(510,310,100,400,rendered,&wall9);
-	BlackWall topright(710,10,560,300,rendered,&wall10);	
+	GrayWall topright(710,10,560,300,rendered,&wall10);	
 
 	std::vector<Block*> wallList;
 	wallList.push_back(&leftwall);
