@@ -23,7 +23,8 @@ auto frameEnd = sc::high_resolution_clock::now();
 #define KEY_A 1
 #define KEY_D 2
 #define KEY_S 3
-
+#define LEFT_MOUSE 4
+#define RIGHT_MOUSE 5  
 // void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
 //     if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2)
 //     {
@@ -153,10 +154,9 @@ int main(int argc, char** argv) {
         cout << "Something also went wrong here" << endl;
     }
     bool pastPlat = false;
-    int pastPress[] = {0,0,0,0};
+    int pastPress[] = {0,0,0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
-    SDL_Event event;
     int x = 288;
     int y = 208;
     const int FPS = 60;
@@ -212,15 +212,35 @@ int main(int argc, char** argv) {
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
-        if(events.type == SDL_QUIT) {
-            quit = true;
+        switch (events.type)
+        {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (events.button.button == SDL_BUTTON_LEFT) {
+                    pastPress[LEFT_MOUSE]++;
+                    if (pastPress[LEFT_MOUSE] == 1) {
+                        std::cout << "LEFT BUTTON PRESSED" << std::endl;
+                    }
+                }
+                else if (events.button.button == SDL_BUTTON_RIGHT){
+                    pastPress[RIGHT_MOUSE]++;
+                    if (pastPress[RIGHT_MOUSE] == 1) {
+                        std::cout << "RIGHT BUTTON PRESSED" << std::endl;
+                    }
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if(events.button.button == SDL_BUTTON_LEFT) {
+                    pastPress[LEFT_MOUSE] = 0;
+                } else if (events.button.button == SDL_BUTTON_RIGHT) {
+                    pastPress[RIGHT_MOUSE] = 0;
+                }
+                break;
+            default:
+                break;
         }
-	if(events.type == SDL_MOUSEBUTTONDOWN){
-        if (events.button == SDL_BUTTON_LEFT){
-                    
-        }
-        else if (events.button == SDL_BUTTON_RIGHT)
-	}
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         
