@@ -2,7 +2,11 @@
 
 
 BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rectangle) : 
-	Block(x, y, h, w) {
+	{
+	setX(x);
+	setY(y);
+	setHeight(h);
+	setWidth(w);	
     setColorR(40);
     setColorG(40);
     setColorB(40);
