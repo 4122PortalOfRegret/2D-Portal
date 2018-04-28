@@ -32,6 +32,10 @@ void GrayWall::setWidth(int w){
     rectangle.w = w;
 }
 
+SDL_Rect* GrayWall::getRectangle() {
+    return &rectangle;
+}
+
 int GrayWall::getX(){
     return xLoc;
 }

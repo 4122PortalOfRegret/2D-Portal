@@ -1,7 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "SDL.h"
+#include "utils.h"
 
 class Block
 {
@@ -18,6 +18,7 @@ class Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
+        SDL_Rect* getRectangle(); 
         void setColorR(Uint8 color);
         void setColorG(Uint8 color);
         void setColorB(Uint8 color);

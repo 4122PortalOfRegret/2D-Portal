@@ -1,6 +1,7 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 #include "block.h"
+#include "utils.h"
 
 
 class Portal : public Block
@@ -17,6 +18,7 @@ class Portal : public Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
+        SDL_Rect* getRectangle();
         bool getPortalColor();
         Uint8 getColorR();
         Uint8 getColorG();

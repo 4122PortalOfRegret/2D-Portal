@@ -68,6 +68,10 @@ int BlackWall::getWidth(){
     return width;
 }
 
+SDL_Rect* BlackWall::getRectangle() {
+    return &rectangle;
+}
+
 Uint8 BlackWall::getColorR() {
 	return red;
 }
