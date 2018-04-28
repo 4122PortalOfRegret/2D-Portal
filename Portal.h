@@ -24,7 +24,7 @@ class Portal : public Block
         void setColorA(Uint8 color);
         void toggleClick();
         //void update();
-        void draw();
+        void draw(int mouse_X, int mouse_Y);
 
 //        void draw();
 
