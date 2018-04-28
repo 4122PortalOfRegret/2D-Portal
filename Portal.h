@@ -24,7 +24,7 @@ class Portal : public Block
         void setColorA(Uint8 color);
         void toggleClick();
         //void update();
-        void draw(int mouse_X, int mouse_Y);
+        void draw(int mouse_X, int mouse_Y, bool direction);
 
 //        void draw();
 
@@ -40,6 +40,7 @@ class Portal : public Block
         Uint8 green;
         Uint8 alpha;
         bool isActive;
+        bool oldDirection;
         bool portalColor; // blue == 0 | orange == 1
         
 };
