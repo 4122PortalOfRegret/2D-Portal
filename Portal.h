@@ -31,8 +31,8 @@ class Portal : public Block
     private:
         int xLoc;
         int yLoc;
-        //int newXLoc;
-        //int newYLoc;
+        int newXLoc;
+        int newYLoc;
         int height;
         int width;
         Uint8 red;
