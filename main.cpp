@@ -1,13 +1,27 @@
 #include <iostream>
 #include "SDL.h"
-#include "object.h"
 #include <ctime>
 #include <chrono>
+#include "block.h"
+#include "player.h"
+#include "block.cpp"
+#include "player.cpp"
+#include "portal.h"
+#include "portal.cpp"
+#include "BlackWall.h"
+#include "BlackWall.cpp"
+#include "GrayWall.h"
+#include "GrayWall.cpp"
+
 using namespace std;
 namespace sc = std::chrono;
 // constants
+#ifndef WINDOW_SIZE
+#define WINDOW_SIZE
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
+#endif
+
 const int GRAVITY = 10;
 const int CHAR_WIDTH = 65;
 const int CHAR_HEIGHT = 96;
@@ -23,26 +37,6 @@ auto frameEnd = sc::high_resolution_clock::now();
 #define KEY_A 1
 #define KEY_D 2
 #define KEY_S 3
-
-// void update(int* xLoc, int* yLoc, int xSpeed, int ySpeed){
-//     if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2)
-//     {
-//     if (xSpeed == 0 && ySpeed == 0)
-//         return;
-//     *xLoc = *xLoc + xSpeed;
-//     if (*xLoc < 0)
-//         *xLoc = 0;
-//     if (*xLoc > WINDOW_WIDTH - CHAR_WIDTH)
-//         *xLoc = WINDOW_WIDTH - CHAR_WIDTH;
-//     *yLoc = *yLoc + ySpeed;
-//     if (*yLoc < 0)
-//         *yLoc = 0;
-//     if (*yLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
-//         *yLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
-//         ground = true;
-//     }
-//     }
-// }
 
 void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols,bool* prevPlat){
     if (xSpeed == 0)
@@ -86,10 +80,6 @@ void updatex(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
     }
     
     return;
-    
-    
-    
-    
 }
 
 void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, int xSpeed, int ySpeed,STATE* lols,bool* prevPlat)
@@ -162,10 +152,7 @@ int main(int argc, char** argv) {
     const int FPS = 60;
     int frameTime;
     
-    
-    
     SDL_Renderer* renderer;
-    SDL_Renderer* wRender;
     SDL_Event events;
     renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);

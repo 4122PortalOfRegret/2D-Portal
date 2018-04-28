@@ -1,4 +1,6 @@
-#include "Block.h"
+#ifndef BLACKWALL_H
+#define BLACKWALL_H
+#include "block.h"
 
 class BlackWall : public Block
 {
@@ -41,3 +43,4 @@ class BlackWall : public Block
         Uint8 green;
         Uint8 alpha;
 };
+#endif

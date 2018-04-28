@@ -1,4 +1,6 @@
-#include "Block.h"
+#ifndef GRAYWALL_H
+#define GRAYWALL_H
+#include "block.h"
 
 class GrayWall : public Block
 {
@@ -41,3 +43,4 @@ class GrayWall : public Block
         Uint8 green;
         Uint8 alpha;
 };
+#endif
