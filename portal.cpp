@@ -2,6 +2,8 @@
 
 // Make sure there are only ever 2 instances of this object
 // One will be blue and the other will be orange
+// Need to first check if you have the right portal.
+// Then toggle if it is active, then draw it
 
 
 Portal::Portal(int x, int y, bool portalclr, bool vertOrHoriz, SDL_Renderer* ref) {
@@ -82,6 +84,10 @@ int Portal::getWidth(){
     return width;
 }
 
+bool Portal::getPortalColor() {
+	return portalColor;
+}
+
 Uint8 Portal::getColorR() {
 	return red;
 }
@@ -115,25 +121,45 @@ void Portal::setColorG(Uint8 g) {
 }
 
 // This function is toggling if you want the portal to be drawn or not
-void Portal::toggleClick() {
+void Portal::toggleClick() {	
   isActive = !isActive;
 }
 
-void Portal::draw() {
+void Portal::draw(int mouse_X, int mouse_Y, bool direction) {
   if (isActive) {
     // erase old player
-    rectangle.x = xLoc;
-    rectangle.y = yLoc;
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &rectangle);
     // draw new player
-    std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
-    std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
-    rectangle.x = newXLoc;
-    rectangle.y = newYLoc;
-    xLoc = newXLoc;
-    yLoc = newYLoc;
+    //std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
+    //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
+	if (direction { // Vertical = 0 | Horizontal = 1
+      setHeight(50);
+      setWidth(20);
+    } else {
+      setHeight(20);
+      setWidth(50);
+    }
+	oldDirection = direction;
+    xLoc = mouse_X;
+    yLoc = mouse_Y;	  
+    //rectangle.x = xLoc;
+    //rectangle.y = yLoc;
+    SDL_Rect rectangle = {xLoc, yLoc, width, height};
     SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
+    SDL_RenderFillRect(renderer, &rectangle);
+  } else {
+    xLoc = mouse_X;
+    yLoc = mouse_Y;
+	if (oldDirection) { // Vertical = 0 | Horizontal = 1
+      setHeight(50);
+      setWidth(20);
+    } else {
+      setHeight(20);
+      setWidth(50);
+    }
+    //rectangle.x = xLoc;
+    //rectangle.y = yLoc;
+    SDL_Rect rectangle = {xLoc, yLoc, width, height};
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rectangle);
   }
 }
