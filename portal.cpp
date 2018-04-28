@@ -4,10 +4,11 @@
 // One will be blue and the other will be orange
 
 
-Portal::Portal(int x, int y, bool portalclr, bool vertOrHoriz) {
+Portal::Portal(int x, int y, bool portalclr, bool vertOrHoriz, SDL_Renderer* ref) {
     setX(x);
     setY(y);
     setColorA(255);
+    renderer = ref;
     if (vertOrHoriz) { // Vertical = 0 | Horizontal = 1
       setHeight(50);
       setWidth(20);
@@ -26,6 +27,7 @@ Portal::Portal(int x, int y, bool portalclr, bool vertOrHoriz) {
       setColorG(102);
       setColorB(0);
     }
+	//renderer = ref;
   }
 
 void Portal::setX(int x){
@@ -117,16 +119,21 @@ void Portal::toggleClick() {
   isActive = !isActive;
 }
 
-void Portal::draw(SDL_Renderer* ref) {
+void Portal::draw() {
   if (isActive) {
-    SDL_Rect r;
-    r.x = getX();
-    r.y = getY();
-    r.w = getWidth();
-    r.h = getHeight();
-    SDL_SetRenderDrawColor( ref, getColorR(), getColorG(), getColorB(), getColorA() );
-    SDL_RenderFillRect( renderer, &r );
-    // Render the rect to the screen
-    SDL_RenderPresent(renderer);
+    // erase old player
+    rectangle.x = xLoc;
+    rectangle.y = yLoc;
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rectangle);
+    // draw new player
+    std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;
+    std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl;
+    rectangle.x = newXLoc;
+    rectangle.y = newYLoc;
+    xLoc = newXLoc;
+    yLoc = newYLoc;
+    SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
+    SDL_RenderFillRect(renderer, &rectangle);
   }
 }
