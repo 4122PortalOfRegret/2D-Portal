@@ -3,7 +3,7 @@
 class Portal : public Block
 {
     public:
-        explicit Portal(int x, int y, bool pc, bool vertOrHoriz);
+        explicit Portal(int x, int y, bool pc, bool vertOrHoriz, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
@@ -24,13 +24,14 @@ class Portal : public Block
         void setColorA(Uint8 color);
         void toggleClick();
         //void update();
-        void draw(SDL_Renderer* ref);
+        void draw();
 
 //        void draw();
 
     private:
         int xLoc;
         int yLoc;
+        SDL_Renderer* renderer;
         //int newXLoc;
         //int newYLoc;
         int height;
