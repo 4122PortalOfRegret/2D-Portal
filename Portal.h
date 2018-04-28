@@ -3,7 +3,7 @@
 class Portal : public Block
 {
     public:
-        explicit Portal(int x, int y, bool pc, bool vertOrHoriz);
+        explicit Portal(int x, int y, bool pc, bool vertOrHoriz, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
