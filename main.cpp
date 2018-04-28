@@ -1,6 +1,6 @@
 #include <iostream>
 #include "SDL.h"
-#include "object.h"
+//#include "object.h"
 #include <ctime>
 #include <chrono>
 using namespace std;
@@ -9,8 +9,8 @@ namespace sc = std::chrono;
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
 const int GRAVITY = 10;
-const int CHAR_WIDTH = 65;
-const int CHAR_HEIGHT = 96;
+const int CHAR_WIDTH = 43;
+const int CHAR_HEIGHT = 64;
 const int FRAMES_PER_SEC = 20;
 // globals
 enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
@@ -339,7 +339,8 @@ int main(int argc, char** argv) {
         if (xSpeed == 0)
         {
             if (FPS/frameTime == 4)
-            {
+            {   
+                playerRect.y = 0;
                 playerRect.x +=framewidth;
                 if(playerRect.x >= texturewidth)
                     playerRect.x = 0;

@@ -1,13 +1,12 @@
-#ifndef BLOCK_H
-#define BLOCK_H
+#ifndef PORTAL_H
+#define PORTAL_H
+#include "block.h"
 
-#include "SDL.h"
 
-class Block
+class Portal : public Block
 {
     public:
-        explicit Block();
-        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
+        explicit Portal(bool portalclr, bool vertOrHoriz, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
@@ -18,21 +17,25 @@ class Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
-        void setColorR(Uint8 color);
-        void setColorG(Uint8 color);
-        void setColorB(Uint8 color);
-        void setColorA(Uint8 color);
+        bool getPortalColor();
         Uint8 getColorR();
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
-
-        void draw();
+        void setColorR(Uint8 color);
+        void setColorG(Uint8 color);
+        void setColorB(Uint8 color);
+        void setColorA(Uint8 color);
+        void toggleClick();
         //void update();
-       
+        void draw(int mouse_X, int mouse_Y, bool direction);
+
+//        void draw();
+
     private:
         int xLoc;
         int yLoc;
+        SDL_Renderer* renderer;
         //int newXLoc;
         //int newYLoc;
         int height;
@@ -41,8 +44,10 @@ class Block
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
-        SDL_Renderer* renderer;
-        SDL_Rect rectangle;
+        bool isActive;
+        bool oldDirection;
+        bool portalColor; // blue == 0 | orange == 1
+        
 };
 
 #endif
