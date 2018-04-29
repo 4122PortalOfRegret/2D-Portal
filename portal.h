@@ -18,7 +18,6 @@ class Portal : public Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
-        SDL_Rect* getRectangle();
         bool getPortalColor();
         Uint8 getColorR();
         Uint8 getColorG();

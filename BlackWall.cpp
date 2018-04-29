@@ -1,8 +1,7 @@
 #include "BlackWall.h"
 
 
-BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rectangle) : 
-	{
+BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rect) {
 	setX(x);
 	setY(y);
 	setHeight(h);
@@ -14,7 +13,7 @@ BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& re
 	rectangle = rect;
 	renderer = ref;
 	draw();
-  }
+}
 
 void BlackWall::setX(int x){
     rectangle.x = x;
@@ -104,7 +103,7 @@ void BlackWall::setColorG(Uint8 g) {
 	green = g;
 }
 
-void BlackWall:draw() {
+void BlackWall::draw() {
         // erase old player
         // draw new player
         //std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;

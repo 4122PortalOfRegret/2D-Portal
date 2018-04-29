@@ -1,8 +1,7 @@
 #include "GrayWall.h"
 
 
-GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rectangle) : 
-	{
+GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rect) {
 	setX(x);
 	setY(y);
 	setHeight(h);
@@ -14,7 +13,7 @@ GrayWall::GrayWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rect
 	rectangle = rect;
 	renderer = ref;
 	draw();
-  }
+}
 
 void GrayWall::setX(int x){
     rectangle.x = x;
@@ -104,7 +103,7 @@ void GrayWall::setColorG(Uint8 g) {
 	green = g;
 }
 
-void GrayWall:draw() {
+void GrayWall::draw() {
         // erase old player
         // draw new player
         //std::cout << "New X Location = " << newXLoc << " X Speed = " << xSpeed << std::endl;

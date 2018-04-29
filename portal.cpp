@@ -85,10 +85,6 @@ int Portal::getWidth(){
     return width;
 }
 
-SDL_Rect* Portal::getRectangle() {
-    return &rectangle;
-}
-
 bool Portal::getPortalColor() {
 	return portalColor;
 }
