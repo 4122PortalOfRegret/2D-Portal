@@ -1,4 +1,5 @@
 #include "player.h"
+using namespace std;
 
 Player::Player() : Block() {
     setColorR(216);
@@ -166,7 +167,7 @@ void Player::updateX(vector<Block*>& vec) {
     int oldleft1 = rectangle.x - xSpeed;
     int oldright1 = rectangle.x + rectangle.w - xSpeed;
     
-    for (unsigned int i = 0; i < vec.size(); ++i) {             //++i or i++ ??
+    for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
     SDL_Rect* rect2 = vec[i]->getRectangle();
 
     // Find edges of rect2
@@ -209,7 +210,7 @@ void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
     int oldtop1 = rectangle.y - ySpeed;
     int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
     
-    for (unsigned int i = 0; i < vec.size(); ++i) {             //++i or i++ ??
+    for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
     SDL_Rect* rect2 = vec[i]->getRectangle();
 
     // Find edges of rect2

@@ -72,10 +72,10 @@ int main(int argc, char** argv) {
     
     // test Block
     SDL_Rect platform = {200,670,400,50};
-    BlackWall plat(200, 670, 400, 50, renderer, platform);
-    plat.draw();
+    Block block(200, 670, 400, 50, renderer, platform);
+    block.draw();
     vector<Block*> vec;
-    vec.push_back(&plat);
+    vec.push_back(&block);
     //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     //SDL_RenderFillRect(renderer, &platform);
     
@@ -188,7 +188,8 @@ int main(int argc, char** argv) {
         if (player.getXSpeed() == 0)
         {
             if (FPS/frameTime == 4)
-            {
+            {   
+                animationRect.y = 0;
                 animationRect.x +=framewidth;
                 if(animationRect.x >= texturewidth)
                     animationRect.x = 0;
@@ -222,7 +223,7 @@ int main(int argc, char** argv) {
         player.draw();
 
         // draw some platforms
-        plat.draw();
+        block.draw();
         //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         //SDL_RenderFillRect(renderer, &platform);
 
