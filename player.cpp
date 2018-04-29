@@ -128,41 +128,47 @@ Uint8 Player::getColorA() {
 }
 
 // move the player to a new location based on speeds
-void Player::update(vector<Block*>& vec, bool* ground, STATE& jump) {
-    // if (xSpeed == 0 && ySpeed == 0)
-    //     return;
-    // newXLoc = xLoc + xSpeed;
+// void Player::update(vector<Block*>& vec, bool* ground, STATE& jump) {
+//     // if (xSpeed == 0 && ySpeed == 0)
+//     //     return;
+//     // newXLoc = xLoc + xSpeed;
 
-    // if (newXLoc < 0)
-    //     newXLoc = 0;
-    // if (newXLoc > WINDOW_WIDTH - width)
-    //     newXLoc = WINDOW_WIDTH - width;
-    // newYLoc = yLoc + ySpeed;
-    // if (newYLoc < 0)
-    //     newYLoc = 0;
-    // if (newYLoc > WINDOW_HEIGHT - height)
-    //     newYLoc = WINDOW_HEIGHT - height;
-    for (unsigned int i = 0; i < vec.size(); ++i) {
-        updateX(vec[i]->getRectangle());
-        updateY(vec[i]->getRectangle(), ground, jump);
-    }
-}
+//     // if (newXLoc < 0)
+//     //     newXLoc = 0;
+//     // if (newXLoc > WINDOW_WIDTH - width)
+//     //     newXLoc = WINDOW_WIDTH - width;
+//     // newYLoc = yLoc + ySpeed;
+//     // if (newYLoc < 0)
+//     //     newYLoc = 0;
+//     // if (newYLoc > WINDOW_HEIGHT - height)
+//     //     newYLoc = WINDOW_HEIGHT - height;
+//     for (unsigned int i = 0; i < vec.size(); ++i) {
+//         updateX(vec[i]->getRectangle());
+//         updateY(vec[i]->getRectangle(), ground, jump);
+//     }
+// }
 
-void Player::updateX(const SDL_Rect* rect2) {
+void Player::updateX(vector<Block*>& vec) {
     if (xSpeed == 0)
         return;
-    newXLoc = xLoc + xSpeed;
+    rectangle.x = rectangle.x + xSpeed;
     
     if (newXLoc < 0)
         newXLoc = 0;
     if (newXLoc > WINDOW_WIDTH - CHAR_WIDTH)
         newXLoc = WINDOW_WIDTH - CHAR_WIDTH;
     
-    int left1 = xLoc;                    // playerx
-    int right1 = xLoc + rectangle.w;         // playerx+width
-    int top1 = yLoc;                     // playerY
-    int bottom1 = yLoc + rectangle.h;        // playerY+height
+    int left1 = rectangle.x;                    // playerx
+    int right1 = rectangle.x + rectangle.w;         // playerx+width
+    int top1 = rectangle.y;                     // playerY
+    int bottom1 = rectangle.y + rectangle.h;        // playerY+height
+
+    int oldleft1 = rectangle.x - xSpeed;
+    int oldright1 = rectangle.x + rectangle.w - xSpeed;
     
+    for (unsigned int i = 0; i < vec.size(); ++i) {             //++i or i++ ??
+    SDL_Rect* rect2 = vec[i]->getRectangle();
+
     // Find edges of rect2
     int left2 = rect2->x;                    // blockX
     int right2 = rect2->x + rect2->w;         // blockX+width
@@ -170,31 +176,28 @@ void Player::updateX(const SDL_Rect* rect2) {
     int bottom2 = rect2->y + rect2->h;        // blocky+height
     
     
-    int oldleft1 = xLoc - xSpeed;
-    int oldright1 = rectangle.x + rectangle.w - xSpeed;
-    
     
     if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2 )// Left 1 is right of right 2
-        return; // No collision
+        continue; // No collision
     
     if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
-        newXLoc = rect2->x - rectangle.w - 1;
+        rectangle.x = rect2->x - rectangle.w - 1;
     
     if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))  // right
-        newXLoc = rect2->x + rect2->w + 1;
-    
+        rectangle.x = rect2->x + rect2->w + 1;
+    }
     return;
 }
 
-void Player::updateY(const SDL_Rect* rect2, bool* ground, STATE& lols) {
+void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
     if (ySpeed == 0)
         return;
     
-    newYLoc = newYLoc + ySpeed;
+    rectangle.y = rectangle.y + ySpeed;
     if (newYLoc < 0)
-        newYLoc = 0;
-    if (newYLoc > WINDOW_HEIGHT - CHAR_HEIGHT) {
-        newYLoc = WINDOW_HEIGHT - CHAR_HEIGHT;
+        rectangle.y = 0;
+    if (rectangle.y > WINDOW_HEIGHT - CHAR_HEIGHT) {
+        rectangle.y = WINDOW_HEIGHT - CHAR_HEIGHT;
         *ground = true;
     }
     
@@ -202,35 +205,39 @@ void Player::updateY(const SDL_Rect* rect2, bool* ground, STATE& lols) {
     int right1 = rectangle.x + rectangle.w;         // playerx+width
     int top1 = rectangle.y;                     // playerY
     int bottom1 = rectangle.y + rectangle.h;        // playerY+height
+
+    int oldtop1 = rectangle.y - ySpeed;
+    int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
     
+    for (unsigned int i = 0; i < vec.size(); ++i) {             //++i or i++ ??
+    SDL_Rect* rect2 = vec[i]->getRectangle();
+
     // Find edges of rect2
     int left2 = rect2->x;                    // blockX
     int right2 = rect2->x + rect2->w;         // blockX+width
     int top2 = rect2->y;                     // blockY
     int bottom2 = rect2->y + rect2->h;        // blocky+height
     
-    int oldtop1 = rectangle.y - ySpeed;
-    int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
     
-    // no collition
+    // no collision
     if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)
-        return;
+        continue;
     
     // top
     if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2) {
-        newYLoc = rect2->y - rectangle.h - 1;
+        rectangle.y = rect2->y - rectangle.h - 1;
         *ground = true;
-        //*prevPlat = true;
     }
 
     // bottom
     // need to change state to free fall
     if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1)) {
-        newYLoc = rect2->y + rect2->h + 1;
+        rectangle.y = rect2->y + rect2->h + 1;
         if (lols == BUTTON_PRESS || lols == DECELERATE || lols == DESCEND)
             lols = FREEFALL;
     }
 
+    }
     return;
 }
 
@@ -241,10 +248,10 @@ void Player::draw() {
     //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     //SDL_RenderFillRect(renderer, &rectangle);
     // draw new player
-    rectangle.x = newXLoc;
-    rectangle.y = newYLoc;
-    xLoc = newXLoc;
-    yLoc = newYLoc;
+    // rectangle.x = newXLoc;
+    // rectangle.y = newYLoc;
+    // xLoc = newXLoc;
+    // yLoc = newYLoc;
     SDL_RenderCopy(renderer, image, &animation, &rectangle);
     //SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
     //SDL_RenderFillRect(renderer, &rectangle);

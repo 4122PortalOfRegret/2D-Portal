@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
         if(events.type == SDL_QUIT) {
             quit = true;
         }
-        //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         
         SDL_RenderClear(renderer);
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
             player.changeXSpeed(-5);
         }
         if(state[SDL_SCANCODE_D]) {
-            player.changeYSpeed(5);
+            player.changeXSpeed(5);
         }
         // y direction
         if(state[SDL_SCANCODE_W])
@@ -177,7 +177,8 @@ int main(int argc, char** argv) {
         //updatex(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
         //updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
 
-        player.update(vec, &ground, jump);
+        player.updateX(vec);
+        player.updateY(vec,&ground, jump);
 
         // update + check collisions
 

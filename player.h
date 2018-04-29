@@ -36,8 +36,8 @@ class Player : public Block {
         void draw();
         // move the player to a new location based on speeds
         void update(vector<Block*>& vec, bool* ground, STATE& jump);
-        void updateX(const SDL_Rect *rect2);
-        void updateY(const SDL_Rect *rect2, bool* ground, STATE& lols);
+        void updateX(vector<Block*>& vec);
+        void updateY(vector<Block*>& vec, bool* ground, STATE& lols);
 
     private:
         int xLoc;
