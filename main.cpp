@@ -197,7 +197,7 @@ int main(int argc, char** argv) {
                 frameTime = 0;
             }
         }
-        else if(player.getXSpeed() < 0)
+        else if(state[SDL_SCANCODE_A])
         {
             if (60/frameTime == 4){
             animationRect.y = frameheight;
@@ -207,7 +207,7 @@ int main(int argc, char** argv) {
             frameTime = 0;
             }
         }
-        else if (player.getXSpeed() > 0)
+        else if (state[SDL_SCANCODE_D])
         {
             if (60/frameTime == 4){
                 animationRect.y = frameheight*2;
