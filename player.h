@@ -7,7 +7,7 @@
 class Player : public Block {
     public:
         explicit Player();
-        explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, SDL_Rect& a, SDL_Texture* i);
+        explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, SDL_Texture* i);
         int getX();
         int getY();
         int getNewX();
@@ -33,7 +33,7 @@ class Player : public Block {
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
-        void draw();
+        void draw(SDL_Rect *anim);
         // move the player to a new location based on speeds
         void update(vector<Block*>& vec, bool* ground, STATE& jump);
         void updateX(vector<Block*>& vec);

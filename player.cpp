@@ -8,12 +8,12 @@ Player::Player() : Block() {
     setColorA(255);
 }
 
-Player::Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, SDL_Rect& a, SDL_Texture* i) {
+Player::Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, SDL_Texture* i) {
     setXSpeed(0);
     setYSpeed(0);
     renderer = r;
     rectangle = rect;
-    animation = a;
+    //animation = a;
     image = i;
     setX(x);
     setY(y);
@@ -242,7 +242,7 @@ void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
     return;
 }
 
-void Player::draw() {
+void Player::draw(SDL_Rect *anim) {
     // erase old player
     //rectangle.x = xLoc;
     //rectangle.y = yLoc;
@@ -253,7 +253,8 @@ void Player::draw() {
     // rectangle.y = newYLoc;
     // xLoc = newXLoc;
     // yLoc = newYLoc;
-    SDL_RenderCopy(renderer, image, &animation, &rectangle);
+    //cout << animation.x << endl;
+    SDL_RenderCopy(renderer, image, anim, &rectangle);
     //SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
     //SDL_RenderFillRect(renderer, &rectangle);
 

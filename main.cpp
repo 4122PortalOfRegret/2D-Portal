@@ -9,6 +9,7 @@
 #include "GrayWall.h"
 #include "GrayWall.cpp"
 #include "utils.h"
+using namespace std;
 
 // globals
 auto frameStart = sc::high_resolution_clock::now();
@@ -64,8 +65,8 @@ int main(int argc, char** argv) {
     animationRect.w = framewidth;
     animationRect.h = frameheight;
 
-    Player player(600, 100, CHAR_WIDTH, CHAR_HEIGHT, renderer, playerRect, animationRect, currentimage);
-    player.draw();
+    Player player(600, 100, CHAR_WIDTH, CHAR_HEIGHT, renderer, playerRect, currentimage);
+    player.draw(&animationRect);
     
     long int delayTime;
     clock_t start; clock_t end;
@@ -184,10 +185,10 @@ int main(int argc, char** argv) {
 
         // draw
         
-        ++frameTime;
+            ++frameTime;
         if (player.getXSpeed() == 0)
         {
-            if (FPS/frameTime == 4)
+            if (60/frameTime == 4)
             {   
                 animationRect.y = 0;
                 animationRect.x +=framewidth;
@@ -198,7 +199,7 @@ int main(int argc, char** argv) {
         }
         else if(player.getXSpeed() < 0)
         {
-            if (FPS/frameTime == 4){
+            if (60/frameTime == 4){
             animationRect.y = frameheight;
             animationRect.x +=framewidth;
             if(animationRect.x >= texturewidth)
@@ -208,7 +209,7 @@ int main(int argc, char** argv) {
         }
         else if (player.getXSpeed() > 0)
         {
-            if (FPS/frameTime == 4){
+            if (60/frameTime == 4){
                 animationRect.y = frameheight*2;
                 animationRect.x +=framewidth;
                 if(animationRect.x >= texturewidth)
@@ -216,11 +217,14 @@ int main(int argc, char** argv) {
                 frameTime = 0;
             }
         }
-        
+
+
+
+        //cout << animationRect.x << endl;
         //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         //SDL_RenderFillRect(renderer, &myRect);
         //SDL_RenderCopy(renderer,currentimage,&animationRect,&playerRect);
-        player.draw();
+        player.draw(&animationRect);
 
         // draw some platforms
         block.draw();
