@@ -9,8 +9,6 @@ void level1(){
 	SDL_Rect wall6;
 	SDL_Rect wall7;
 	SDL_Rect wall8;
-	SDL_Rect wall9;
-	SDL_Rect wall10;
 
 	BlackWall leftwall(0,0,10,720,renderer,&wall1);
 	BlackWall rightwall(0,1270,10,720,renderer,&wall2);
