@@ -167,26 +167,27 @@ void Player::updateX(vector<Block*>& vec) {
     int oldleft1 = rectangle.x - xSpeed;
     int oldright1 = rectangle.x + rectangle.w - xSpeed;
     
-    for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
-    SDL_Rect* rect2 = vec[i]->getRectangle();
+    vector<Block*>::iterator it;
+    for (it = vec.begin(); it != vec.end(); it++) {
+    //for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
+        //SDL_Rect* rect2 = vec[i]->getRectangle();
+        SDL_Rect* rect2 = (*it)->getRectangle();
 
-    // Find edges of rect2
-    int left2 = rect2->x;                    // blockX
-    int right2 = rect2->x + rect2->w;         // blockX+width
-    int top2 = rect2->y;                     // blockY
-    int bottom2 = rect2->y + rect2->h;        // blocky+height
-    
-    
-    
-    if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2 )// Left 1 is right of right 2
-        continue; // No collision
-    
-    if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
-        rectangle.x = rect2->x - rectangle.w - 1;
-    
-    if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))  // right
-        rectangle.x = rect2->x + rect2->w + 1;
-    }
+        // Find edges of rect2
+        int left2 = rect2->x;                    // blockX
+        int right2 = rect2->x + rect2->w;         // blockX+width
+        int top2 = rect2->y;                     // blockY
+        int bottom2 = rect2->y + rect2->h;        // blocky+height
+        
+        if ( left1 > right2 || right1 < left2 || top1 > bottom2 || bottom1 < top2 )// Left 1 is right of right 2
+            continue; // No collision
+        
+        if (oldleft1 < left2 && oldright1 < left2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || bottom1 < bottom2)))        // left
+            rectangle.x = rect2->x - rectangle.w - 1;
+        
+        if (oldleft1 > right2 && oldright1 > right2 && (((top1 < top2) || (bottom1 < top1))  || ((top1 < bottom2) || (bottom1 < bottom2))))  // right
+            rectangle.x = rect2->x + rect2->w + 1;
+        }
     return;
 }
 
@@ -210,33 +211,34 @@ void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
     int oldtop1 = rectangle.y - ySpeed;
     int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
     
-    for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
-    SDL_Rect* rect2 = vec[i]->getRectangle();
+    vector<Block*>::iterator it;
+    for (it = vec.begin(); it != vec.end(); it++) {
+    //for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
+        //SDL_Rect* rect2 = vec[i]->getRectangle();
+        SDL_Rect* rect2 = (*it)->getRectangle();
 
-    // Find edges of rect2
-    int left2 = rect2->x;                    // blockX
-    int right2 = rect2->x + rect2->w;         // blockX+width
-    int top2 = rect2->y;                     // blockY
-    int bottom2 = rect2->y + rect2->h;        // blocky+height
-    
-    
-    // no collision
-    if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)
-        continue;
-    
-    // top
-    if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2) {
-        rectangle.y = rect2->y - rectangle.h - 1;
-        *ground = true;
-    }
+        // Find edges of rect2
+        int left2 = rect2->x;                    // blockX
+        int right2 = rect2->x + rect2->w;         // blockX+width
+        int top2 = rect2->y;                     // blockY
+        int bottom2 = rect2->y + rect2->h;        // blocky+height
+        
+        // no collision
+        if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)
+            continue;
+        
+        // top
+        if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2) {
+            rectangle.y = rect2->y - rectangle.h - 1;
+            *ground = true;
+        }
 
-    // bottom
-    // need to change state to free fall
-    if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1)) {
-        rectangle.y = rect2->y + rect2->h + 1;
-        if (lols == BUTTON_PRESS || lols == DECELERATE || lols == DESCEND)
-            lols = FREEFALL;
-    }
+        // bottom, need to change state to free fall
+        if  ((top2 < oldtop1 && oldtop1 < bottom2 && bottom2 < oldbottom1)) {
+            rectangle.y = rect2->y + rect2->h + 1;
+            if (lols == BUTTON_PRESS || lols == DECELERATE || lols == DESCEND)
+                lols = FREEFALL;
+        }
 
     }
     return;

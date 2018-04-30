@@ -28,7 +28,6 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
-    bool pastPlat = false;
     int pastPress[] = {0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
@@ -47,12 +46,7 @@ int main(int argc, char** argv) {
     // player
     SDL_Surface * image = SDL_LoadBMP("lols.bmp");
     SDL_Texture * currentimage = SDL_CreateTextureFromSurface(renderer, image);
-    
     SDL_Rect playerRect = {600, 100, CHAR_WIDTH, CHAR_HEIGHT};
-    //int xSpeed = 0; int ySpeed = 0;
-    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //SDL_RenderFillRect(renderer, &myRect);
-    //SDL_RenderPresent(renderer);
     
     // player texture
     SDL_Rect animationRect;
@@ -73,8 +67,8 @@ int main(int argc, char** argv) {
     
     // test Block
     SDL_Rect platform = {200,670,400,50};
-    Block block(200, 670, 400, 50, renderer, platform);
-    block.draw();
+    BlackWall block(200, 670, 400, 50, renderer, platform);
+    //block.draw();
     vector<Block*> vec;
     vec.push_back(&block);
     //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
@@ -88,13 +82,11 @@ int main(int argc, char** argv) {
         if(events.type == SDL_QUIT) {
             quit = true;
         }
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        //SDL_RenderFillRect(renderer, &myRect);
-        
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
         SDL_RenderClear(renderer);
         const Uint8 *state = SDL_GetKeyboardState(NULL);
         
-        
+        // use the arrow keys to control the player
         player.setXSpeed(0);
         if(state[SDL_SCANCODE_A]) {
             player.changeXSpeed(-5);
@@ -169,22 +161,12 @@ int main(int argc, char** argv) {
                 break;
         }
         
-        
-        // are there collisions?
-        //CheckCollision(myRect,platform,&myRect.x,&myRect.y,xSpeed,ySpeed);
-        
-        
-        // update location based on button press
-        //updatex(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
-        //updatey(myRect,platform,&myRect.x, &myRect.y, xSpeed, ySpeed,&jump,&pastPlat);
-
+        // move the player to the new position based on current momentum
+        // check if the player collides with its environment
         player.updateX(vec);
         player.updateY(vec,&ground, jump);
-
-        // update + check collisions
-
-        // draw
         
+        // update animation if necessary
         ++frameTime;
         if (player.getXSpeed() == 0)
         {
@@ -218,16 +200,19 @@ int main(int argc, char** argv) {
             }
         }
 
-
-
-        //cout << animationRect.x << endl;
-        //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        //SDL_RenderFillRect(renderer, &myRect);
-        //SDL_RenderCopy(renderer,currentimage,&animationRect,&playerRect);
+        // draw the player and its animation
         player.draw(&animationRect);
 
         // draw some platforms
-        block.draw();
+        //vector<Block*>::iterator it;
+        vector<Block*>::iterator it;
+        it = vec.begin();
+        (*it)->draw();
+        // cout << vec.size() << endl;
+        // for (it = vec.begin(); it != vec.end(); it++) {
+        //     (*it)->draw();
+        // }
+        //block.draw();
         //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         //SDL_RenderFillRect(renderer, &platform);
 
@@ -240,6 +225,11 @@ int main(int argc, char** argv) {
             SDL_Delay(delayTime);
         }
     }
+    // vector<Block*>::iterator it;
+    // for (it = vec.begin(); it < vec.end(); it++) {
+    //     delete *it;
+    // }
+
     SDL_DestroyWindow(window);
     SDL_Quit();
     

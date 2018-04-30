@@ -6,9 +6,9 @@ BlackWall::BlackWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& re
 	setY(y);
 	setHeight(h);
 	setWidth(w);	
-    setColorR(40);
-    setColorG(40);
-    setColorB(40);
+    setColorR(0);
+    setColorG(0);
+    setColorB(0);
     setColorA(255);
 	rectangle = rect;
 	renderer = ref;
