@@ -7,7 +7,7 @@
 class Portal
 {
     public:
-        explicit Portal(bool portalclr, bool vertOrHoriz, SDL_Renderer* ref);
+        explicit Portal(bool portalclr, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
@@ -28,8 +28,10 @@ class Portal
         void setColorB(Uint8 color);
         void setColorA(Uint8 color);
         void toggleClick();
+        void PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mouse_Y, Portal portal);
+        bool getActive();
         //void update();
-        void draw(int mouse_X, int mouse_Y, bool direction);
+        void draw();
 
 //        void draw();
 

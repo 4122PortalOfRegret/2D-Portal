@@ -24,5 +24,7 @@ enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
 #define KEY_A 1
 #define KEY_D 2
 #define KEY_S 3
+#define LEFT_MOUSE 4
+#define RIGHT_MOUSE 5
 
 #endif
