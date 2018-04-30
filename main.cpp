@@ -15,11 +15,13 @@ bool ground = true;
 
 int level = 1;
 bool loadLevel = true;
+const int NUM_LEVELS = 5;
 
 void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
+void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 
 
 int main(int argc, char** argv) {
@@ -31,7 +33,7 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
-    int pastPress[] = {0,0,0,0};
+    int pastPress[] = {0,0,0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
     SDL_Event event;
@@ -122,6 +124,10 @@ int main(int argc, char** argv) {
                     loadLevel = false;
                     player.draw(&animationRect);
                     break;
+                case 5:
+                    level5(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
                 default: 
                     level1(renderer, blockVector, endWall, player);
                     loadLevel = false;
@@ -141,56 +147,67 @@ int main(int argc, char** argv) {
         
         // use the arrow keys to control the player
         if(state[SDL_SCANCODE_R]) {
+          
             loadLevel = true;
         }
-        // if(state[SDL_SCANCODE_LEFT]) {
-        //     level--;
-        //     loadLevel = true;
-        //     if (level < 1)
-        //         level = 1;
-        // }
-        // if(state[SDL_SCANCODE_RIGHT]) {
-        //     level++;
-        //     loadLevel = true;
-        //     if (level > 4)
-        //         level = 4;
-        // }
+
+        // allows iteration through the levels
+        if(state[SDL_SCANCODE_LEFT]) {
+            ++pastPress[KEY_LEFT];
+            if (pastPress[KEY_LEFT] == 1) {
+                level--;
+                loadLevel = true;
+                if (level < 1)
+                    level = 1;
+            }
+        } else {
+            pastPress[KEY_LEFT] = 0;
+        }
+        if(state[SDL_SCANCODE_RIGHT]) {
+            ++pastPress[KEY_RIGHT];
+            if (pastPress[KEY_RIGHT] == 1) {
+                level++;
+                loadLevel = true;
+                if (level > NUM_LEVELS)
+                    level = NUM_LEVELS;
+            }
+        } else {
+            pastPress[KEY_RIGHT] = 0;
+        }
+
+        // use AWD to control the player
         player.setXSpeed(0);
-        if(state[SDL_SCANCODE_A]) {
+        if(state[SDL_SCANCODE_A]) { // x direction
             player.changeXSpeed(-5);
         }
-        if(state[SDL_SCANCODE_D]) {
+        if(state[SDL_SCANCODE_D]) { // x direction
             player.changeXSpeed(5);
         }
-        // y direction
-        if(state[SDL_SCANCODE_W])
-        {
+        if(state[SDL_SCANCODE_W]) { // y direction
             ++pastPress[KEY_W];
-            if(pastPress[KEY_W] == 1)
-            {
+            if(pastPress[KEY_W] == 1) {
                 canJump = true;
             }
             if (jump == READY) {
                 start = clock();
                 jump = BUTTON_PRESS;
             }
-        }
-        else {
+        } else {
             pastPress[KEY_W] = 0;
             canJump = true;
         }
+
         // escape
         if(state[SDL_SCANCODE_ESCAPE]) {
             quit = true;
         }
-        // } else if (event.type == SDL_KEYUP) {
         if(!state[SDL_SCANCODE_W]) {
             canJump = true;
         }
-        //
+
+        // jump state machine
         switch(jump) {
             case BUTTON_PRESS:
-                //                if (canJump) {
                 canJump = false;
                 player.setYSpeed(-12);
                 end = clock();
@@ -238,37 +255,32 @@ int main(int argc, char** argv) {
         if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
             loadLevel = true;
             level++;
-            if (level > 4)
-                level = 4;
+            if (level > NUM_LEVELS)
+                // game has finished
+                level = NUM_LEVELS;
         }
 
-        // check it player collides with portal
+        // check if player collides with portal
         
         // update animation if necessary
         ++frameTime;
-        if (player.getXSpeed() == 0)
-        {
-            if (FPS/frameTime == 4)
-            {   
+        if (player.getXSpeed() == 0) {
+            if (FPS/frameTime == 4) {   
                 animationRect.y = 0;
                 animationRect.x +=framewidth;
                 if(animationRect.x >= texturewidth)
                     animationRect.x = 0;
                 frameTime = 0;
             }
-        }
-        else if(state[SDL_SCANCODE_A])
-        {
+        } else if(state[SDL_SCANCODE_A]) {
             if (FPS/frameTime == 4){
-            animationRect.y = frameheight;
-            animationRect.x +=framewidth;
-            if(animationRect.x >= texturewidth)
-                animationRect.x = 0;
-            frameTime = 0;
+                animationRect.y = frameheight;
+                animationRect.x +=framewidth;
+                if(animationRect.x >= texturewidth)
+                    animationRect.x = 0;
+                frameTime = 0;
             }
-        }
-        else if (state[SDL_SCANCODE_D])
-        {
+        } else if (state[SDL_SCANCODE_D]) {
             if (FPS/frameTime == 4){
                 animationRect.y = frameheight*2;
                 animationRect.x +=framewidth;
@@ -299,16 +311,11 @@ int main(int argc, char** argv) {
             SDL_Delay(delayTime);
         }
     }
-    // vector<Block*>::iterator it;
-    // for (it = vec.begin(); it < vec.end(); it++) {
-    //     delete *it;
-    // }
 
     SDL_DestroyWindow(window);
     SDL_Quit();
     
     return 0;
-
 }
 
 
@@ -470,4 +477,44 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     p.setY(600);
 
     end.draw();
-}   
+}
+
+void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {40,100,50,610};
+    SDL_Rect wall6 = {1040,100,50,610};
+    SDL_Rect wall7 = {40,10,50,5};
+    SDL_Rect wall8 = {1270,40,5,50};
+    Block hellowall(40,40,50,670,renderer, wall5, true);
+    Block hellowall2(1040,40,50,670,renderer, wall6, true);
+    Block hellowall3(40,10,50,5,renderer, wall7, false);
+    Block hellowall4(1270,40,5,50,renderer, wall8, false);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+    blockVec.push_back(hellowall);
+    blockVec.push_back(hellowall2);
+    blockVec.push_back(hellowall3);
+    blockVec.push_back(hellowall4);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(660);
+    p.setX(200);
+    p.setY(640);
+
+    end.draw();
+}
