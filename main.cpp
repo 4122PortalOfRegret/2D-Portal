@@ -13,10 +13,11 @@ STATE jump = READY;
 bool canJump = false;
 bool ground = true;
 
-int level = 1;
+int level = 0;
 bool loadLevel = true;
 const int NUM_LEVELS = 5;
 
+void level0(SDL_Renderer* renderer, vector<SDL_Rect>& rectVec);
 void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
@@ -73,6 +74,7 @@ int main(int argc, char** argv) {
 
     // block vector
     vector<Block> blockVector;
+    vector<SDL_Rect> rectVector;
 
     // call the level function
     level1(renderer, blockVector, endWall, player);
@@ -103,7 +105,12 @@ int main(int argc, char** argv) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
             SDL_RenderClear(renderer);
             blockVector.clear();
+            rectVector.clear();
             switch(level) {
+                case 0:
+                    level0(renderer, rectVector);
+                    loadLevel = false;
+                    break;
                 case 1:
                     level1(renderer, blockVector, endWall, player);
                     loadLevel = false;
@@ -157,8 +164,8 @@ int main(int argc, char** argv) {
             if (pastPress[KEY_LEFT] == 1) {
                 level--;
                 loadLevel = true;
-                if (level < 1)
-                    level = 1;
+                if (level < 0)
+                    level = 0;
             }
         } else {
             pastPress[KEY_LEFT] = 0;
@@ -319,6 +326,39 @@ int main(int argc, char** argv) {
 }
 
 
+void level0(SDL_Renderer* renderer, vector<SDL_Rect>& rectVec){
+    SDL_Rect level1 = {1095,95,100,50};
+    SDL_Rect level2 = {1095,155,100,50};
+    SDL_Rect level3 = {1095,215,100,50};
+    SDL_Rect level4 = {1095,275,100,50};
+    SDL_Rect level5 = {1095,335,100,50};
+    SDL_Rect level6 = {1095,395,100,50};
+    SDL_Rect level7 = {1095,455,100,50};
+    SDL_Rect level8 = {1095,515,100,50};
+    SDL_Rect level9 = {1095,575,100,50};
+
+    rectVec.push_back(level1);
+    rectVec.push_back(level2);
+    rectVec.push_back(level3);
+    rectVec.push_back(level4);
+    rectVec.push_back(level5);
+    rectVec.push_back(level6);
+    rectVec.push_back(level7);
+    rectVec.push_back(level8);
+    rectVec.push_back(level9);
+
+    int count = 0;
+    for(auto i : rectVec){
+        if (count % 2 == 0) {
+            SDL_SetRenderDrawColor(renderer, 0, 120, 255, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 253, 102, 0, 255);
+        }
+        SDL_RenderFillRect(renderer, &i);
+        count++;
+    }
+}
+
 void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
@@ -364,7 +404,7 @@ void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
     SDL_Rect wall5 = {10,540,100,170};
-    SDL_Rect wall6 = {110,590,100,12};
+    SDL_Rect wall6 = {110,590,100,120};
     SDL_Rect wall7 = {210,640,100,70};
     SDL_Rect wall8 = {310,690,200,20};
     SDL_Rect wall9 = {510,310,100,400};
