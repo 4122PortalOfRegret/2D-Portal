@@ -4,7 +4,7 @@
 #include "block.h"
 #include "utils.h"
 
-class Player : public Block {
+class Player {
     public:
         explicit Player();
         explicit Player(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, SDL_Texture* i);

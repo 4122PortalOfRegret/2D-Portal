@@ -36,11 +36,11 @@ void Player::setWidth(int w) {
     rectangle.w = w;
 }
 int Player::getX() {
-    return Block::getX();
+    return xLoc;
 }
 
 int Player::getY() {
-    return Block::getY();
+    return yLoc;
 }
 
 int Player::getNewX() {
