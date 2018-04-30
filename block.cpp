@@ -18,7 +18,7 @@ Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, bool t
     setWidth(w);
     renderer = r;
     rectangle = rect;
-    if (type) { // type = 1 means black wall
+    if (t) { // type = 1 means black wall
         setColorR(0);
         setColorG(0);
         setColorB(0);

@@ -4,10 +4,6 @@
 #include "player.cpp"
 #include "portal.h"
 #include "portal.cpp"
-#include "BlackWall.h"
-#include "BlackWall.cpp"
-#include "GrayWall.h"
-#include "GrayWall.cpp"
 #include "utils.h"
 using namespace std;
 
