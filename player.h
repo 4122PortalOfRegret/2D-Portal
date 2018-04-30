@@ -35,9 +35,9 @@ class Player : public Block {
         Uint8 getColorA();
         void draw(SDL_Rect *anim);
         // move the player to a new location based on speeds
-        void update(vector<Block*>& vec, bool* ground, STATE& jump);
-        void updateX(vector<Block*>& vec);
-        void updateY(vector<Block*>& vec, bool* ground, STATE& lols);
+        void update(vector<Block>& vec, bool* ground, STATE& jump);
+        void updateX(vector<Block>& vec);
+        void updateY(vector<Block>& vec, bool* ground, STATE& lols);
 
     private:
         int xLoc;

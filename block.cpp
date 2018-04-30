@@ -11,7 +11,7 @@ Block::Block() {
     setColorA(255);
 }
 
-Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, type t) {
+Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, bool t) {
     setX(x);
     setY(y);
     setHeight(h);
@@ -120,7 +120,11 @@ void Block::setColorG(Uint8 g) {
 	  green = g;
 }
 
-virtual void Block::draw() {
+bool Block::getType() {
+    return type;
+}
+
+void Block::draw() {
     // draw the block, should only need to draw one time
     // rectangle.x = xLoc;
     // rectangle.y = yLoc;

@@ -67,10 +67,13 @@ int main(int argc, char** argv) {
     
     // test Block
     SDL_Rect platform = {200,670,400,50};
-    Block block(200, 670, 400, 50, renderer, platform, true);
+    Block block(200, 670, 400, 50, renderer, platform, false);
     //block.draw();
     vector<Block> vec;
     vec.push_back(block);
+    SDL_Rect plat = {600, 620, 300, 100};
+    Block block2(600, 620, 300, 100, renderer, plat, true);
+    vec.push_back(block2);
     //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     //SDL_RenderFillRect(renderer, &platform);
     
@@ -165,7 +168,6 @@ int main(int argc, char** argv) {
         // check if the player collides with its environment
         player.updateX(vec);
         player.updateY(vec, &ground, jump);
-        cout << "return from update" << endl;
         
         // update animation if necessary
         ++frameTime;
@@ -205,20 +207,10 @@ int main(int argc, char** argv) {
         player.draw(&animationRect);
 
         // draw some platforms
-        //vector<Block*>::iterator it;
         vector<Block>::iterator it;
-        // it = vec.begin();
-        // (*it)->draw();
-        // cout << vec.size() << endl;
         for (it = vec.begin(); it != vec.end(); it++) {
-            Block temp = *it;
-            temp.draw();
-            // (*it)->draw();
+            (*it).draw();
         }
-        cout << "return from draw" << endl;
-        // block.draw();
-        //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
-        //SDL_RenderFillRect(renderer, &platform);
 
         // switch buffer to display
         SDL_RenderPresent(renderer);

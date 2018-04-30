@@ -27,8 +27,9 @@ class Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        bool getType();
 
-        virtual void draw();
+        void draw();
         //void update();
        
     private:
