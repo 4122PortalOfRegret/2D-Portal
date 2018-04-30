@@ -4,6 +4,8 @@
 #include "player.cpp"
 #include "portal.h"
 #include "portal.cpp"
+#include "EndZoneWall.h"
+#include "EndZoneWall.cpp"
 #include "utils.h"
 using namespace std;
 
@@ -14,6 +16,166 @@ auto frameEnd = sc::high_resolution_clock::now();
 STATE jump = READY;
 bool canJump = false;
 bool ground = true;
+
+void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {400,660,50,50};
+    SDL_Rect wall6 = {450,610,50,100};
+    Block hellowall(400,660,50,50,renderer, wall5, true);
+    Block hellowall2(450,610,50,100,renderer, wall6, true);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+    blockVec.push_back(hellowall);
+    blockVec.push_back(hellowall2);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(660);
+    p.setX(20);
+    p.setY(640);
+
+    end.draw();
+}
+
+void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {10,540,100,170};
+    SDL_Rect wall6 = {110,590,100,12};
+    SDL_Rect wall7 = {210,640,100,70};
+    SDL_Rect wall8 = {310,690,200,20};
+    SDL_Rect wall9 = {510,310,100,400};
+    SDL_Rect wall10 = {710,10,560,300};
+    Block stair1(10,540,100,170,renderer, wall5, true);
+    Block stair2(110,590,100,120,renderer, wall6, true);
+    Block stair3(210,640,100,70,renderer, wall7, true);
+    Block floor1(310,690,200,20,renderer, wall8, false);
+    Block bigwall(510,310,100,400,renderer, wall9, true);
+    Block topright(710,10,560,300,renderer, wall10, false); 
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+
+    blockVec.push_back(stair1);
+    blockVec.push_back(stair2);
+    blockVec.push_back(stair3);
+    blockVec.push_back(floor1);
+    blockVec.push_back(bigwall);
+    blockVec.push_back(topright);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(660);
+    p.setX(240);
+    p.setY(500);
+
+    end.draw();
+}
+
+void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {10,10,750,200};
+    SDL_Rect wall6 = {760,10,20,200};
+    SDL_Rect wall7 = {10,660,1000,50};
+    SDL_Rect wall8 = {1010,210,260,500};
+    Block topleft(10,10,750,200,renderer,wall5,true);
+    Block ledge(760,10,20,200,renderer,wall6,false);
+    Block floorWall(10,660,1000,50,renderer,wall7,false);
+    Block right(1010,210,260,500,renderer,wall8,true);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+
+    blockVec.push_back(topleft);
+    blockVec.push_back(ledge);
+    blockVec.push_back(floorWall);
+    blockVec.push_back(right);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(160);
+    p.setX(20);
+    p.setY(600);
+
+    end.draw();
+}
+
+void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {10,10,800,20};
+    SDL_Rect wall6 = {10,710,1000,200};
+    SDL_Rect wall7 = {1010,210,260,500};
+    Block topGray(10,10,800,20,renderer,wall5,false);
+    Block bottomGray(10,710,1000,200,renderer,wall6,false);
+    Block right(1010,210,260,500,renderer,wall7,true);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+
+    blockVec.push_back(topGray);
+    blockVec.push_back(bottomGray);
+    blockVec.push_back(right);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(160);
+    p.setX(20);
+    p.setY(600);
+
+    end.draw();
+}   
 
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
@@ -43,7 +205,6 @@ int main(int argc, char** argv) {
     SDL_Surface * image = SDL_LoadBMP("lols.bmp");
     SDL_Texture * currentimage = SDL_CreateTextureFromSurface(renderer, image);
     SDL_Rect playerRect = {600, 100, CHAR_WIDTH, CHAR_HEIGHT};
-    
     // player texture
     SDL_Rect animationRect;
     int framewidth, frameheight;
@@ -54,24 +215,37 @@ int main(int argc, char** argv) {
     animationRect.x = animationRect.y = 0;
     animationRect.w = framewidth;
     animationRect.h = frameheight;
-
     Player player(600, 100, CHAR_WIDTH, CHAR_HEIGHT, renderer, playerRect, currentimage);
+    // player.draw(&animationRect);
+
+    // end zone wall
+    SDL_Rect endBlock = {0,0,50,50};
+    EndZoneWall endWall(0,0,50,50, renderer, endBlock);
+
+    // portals
+
+    // block vector
+    vector<Block> blockVector;
+
+    // call the level function
+    level4(renderer, blockVector, endWall, player);
     player.draw(&animationRect);
     
+
     long int delayTime;
     clock_t start; clock_t end;
     
-    // test Block
-    SDL_Rect platform = {200,670,400,50};
-    Block block(200, 670, 400, 50, renderer, platform, false);
-    //block.draw();
-    vector<Block> vec;
-    vec.push_back(block);
-    SDL_Rect plat = {600, 620, 300, 100};
-    Block block2(600, 620, 300, 100, renderer, plat, true);
-    vec.push_back(block2);
-    //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
-    //SDL_RenderFillRect(renderer, &platform);
+    // // test Block
+    // SDL_Rect platform = {200,670,400,50};
+    // Block block(200, 670, 400, 50, renderer, platform, false);
+    // //block.draw();
+    // vector<Block> vec;
+    // vec.push_back(block);
+    // SDL_Rect plat = {600, 620, 300, 100};
+    // Block block2(600, 620, 300, 100, renderer, plat, true);
+    // vec.push_back(block2);
+    // //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
+    // //SDL_RenderFillRect(renderer, &platform);
     
     SDL_RenderPresent(renderer);
     
@@ -162,8 +336,8 @@ int main(int argc, char** argv) {
         
         // move the player to the new position based on current momentum
         // check if the player collides with its environment
-        player.updateX(vec);
-        player.updateY(vec, &ground, jump);
+        player.updateX(blockVector);
+        player.updateY(blockVector, &ground, jump);
         
         // update animation if necessary
         ++frameTime;
@@ -202,11 +376,14 @@ int main(int argc, char** argv) {
         // draw the player and its animation
         player.draw(&animationRect);
 
-        // draw some platforms
+        // draw the blocks for the level
         vector<Block>::iterator it;
-        for (it = vec.begin(); it != vec.end(); it++) {
+        for (it = blockVector.begin(); it != blockVector.end(); it++) {
             (*it).draw();
         }
+
+        // draw the end zone
+        endWall.draw();
 
         // switch buffer to display
         SDL_RenderPresent(renderer);
