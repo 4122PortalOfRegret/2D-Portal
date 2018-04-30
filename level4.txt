@@ -1,0 +1,43 @@
+#include <vector>
+
+void level1(){
+	SDL_Rect wall1;
+	SDL_Rect wall2;
+	SDL_Rect wall3;
+	SDL_Rect wall4;
+	SDL_Rect wall5;
+	SDL_Rect wall6;
+	SDL_Rect wall7;
+
+	BlackWall leftwall(0,0,10,720,renderer,&wall1);
+	BlackWall rightwall(0,1270,10,720,renderer,&wall2);
+	BlackWall topwall(0,10,1260,10,renderer,&wall3);
+	BlackWall bottomwall(710,10,1260,10,renderer,&wall4);
+
+	GrayWall topGray(10,10,800,20,rendered,&wall5);
+	GrayWall bottomGray(10,710,1000,200,rendered,&wall6);
+	BlackWall right(1010,210,260,500,rendered,&wall7);
+
+	std::vector<Block*> wallList;
+	wallList.push_back(&leftwall);
+	wallList.push_back(&rightwall);
+	wallList.push_back(&topwall);
+	wallList.push_back(&bottomwall);
+	wallList.push_back(&topGray);
+	wallList.push_back(&bottomGray);
+	wallList.push_back(&right);
+
+	for(auto i : wallList){
+		i->draw();
+	}
+
+	SDL_Rect wallExit;
+	SDL_Rect wallPlayer;
+	SDL_Rect wallOrange;
+	SDL_Rect wallBlue;
+
+	Exit exit(1170,160,50,50,rendered,&wallExit);
+	Player player(20,600,43,64,rendered,&wallPlayer);
+	Portal orange(0,0,0,0,rendered,&wallOrange);
+	Portal blue(0,0,0,0,rendered,&wallBlue);
+}	

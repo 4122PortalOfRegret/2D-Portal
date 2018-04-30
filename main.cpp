@@ -144,6 +144,9 @@ void updatey(const SDL_Rect &rect1, const SDL_Rect &rect2,int* xLoc, int* yLoc, 
 }
 
 
+void Portalhit(const SDL_Rect &player, int px,int py,)
+
+
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
         cout << "Something went wrong! " << SDL_GetError() << endl;
@@ -208,6 +211,7 @@ int main(int argc, char** argv) {
 
     SDL_Rect portal1;
     SDL_Rect portal2;
+
     
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
@@ -225,9 +229,13 @@ int main(int argc, char** argv) {
                     if (pastPress[LEFT_MOUSE] == 1) {
                         std::cout << "LEFT BUTTON PRESSED" << std::endl;
                         SDL_GetMouseState(&mouse_x,&mouse_y);
-                        SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
-                        SDL_SetRenderDrawColor(renderer, 255,128,0,130);
-                        SDL_RenderFillRect(renderer, &draw);
+                        portal1.x = mouse_x - 10;
+                        portal1.y = mouse_y - 10;
+                        portal1.w = 20;
+                        portal1.h = 20;
+                        // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+                        // SDL_RenderFillRect(renderer, &draw);
                     }
                 }
                 else if (events.button.button == SDL_BUTTON_RIGHT){
@@ -235,9 +243,13 @@ int main(int argc, char** argv) {
                     if (pastPress[RIGHT_MOUSE] == 1) {
                         std::cout << "RIGHT BUTTON PRESSED" << std::endl;
                         SDL_GetMouseState(&mouse_x,&mouse_y);
-                        SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
-                        SDL_SetRenderDrawColor(renderer, 0,128,255,130);
-                        SDL_RenderFillRect(renderer, &draw);
+                        portal1.x = mouse_x - 10;
+                        portal1.y = mouse_y - 10;
+                        portal2.w = 20;
+                        portal2.h = 20;
+                        // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+                        // SDL_RenderFillRect(renderer, &draw);
                     }
                 }
                 break;
@@ -383,8 +395,18 @@ int main(int argc, char** argv) {
         // draw some platforms
         SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         SDL_RenderFillRect(renderer, &platform);
+
+
+        // draw some portals
+        SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+        SDL_RenderFillRect(renderer, &portal1);
+
+        SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+        SDL_RenderFillRect(renderer, &portal2);
+                
         SDL_RenderPresent(renderer);
-        
+
+
         frameEnd = sc::high_resolution_clock::now();
         delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
         if(delayTime > 0) {

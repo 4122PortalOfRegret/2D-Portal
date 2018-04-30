@@ -1,13 +1,13 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "SDL.h"
+#include "utils.h"
 
 class Block
 {
     public:
         explicit Block();
-        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
+        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, bool t);
         int getX();
         int getY();
         //int getNewX();
@@ -18,6 +18,7 @@ class Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
+        SDL_Rect* getRectangle(); 
         void setColorR(Uint8 color);
         void setColorG(Uint8 color);
         void setColorB(Uint8 color);
@@ -26,6 +27,7 @@ class Block
         Uint8 getColorG();
         Uint8 getColorB();
         Uint8 getColorA();
+        bool getType();
 
         void draw();
         //void update();
@@ -43,6 +45,7 @@ class Block
         Uint8 alpha;
         SDL_Renderer* renderer;
         SDL_Rect rectangle;
+        bool type;
 };
 
 #endif

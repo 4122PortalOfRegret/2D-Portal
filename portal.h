@@ -1,9 +1,10 @@
 #ifndef PORTAL_H
 #define PORTAL_H
-#include "block.h"
+//#include "block.h"
+#include "utils.h"
 
 
-class Portal : public Block
+class Portal
 {
     public:
         explicit Portal(bool portalclr, bool vertOrHoriz, SDL_Renderer* ref);

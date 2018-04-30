@@ -1,5 +1,4 @@
 #include "block.h"
-#include "SDL.h"
 
 Block::Block() {
     setX(0);
@@ -12,17 +11,25 @@ Block::Block() {
     setColorA(255);
 }
 
-Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect) {
+Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, bool t) {
     setX(x);
     setY(y);
     setHeight(h);
     setWidth(w);
     renderer = r;
     rectangle = rect;
-    setColorR(100);
-    setColorB(100);
-    setColorG(100);
-    setColorA(255);
+    if (t) { // type = 1 means black wall
+        setColorR(0);
+        setColorG(0);
+        setColorB(0);
+        setColorA(255);
+    } else { // type = 0 means gray wall
+        setColorR(200);
+        setColorG(200);
+        setColorB(200);
+        setColorA(255);
+    }
+    type = t;
 }
 
 void Block::setX(int x){
@@ -77,6 +84,10 @@ int Block::getWidth(){
     return width;
 }
 
+SDL_Rect* Block::getRectangle() {
+    return &rectangle;
+}
+
 Uint8 Block::getColorR() {
 	  return red;
 }
@@ -109,10 +120,14 @@ void Block::setColorG(Uint8 g) {
 	  green = g;
 }
 
+bool Block::getType() {
+    return type;
+}
+
 void Block::draw() {
     // draw the block, should only need to draw one time
-    rectangle.x = xLoc;
-    rectangle.y = yLoc;
+    // rectangle.x = xLoc;
+    // rectangle.y = yLoc;
     SDL_SetRenderDrawColor(renderer, red, blue, green, alpha);
     SDL_RenderFillRect(renderer, &rectangle);
     //SDL_RenderPresent(renderer);
