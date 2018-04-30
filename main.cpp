@@ -5,6 +5,7 @@
 #include "portal.h"
 #include "portal.cpp"
 #include "utils.h"
+#include "math.h"
 using namespace std;
 
 #define LEFT_MOUSE 4
@@ -20,7 +21,114 @@ bool ground = true;
 
 
 
-//void Portalhit(const SDL_Rect &player, int px,int py,){}
+void Portalhit(vector<Block>& vec, const SDL_Rect &player, int prlx, int prly, SDL_Rect &portal){
+    double x = prlx - (player.x + CHAR_WIDTH/2);
+    double y = prly - (player.y + CHAR_HEIGHT/2);
+    double length = sqrt( x*x + y*y );
+
+    double addx = x / length;
+    double addy = y / length;
+
+    x = prlx;
+    y = prly;
+
+    while(x>0 && x<WINDOW_WIDTH && y>0 && y<WINDOW_HEIGHT)
+    {
+        cout << "what" << endl;
+      x += addx;
+      y += addy;
+    }
+
+    int playerheadx = player.x + CHAR_WIDTH/2;
+    int playerheady = player.y + CHAR_HEIGHT/2;
+
+    int pheadx = playerheadx;
+    int pheady = playerheady;
+
+    int minx;
+    int miny;
+    SDL_Rect* collisionRect;
+
+    double mindist = 9999;
+    double distance;
+
+    bool collide = false;
+
+    int x2 = (int)x;
+    int y2 = (int)y;
+
+    SDL_bool hit;
+
+    vector<Block>::iterator it;
+    for (it = vec.begin(); it != vec.end(); it++) {
+        SDL_Rect* rect2 = (*it).getRectangle();
+        hit = SDL_IntersectRectAndLine(rect2, &playerheadx , &playerheady,&x2,&y2);
+        if (hit){
+            collide = true;
+            distance = sqrt(pow((playerheadx - pheadx), 2) +  pow((playerheady - pheady), 2));
+            if (distance < mindist) {
+                collisionRect = rect2;
+                minx = playerheadx;
+                miny = playerheady;
+                mindist = distance;
+            }
+            distance = sqrt(pow((x2 - pheadx), 2) +  pow((y2 - pheady), 2));
+            if (distance < mindist) {
+                collisionRect = rect2;
+                minx = x2;
+                miny = y2;
+                mindist = distance;
+            }
+        }
+    }
+
+    if(collide) {
+        if (minx > collisionRect->x && minx < collisionRect->x + collisionRect->w && miny == collisionRect->y)                      // top
+        {
+            if (minx - 40 >= collisionRect->x && minx + 40 <= collisionRect->x + collisionRect->w){
+                portal.x = minx - 40;
+                portal.w = 80;
+                portal.y = miny - 5;
+                portal.h = 10;
+            }
+        return;
+        }
+
+        if (minx > collisionRect->x && minx < collisionRect->x + collisionRect->w && miny == collisionRect->y + collisionRect->h)    // bottom
+        {
+            if (minx - 40 >= collisionRect->x && minx + 40 <= collisionRect->x + collisionRect->w){
+                portal.x = minx - 40;
+                portal.w = 80;
+                portal.y = miny - 5;
+                portal.h = 10;
+            }
+        return;
+        }
+
+        if (miny > collisionRect->y && miny < collisionRect->y + collisionRect->h && minx == collisionRect->x)                      // left
+        {
+            if ((miny - 40) >= collisionRect->y && miny + 40 <= collisionRect->y + collisionRect->h){
+                portal.x = minx - 5;
+                portal.w = 10;
+                portal.y = miny - 40;
+                portal.h = 80;
+            }
+        return;
+        }
+
+        if (miny > collisionRect->y && miny < collisionRect->y + collisionRect->h && minx == collisionRect->x + collisionRect->w)                      // left
+        {
+            if (miny - 40 >= collisionRect->y && miny + 40 <= collisionRect->y + collisionRect->h){
+                portal.x = minx - 5;
+                portal.w = 10;
+                portal.y = miny - 40;
+                portal.h = 80;
+            }
+        return;
+        }
+    }
+
+}
 
 
 int main(int argc, char** argv) {
@@ -71,23 +179,21 @@ int main(int argc, char** argv) {
     clock_t start; clock_t end;
     
     // test Block
-    SDL_Rect platform = {200,670,400,50};
-    Block block(200, 670, 400, 50, renderer, platform, false);
-    //block.draw();
-    vector<Block> vec;
-    vec.push_back(block);
-    SDL_Rect plat = {600, 620, 300, 100};
-    Block block2(600, 620, 300, 100, renderer, plat, true);
+    // SDL_Rect platform = {200,670,400,50};
+    // Block block(200, 670, 400, 50, renderer, platform, false);
+     vector<Block> vec;
+    // vec.push_back(block);
+    SDL_Rect plat = {600, 420, 300, 300};
+    Block block2(600, 420, 300, 300, renderer, plat, true);
     vec.push_back(block2);
-    //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
-    //SDL_RenderFillRect(renderer, &platform);
+
     
     SDL_RenderPresent(renderer);
 
 
 
-    SDL_Rect portal1;
-    SDL_Rect portal2;
+    SDL_Rect portal1; //LEFT CLICK
+    SDL_Rect portal2; //RIGHT CLICK
     
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
@@ -106,10 +212,7 @@ int main(int argc, char** argv) {
                     if (pastPress[LEFT_MOUSE] == 1) {
                         std::cout << "LEFT BUTTON PRESSED" << std::endl;
                         SDL_GetMouseState(&mouse_x,&mouse_y);
-                        portal1.x = mouse_x - 10;
-                        portal1.y = mouse_y - 10;
-                        portal1.w = 20;
-                        portal1.h = 20;
+                        Portalhit(vec, playerRect, mouse_x, mouse_y, portal1);
                         // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
                         // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
                         // SDL_RenderFillRect(renderer, &draw);
@@ -120,10 +223,7 @@ int main(int argc, char** argv) {
                     if (pastPress[RIGHT_MOUSE] == 1) {
                         std::cout << "RIGHT BUTTON PRESSED" << std::endl;
                         SDL_GetMouseState(&mouse_x,&mouse_y);
-                        portal2.x = mouse_x - 10;
-                        portal2.y = mouse_y - 10;
-                        portal2.w = 20;
-                        portal2.h = 20;
+                        Portalhit(vec, playerRect, mouse_x, mouse_y, portal2);
                         // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
                         // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
                         // SDL_RenderFillRect(renderer, &draw);
