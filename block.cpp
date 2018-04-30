@@ -1,5 +1,4 @@
 #include "block.h"
-#include "SDL.h"
 
 Block::Block() {
     setX(0);
@@ -75,6 +74,10 @@ int Block::getHeight(){
 
 int Block::getWidth(){
     return width;
+}
+
+SDL_Rect* Block::getRectangle() {
+    return &rectangle;
 }
 
 Uint8 Block::getColorR() {

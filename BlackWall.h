@@ -1,4 +1,7 @@
-#include "Block.h"
+#ifndef BLACKWALL_H
+#define BLACKWALL_H
+#include "block.h"
+#include "utils.h"
 
 class BlackWall : public Block
 {
@@ -14,6 +17,7 @@ class BlackWall : public Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
+        SDL_Rect* getRectangle();
         void setColorR(Uint8 color);
         void setColorG(Uint8 color);
         void setColorB(Uint8 color);
@@ -41,3 +45,4 @@ class BlackWall : public Block
         Uint8 green;
         Uint8 alpha;
 };
+#endif

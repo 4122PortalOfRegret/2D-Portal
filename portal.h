@@ -1,6 +1,7 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 #include "block.h"
+#include "utils.h"
 
 
 class Portal : public Block

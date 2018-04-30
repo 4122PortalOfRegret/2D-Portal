@@ -1,4 +1,7 @@
-#include "Block.h"
+#ifndef GRAYWALL_H
+#define GRAYWALL_H
+#include "block.h"
+#include "utils.h"
 
 class GrayWall : public Block
 {
@@ -14,6 +17,7 @@ class GrayWall : public Block
         void setY(int y);
         void setHeight(int h);
         void setWidth(int w);
+        SDL_Rect* getRectangle();
         void setColorR(Uint8 color);
         void setColorG(Uint8 color);
         void setColorB(Uint8 color);
@@ -41,3 +45,4 @@ class GrayWall : public Block
         Uint8 green;
         Uint8 alpha;
 };
+#endif
