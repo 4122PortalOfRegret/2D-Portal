@@ -36,11 +36,11 @@ void Player::setWidth(int w) {
     rectangle.w = w;
 }
 int Player::getX() {
-    return Block::getX();
+    return xLoc;
 }
 
 int Player::getY() {
-    return Block::getY();
+    return yLoc;
 }
 
 int Player::getNewX() {
@@ -168,7 +168,7 @@ void Player::updateX(vector<Block>& vec) {
     int oldleft1 = rectangle.x - xSpeed;
     int oldright1 = rectangle.x + rectangle.w - xSpeed;
     
-    vector<Block*>::iterator it;
+    vector<Block>::iterator it;
     for (it = vec.begin(); it != vec.end(); it++) {
     //for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
         //SDL_Rect* rect2 = vec[i]->getRectangle();
@@ -212,7 +212,7 @@ void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
     int oldtop1 = rectangle.y - ySpeed;
     int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
     
-    vector<Block*>::iterator it;
+    vector<Block>::iterator it;
     for (it = vec.begin(); it != vec.end(); it++) {
     //for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
         //SDL_Rect* rect2 = vec[i]->getRectangle();
