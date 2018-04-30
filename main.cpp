@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
-    int pastPress[] = {0,0,0,0,0,0};
+    int pastPress[] = {0,0,0,0,0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
     SDL_Event event;
@@ -77,9 +77,9 @@ int main(int argc, char** argv) {
     vector<SDL_Rect> rectVector;
 
     // call the level function
-    level1(renderer, blockVector, endWall, player);
-    loadLevel = false;
-    player.draw(&animationRect);
+    // level0(renderer, rectVector);
+    // loadLevel = false;
+    // player.draw(&animationRect);
     
 
     long int delayTime;
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
     // //SDL_RenderFillRect(renderer, &platform);
     
     SDL_RenderPresent(renderer);
-    
+
     while(!quit){
         // level handling
         if (loadLevel == true) {
@@ -136,9 +136,8 @@ int main(int argc, char** argv) {
                     loadLevel = false;
                     player.draw(&animationRect);
                 default: 
-                    level1(renderer, blockVector, endWall, player);
+                    level0(renderer, rectVector);
                     loadLevel = false;
-                    player.draw(&animationRect);
                     break;
             }
         }
@@ -255,8 +254,11 @@ int main(int argc, char** argv) {
 
         // move the player to the new position based on current momentum
         // check if the player collides with its environment
-        player.updateX(blockVector);
-        player.updateY(blockVector, &ground, jump);
+        if (level != 0) {
+            player.updateX(blockVector);
+            player.updateY(blockVector, &ground, jump);
+        }
+        
 
         // check if player collides with exit
         if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
@@ -297,17 +299,30 @@ int main(int argc, char** argv) {
             }
         }
 
-        // draw the player and its animation
-        player.draw(&animationRect);
 
-        // draw the blocks for the level
-        vector<Block>::iterator it;
-        for (it = blockVector.begin(); it != blockVector.end(); it++) {
-            (*it).draw();
+        if (level != 0) {
+            // draw the player and its animation
+            player.draw(&animationRect);
+            // draw the blocks
+            vector<Block>::iterator it;
+            for (it = blockVector.begin(); it != blockVector.end(); it++) {
+                (*it).draw();
+            }
+            // draw the end zone
+            endWall.draw();
+            // draw the portals
+        } else {
+            int count = 0;
+            for(auto i : rectVector){
+                if (count % 2 == 0) {
+                    SDL_SetRenderDrawColor(renderer, 0, 120, 255, 255);
+                } else {
+                    SDL_SetRenderDrawColor(renderer, 253, 102, 0, 255);
+                }
+                SDL_RenderFillRect(renderer, &i);
+                count++;
+            }
         }
-
-        // draw the end zone
-        endWall.draw();
 
         // switch buffer to display
         SDL_RenderPresent(renderer);
@@ -327,15 +342,15 @@ int main(int argc, char** argv) {
 
 
 void level0(SDL_Renderer* renderer, vector<SDL_Rect>& rectVec){
-    SDL_Rect level1 = {1095,95,100,50};
-    SDL_Rect level2 = {1095,155,100,50};
-    SDL_Rect level3 = {1095,215,100,50};
-    SDL_Rect level4 = {1095,275,100,50};
-    SDL_Rect level5 = {1095,335,100,50};
-    SDL_Rect level6 = {1095,395,100,50};
-    SDL_Rect level7 = {1095,455,100,50};
-    SDL_Rect level8 = {1095,515,100,50};
-    SDL_Rect level9 = {1095,575,100,50};
+    SDL_Rect level1 = {1045,50,150,60};
+    SDL_Rect level2 = {1045,120,150,60};
+    SDL_Rect level3 = {1045,190,150,60};
+    SDL_Rect level4 = {1045,260,150,60};
+    SDL_Rect level5 = {1045,330,150,60};
+    SDL_Rect level6 = {1045,400,150,60};
+    SDL_Rect level7 = {1045,470,150,60};
+    SDL_Rect level8 = {1045,540,150,60};
+    SDL_Rect level9 = {1045,610,150,60};
 
     rectVec.push_back(level1);
     rectVec.push_back(level2);
