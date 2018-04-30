@@ -8,8 +8,7 @@
 #include "math.h"
 using namespace std;
 
-#define LEFT_MOUSE 4
-#define RIGHT_MOUSE 5  
+
 
 // globals
 auto frameStart = sc::high_resolution_clock::now();
@@ -209,10 +208,10 @@ int main(int argc, char** argv) {
     clock_t start; clock_t end;
     
     // test Block
-    // SDL_Rect platform = {200,670,400,50};
-    // Block block(200, 670, 400, 50, renderer, platform, false);
-     vector<Block> vec;
-    // vec.push_back(block);
+    SDL_Rect platform = {200,670,400,50};
+    Block block(200, 670, 400, 50, renderer, platform, false);
+    vector<Block> vec;
+    vec.push_back(block);
     SDL_Rect plat = {600, 420, 300, 300};
     Block block2(600, 420, 300, 300, renderer, plat, true);
     vec.push_back(block2);

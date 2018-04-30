@@ -150,6 +150,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
     int minx;
     int miny;
     SDL_Rect* collisionRect;
+    Block collideBlock;
 
     double mindist = 9999;
     double distance;
@@ -176,6 +177,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
             distance = sqrt(pow((playerheadx - pheadx), 2) +  pow((playerheady - pheady), 2));
             if (distance < mindist) {
                 collisionRect = rect2;
+                collideBlock = *it;
                 minx = playerheadx;
                 miny = playerheady;
                 mindist = distance;
@@ -195,7 +197,9 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
     }
 
     bool valid = false;
-
+    if(collideBlock.getType()) {
+      return;
+    }
     if(collide) {
         if (minx > collisionRect->x && minx < collisionRect->x + collisionRect->w && miny == collisionRect->y)                      // top
         {
