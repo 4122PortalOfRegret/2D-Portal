@@ -23,6 +23,7 @@ Portal::Portal(bool portalclr, SDL_Renderer* ref) {
       setColorG(102);
       setColorB(0);
     }
+    side = TOP;
 	//renderer = ref;
   }
 
@@ -167,6 +168,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
     int oldYLoc = yLoc;
     int oldHeight = height;
     int oldWidth = width;
+    int oldSide = side;
 
     vector<Block>::iterator it;
     for (it = vec.begin(); it != vec.end(); it++) {
@@ -209,7 +211,8 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 width = 80;
                 yLoc = miny - 5;
                 height = 10;
-                valid = true;                
+                valid = true;
+                side = TOP;
             }
         }
 
@@ -221,7 +224,8 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 width = 80;
                 yLoc = miny - 5;
                 height = 10;
-                valid = true;               
+                valid = true;
+                side = BOTTOM;
             }
         }
 
@@ -233,7 +237,8 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 width = 10;
                 yLoc = miny - 40;
                 height = 80;
-                valid = true;               
+                valid = true;
+                side = LEFT;
             }
         }
 
@@ -245,7 +250,8 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 width = 10;
                 yLoc = miny - 40;
                 height = 80;
-                valid = true;              
+                valid = true;
+                side = RIGHT;
             }
         }
     }
@@ -263,6 +269,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 yLoc = oldYLoc;
                 height = oldHeight;
                 width = oldWidth;
+                side = oldSide;
                 return;
               }
           }
@@ -275,6 +282,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
                 yLoc = oldYLoc;
                 height = oldHeight;
                 width = oldWidth;
+                side = oldSide;
                 return;
           }
         }

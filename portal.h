@@ -41,6 +41,7 @@ class Portal
         SDL_Renderer* renderer;
         //int newXLoc;
         //int newYLoc;
+        int side;
         int height;
         int width;
         Uint8 red;

@@ -17,6 +17,10 @@ const int GRAVITY = 10;
 const int CHAR_WIDTH = 43;
 const int CHAR_HEIGHT = 64;
 const int FRAMES_PER_SEC = 20;
+const int LEFT = 0;
+const int RIGHT = 1;
+const int TOP = 2;
+const int BOTTOM = 3;
 
 enum STATE {BUTTON_PRESS, DECELERATE, DESCEND, FREEFALL, READY};
 
