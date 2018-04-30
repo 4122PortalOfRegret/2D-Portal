@@ -6,9 +6,9 @@ EndZoneWall::EndZoneWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect
 	setY(y);
 	setHeight(h);
 	setWidth(w);
-    setColorR(171);
-    setColorG(130);
-    setColorB(255);
+    setColorR(0);
+    setColorG(255);
+    setColorB(0);
     setColorA(255);
 	rectangle = rect;
 	renderer = ref;
@@ -111,6 +111,6 @@ void EndZoneWall::draw() {
         //rectangle.x = xLoc;
         //rectangle.y = yLoc;
         //SDL_Rect rectangle = {xLoc, yLoc, width, height};
-        SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
+        SDL_SetRenderDrawColor(renderer, 46,139,87, 255);
         SDL_RenderFillRect(renderer, &rectangle);
 }

@@ -1,11 +1,7 @@
 #include "block.h"
 #include "player.h"
-#include "block.cpp"
-#include "player.cpp"
 #include "portal.h"
-#include "portal.cpp"
 #include "EndZoneWall.h"
-#include "EndZoneWall.cpp"
 #include "utils.h"
 using namespace std;
 
@@ -16,6 +12,9 @@ auto frameEnd = sc::high_resolution_clock::now();
 STATE jump = READY;
 bool canJump = false;
 bool ground = true;
+
+int level = 1;
+bool loadLevel = true;
 
 void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
     SDL_Rect wall1 = {0,0,10,720};
@@ -44,7 +43,7 @@ void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(660);
+    end.setY(710-CHAR_HEIGHT);
     p.setX(20);
     p.setY(640);
 
@@ -91,7 +90,7 @@ void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(660);
+    end.setY(710-CHAR_HEIGHT);
     p.setX(240);
     p.setY(500);
 
@@ -132,7 +131,7 @@ void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(160);
+    end.setY(210-CHAR_HEIGHT);
     p.setX(20);
     p.setY(600);
 
@@ -170,7 +169,7 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(160);
+    end.setY(210-CHAR_HEIGHT);
     p.setX(20);
     p.setY(600);
 
@@ -219,8 +218,8 @@ int main(int argc, char** argv) {
     // player.draw(&animationRect);
 
     // end zone wall
-    SDL_Rect endBlock = {0,0,50,50};
-    EndZoneWall endWall(0,0,50,50, renderer, endBlock);
+    SDL_Rect endBlock = {0,0,CHAR_WIDTH/2,CHAR_HEIGHT};
+    EndZoneWall endWall(0,0,CHAR_WIDTH/2,CHAR_HEIGHT, renderer, endBlock);
 
     // portals
 
@@ -228,7 +227,8 @@ int main(int argc, char** argv) {
     vector<Block> blockVector;
 
     // call the level function
-    level4(renderer, blockVector, endWall, player);
+    level1(renderer, blockVector, endWall, player);
+    loadLevel = false;
     player.draw(&animationRect);
     
 
@@ -250,6 +250,40 @@ int main(int argc, char** argv) {
     SDL_RenderPresent(renderer);
     
     while(!quit){
+        // level handling
+        if (loadLevel == true) {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
+            SDL_RenderClear(renderer);
+            blockVector.clear();
+            switch(level) {
+                case 1:
+                    level1(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 2:
+                    level2(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 3:
+                    level3(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 4:
+                    level4(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                default: 
+                    level1(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+            }
+        }
+
         frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
         if(events.type == SDL_QUIT) {
@@ -260,6 +294,21 @@ int main(int argc, char** argv) {
         const Uint8 *state = SDL_GetKeyboardState(NULL);
         
         // use the arrow keys to control the player
+        if(state[SDL_SCANCODE_R]) {
+            loadLevel = true;
+        }
+        // if(state[SDL_SCANCODE_LEFT]) {
+        //     level--;
+        //     loadLevel = true;
+        //     if (level < 1)
+        //         level = 1;
+        // }
+        // if(state[SDL_SCANCODE_RIGHT]) {
+        //     level++;
+        //     loadLevel = true;
+        //     if (level > 4)
+        //         level = 4;
+        // }
         player.setXSpeed(0);
         if(state[SDL_SCANCODE_A]) {
             player.changeXSpeed(-5);
@@ -333,11 +382,21 @@ int main(int argc, char** argv) {
                 player.setYSpeed(GRAVITY);
                 break;
         }
-        
+
         // move the player to the new position based on current momentum
         // check if the player collides with its environment
         player.updateX(blockVector);
         player.updateY(blockVector, &ground, jump);
+
+        // check if player collides with exit
+        if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
+            loadLevel = true;
+            level++;
+            if (level > 4)
+                level = 4;
+        }
+
+        // check it player collides with portal
         
         // update animation if necessary
         ++frameTime;
