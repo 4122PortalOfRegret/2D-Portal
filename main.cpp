@@ -7,6 +7,9 @@
 #include "utils.h"
 using namespace std;
 
+#define LEFT_MOUSE 4
+#define RIGHT_MOUSE 5  
+
 // globals
 auto frameStart = sc::high_resolution_clock::now();
 auto frameEnd = sc::high_resolution_clock::now();
@@ -14,6 +17,11 @@ auto frameEnd = sc::high_resolution_clock::now();
 STATE jump = READY;
 bool canJump = false;
 bool ground = true;
+
+
+
+//void Portalhit(const SDL_Rect &player, int px,int py,){}
+
 
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
@@ -24,7 +32,7 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
-    int pastPress[] = {0,0,0,0};
+    int pastPress[] = {0,0,0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
     SDL_Event event;
@@ -32,6 +40,7 @@ int main(int argc, char** argv) {
     int y = 208;
     const int FPS = 60;
     int frameTime;
+        int mouse_x, mouse_y;
     
     SDL_Renderer* renderer;
     SDL_Event events;
@@ -74,6 +83,11 @@ int main(int argc, char** argv) {
     //SDL_RenderFillRect(renderer, &platform);
     
     SDL_RenderPresent(renderer);
+
+
+
+    SDL_Rect portal1;
+    SDL_Rect portal2;
     
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
@@ -81,6 +95,52 @@ int main(int argc, char** argv) {
         if(events.type == SDL_QUIT) {
             quit = true;
         }
+        switch (events.type)
+        {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (events.button.button == SDL_BUTTON_LEFT) {
+                    pastPress[LEFT_MOUSE]++;
+                    if (pastPress[LEFT_MOUSE] == 1) {
+                        std::cout << "LEFT BUTTON PRESSED" << std::endl;
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        portal1.x = mouse_x - 10;
+                        portal1.y = mouse_y - 10;
+                        portal1.w = 20;
+                        portal1.h = 20;
+                        // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+                        // SDL_RenderFillRect(renderer, &draw);
+                    }
+                }
+                else if (events.button.button == SDL_BUTTON_RIGHT){
+                    pastPress[RIGHT_MOUSE]++;
+                    if (pastPress[RIGHT_MOUSE] == 1) {
+                        std::cout << "RIGHT BUTTON PRESSED" << std::endl;
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        portal2.x = mouse_x - 10;
+                        portal2.y = mouse_y - 10;
+                        portal2.w = 20;
+                        portal2.h = 20;
+                        // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+                        // SDL_RenderFillRect(renderer, &draw);
+                    }
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if(events.button.button == SDL_BUTTON_LEFT) {
+                    pastPress[LEFT_MOUSE] = 0;
+                } else if (events.button.button == SDL_BUTTON_RIGHT) {
+                    pastPress[RIGHT_MOUSE] = 0;
+                }
+                break;
+            default:
+                break;
+        }
+
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
         SDL_RenderClear(renderer);
         const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -209,6 +269,16 @@ int main(int argc, char** argv) {
         }
 
         // switch buffer to display
+
+        // draw portals
+
+        SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+        SDL_RenderFillRect(renderer, &portal1);
+
+        SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+        SDL_RenderFillRect(renderer, &portal2);
+                
+
         SDL_RenderPresent(renderer);
         
         frameEnd = sc::high_resolution_clock::now();
