@@ -154,10 +154,10 @@ void Player::updateX(vector<Block*>& vec) {
         return;
     rectangle.x = rectangle.x + xSpeed;
     
-    if (newXLoc < 0)
-        newXLoc = 0;
-    if (newXLoc > WINDOW_WIDTH - CHAR_WIDTH)
-        newXLoc = WINDOW_WIDTH - CHAR_WIDTH;
+    if (rectangle.x < 0)
+        rectangle.x = 0;
+    if (rectangle.x > WINDOW_WIDTH - CHAR_WIDTH)
+        rectangle.x = WINDOW_WIDTH - CHAR_WIDTH;
     
     int left1 = rectangle.x;                    // playerx
     int right1 = rectangle.x + rectangle.w;         // playerx+width
@@ -195,7 +195,7 @@ void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
         return;
     
     rectangle.y = rectangle.y + ySpeed;
-    if (newYLoc < 0)
+    if (rectangle.y < 0)
         rectangle.y = 0;
     if (rectangle.y > WINDOW_HEIGHT - CHAR_HEIGHT) {
         rectangle.y = WINDOW_HEIGHT - CHAR_HEIGHT;
