@@ -11,17 +11,25 @@ Block::Block() {
     setColorA(255);
 }
 
-Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect) {
+Block::Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, type t) {
     setX(x);
     setY(y);
     setHeight(h);
     setWidth(w);
     renderer = r;
     rectangle = rect;
-    setColorR(100);
-    setColorB(100);
-    setColorG(100);
-    setColorA(255);
+    if (type) { // type = 1 means black wall
+        setColorR(0);
+        setColorG(0);
+        setColorB(0);
+        setColorA(255);
+    } else { // type = 0 means gray wall
+        setColorR(200);
+        setColorG(200);
+        setColorB(200);
+        setColorA(255);
+    }
+    type = t;
 }
 
 void Block::setX(int x){
@@ -112,10 +120,10 @@ void Block::setColorG(Uint8 g) {
 	  green = g;
 }
 
-void Block::draw() {
+virtual void Block::draw() {
     // draw the block, should only need to draw one time
-    rectangle.x = xLoc;
-    rectangle.y = yLoc;
+    // rectangle.x = xLoc;
+    // rectangle.y = yLoc;
     SDL_SetRenderDrawColor(renderer, red, blue, green, alpha);
     SDL_RenderFillRect(renderer, &rectangle);
     //SDL_RenderPresent(renderer);

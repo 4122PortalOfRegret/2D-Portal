@@ -67,10 +67,10 @@ int main(int argc, char** argv) {
     
     // test Block
     SDL_Rect platform = {200,670,400,50};
-    BlackWall block(200, 670, 400, 50, renderer, platform);
+    Block block(200, 670, 400, 50, renderer, platform, true);
     //block.draw();
-    vector<Block*> vec;
-    vec.push_back(&block);
+    vector<Block> vec;
+    vec.push_back(block);
     //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
     //SDL_RenderFillRect(renderer, &platform);
     
@@ -164,7 +164,8 @@ int main(int argc, char** argv) {
         // move the player to the new position based on current momentum
         // check if the player collides with its environment
         player.updateX(vec);
-        player.updateY(vec,&ground, jump);
+        player.updateY(vec, &ground, jump);
+        cout << "return from update" << endl;
         
         // update animation if necessary
         ++frameTime;
@@ -205,14 +206,17 @@ int main(int argc, char** argv) {
 
         // draw some platforms
         //vector<Block*>::iterator it;
-        vector<Block*>::iterator it;
-        it = vec.begin();
-        (*it)->draw();
+        vector<Block>::iterator it;
+        // it = vec.begin();
+        // (*it)->draw();
         // cout << vec.size() << endl;
-        // for (it = vec.begin(); it != vec.end(); it++) {
-        //     (*it)->draw();
-        // }
-        //block.draw();
+        for (it = vec.begin(); it != vec.end(); it++) {
+            Block temp = *it;
+            temp.draw();
+            // (*it)->draw();
+        }
+        cout << "return from draw" << endl;
+        // block.draw();
         //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
         //SDL_RenderFillRect(renderer, &platform);
 

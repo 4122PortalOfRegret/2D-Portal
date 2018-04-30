@@ -7,7 +7,7 @@ class Block
 {
     public:
         explicit Block();
-        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect);
+        explicit Block(int x, int y, int w, int h, SDL_Renderer* r, SDL_Rect& rect, bool t);
         int getX();
         int getY();
         //int getNewX();
@@ -28,7 +28,7 @@ class Block
         Uint8 getColorB();
         Uint8 getColorA();
 
-        void draw();
+        virtual void draw();
         //void update();
        
     private:
@@ -44,6 +44,7 @@ class Block
         Uint8 alpha;
         SDL_Renderer* renderer;
         SDL_Rect rectangle;
+        bool type;
 };
 
 #endif
