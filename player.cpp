@@ -1,7 +1,7 @@
 #include "player.h"
 using namespace std;
 
-Player::Player() : Block() {
+Player::Player() : {
     setColorR(216);
     setColorG(191);
     setColorB(216);
