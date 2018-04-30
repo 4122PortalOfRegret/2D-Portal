@@ -1,9 +1,9 @@
 #ifndef ENDZONEWALL_H
 #define ENDZONEWALL_H
-#include "block.h"
+//#include "block.h"
 #include "utils.h"
 
-class EndZoneWall : public Block
+class EndZoneWall 
 {
     public:
         explicit EndZoneWall(int x, int y, int h, int w, SDL_Renderer* ref, SDL_Rect& rect);
