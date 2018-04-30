@@ -1,4 +1,5 @@
 #include "player.h"
+#include "block.h"
 using namespace std;
 
 Player::Player() : {
@@ -61,11 +62,11 @@ void Player::setY(int y) {
 }
 
 int Player::getHeight() {
-    return Block::getHeight();
+    return height;
 }
 
 int Player::getWidth() {
-    return Block::getWidth();
+    return width;
 }
 
 SDL_Rect* Player::getRectangle() {
@@ -113,19 +114,19 @@ void Player::setColorA(Uint8 color) {
 }
 
 Uint8 Player::getColorR() {
-    return Block::getColorR();
+    return red;
 }
 
 Uint8 Player::getColorG() {
-    return Block::getColorG();
+    return green;
 }
 
 Uint8 Player::getColorB() {
-    return Block::getColorB();
+    return blue;
 }
 
 Uint8 Player::getColorA() {
-    return Block::getColorA();
+    return alpha;
 }
 
 // move the player to a new location based on speeds
@@ -149,7 +150,7 @@ Uint8 Player::getColorA() {
 //     }
 // }
 
-void Player::updateX(vector<Block*>& vec) {
+void Player::updateX(vector<Block>& vec) {
     if (xSpeed == 0)
         return;
     rectangle.x = rectangle.x + xSpeed;
@@ -191,7 +192,7 @@ void Player::updateX(vector<Block*>& vec) {
     return;
 }
 
-void Player::updateY(vector<Block*>& vec, bool* ground, STATE& lols) {
+void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
     if (ySpeed == 0)
         return;
     
