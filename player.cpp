@@ -280,9 +280,9 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
         switch (orange.getSide()) {
             case TOP:
                 setX(orange.getX() + orange.getWidth()/2 - CHAR_WIDTH/2);
-                setY(orange.getY() - CHAR_HEIGHT/2 - 25);
-                setXSpeed(0);
-                setYSpeed(-20);
+                setY(orange.getY() - CHAR_HEIGHT/2 - 5);
+                setXSpeed(oldXSpeed);
+                setYSpeed(-30);
                 /*
                 switch (blue.getSide()) {
                     case TOP:
@@ -333,7 +333,6 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                         break;
                 }
                 */
-                jumpState = FREEFALL;
                 break;
             case RIGHT:
                 setX(orange.getX() + orange.getWidth() + 25);
@@ -362,11 +361,10 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                         break;
                 }
                 */
-                jumpState = FREEFALL;
                 break;
             case BOTTOM:
                 setX(orange.getX() + orange.getWidth()/2 - CHAR_WIDTH/2);
-                setY(orange.getY() + orange.getHeight() + 25);
+                setY(orange.getY() + orange.getHeight() + 5);
                 setYSpeed(20);
                 setXSpeed(0);
                 /*
@@ -395,7 +393,8 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
             default:
                 break;
         }
-	    return true;
+        jumpState = DESCEND;
+        return true;
     } else if(SDL_HasIntersection(orange.getRect(), &rectangle)){
         //cout << "touching orange portal" << endl;
         // TELEPORT TO BLUE PORTAL
@@ -404,9 +403,9 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
         switch (blue.getSide()) {
             case TOP:
                 setX(blue.getX() + blue.getWidth()/2 - CHAR_WIDTH/2);
-                setY(blue.getY() - CHAR_HEIGHT/2 - 25);
-                setXSpeed(0);
-                setYSpeed(-20);
+                setY(blue.getY() - CHAR_HEIGHT/2 - 5);
+                setXSpeed(oldXSpeed);
+                setYSpeed(-30);
                 /*
                 switch (orange.getSide()) {
                     case TOP:
@@ -457,7 +456,6 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                         break;
                 }
                 */
-                jumpState = FREEFALL;
                 break;
             case RIGHT:
                 setX(blue.getX() + blue.getWidth() + 25);
@@ -486,11 +484,10 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                         break;
                 }
                 */
-                jumpState = FREEFALL;
                 break;
             case BOTTOM:
                 setX(blue.getX() + blue.getWidth()/2 - CHAR_WIDTH/2);
-                setY(blue.getY() + blue.getHeight() + 25);
+                setY(blue.getY() + blue.getHeight() + 5);
                 setXSpeed(0);
                 setYSpeed(20);
                 /*
@@ -519,6 +516,7 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
             default:
                 break;
         }
+        jumpState = DESCEND;
 	    return true;
     }
     rectangle.x -= xSpeed;

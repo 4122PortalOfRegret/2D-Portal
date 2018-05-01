@@ -320,7 +320,7 @@ int main(int argc, char** argv) {
                 break;
             case DESCEND     :
                 player.changeYSpeed(5);
-                if (player.getYSpeed() == 20) {
+                if (player.getYSpeed() >= 20) {
                     jump = FREEFALL;
                     start = clock();
                 }
@@ -328,7 +328,7 @@ int main(int argc, char** argv) {
             case FREEFALL    :
                 jumpframes = 0;
                 player.setYSpeed(20);
-                if (canJump && ground) {
+                if (ground) {
                     jump = READY;
                 }
                 break;
@@ -343,10 +343,10 @@ int main(int argc, char** argv) {
             // check if the player collides with its environment
             hasTeleported = player.teleport(portal1, portal2, jump);
 
-            if(!hasTeleported) {
-                player.updateX(blockVector);
-                player.updateY(blockVector, &ground, jump);
-            }
+
+            player.updateX(blockVector);
+            player.updateY(blockVector, &ground, jump);
+
 
             // check if player collides with exit
             if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
