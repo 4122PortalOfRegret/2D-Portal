@@ -1,4 +1,4 @@
-void levelY(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+void level8188128318(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
@@ -8,12 +8,20 @@ void levelY(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {700,150,510,570};
-    SDL_Rect wall6 = {1265,10,5,150};
-    SDL_Rect wall7 = {100,10,350,5};
-    Block bwall5(700,150,510,570,renderer, wall5, true);
-    Block bwall6(1265,10,5,150,renderer, wall6, false);
-    Block bwall7(100,10,350,5,renderer, wall7, false);
+    SDL_Rect wall5 = {150,660,30,50};
+    SDL_Rect wall6 = {180,630,30,90};
+    SDL_Rect wall7 = {280,600,30,120};
+    SDL_Rect wall8 = {400,570,30,150};
+    SDL_Rect wall9 = {540,540,30,180};
+    SDL_Rect walla = {700,510,30,210};
+    SDL_Rect wallb = {860,480,30,240};
+    Block bwall5(150,660,30,50,renderer, wall5, true);
+    Block bwall6(180,630,30,90,renderer, wall6, true);
+    Block bwall7(280,600,30,120,renderer, wall7, true);
+    Block bwall8(400,570,30,150,renderer, wall8, true);
+    Block bwall9(540,540,30,180,renderer, wall9, true);
+    Block bwalla(700,510,30,210,renderer, walla, true);
+    Block bwallb(860,480,30,240,renderer, wallb, true);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
@@ -22,6 +30,10 @@ void levelY(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     blockVec.push_back(bwall5);
     blockVec.push_back(bwall6);
     blockVec.push_back(bwall7);
+    blockVec.push_back(bwall8);
+    blockVec.push_back(bwall9);
+    blockVec.push_back(bwalla);
+    blockVec.push_back(bwallb);
 
     for(auto i : blockVec){
         i.draw();
@@ -29,7 +41,7 @@ void levelY(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
 
     end.setX(1170);
     end.setY(650);
-    p.setX(200);
+    p.setX(75);
     p.setY(640);
 
     end.draw();
