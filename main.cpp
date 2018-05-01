@@ -48,6 +48,10 @@ int main(int argc, char** argv) {
     renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
+
+    // splash screen
+    SDL_Surface * img = SDL_LoadBMP("splash screen.bmp");
+    SDL_Texture * splashScreen = SDL_CreateTextureFromSurface(renderer, img);
     
     // player
     SDL_Surface * image = SDL_LoadBMP("lols.bmp");
@@ -312,6 +316,7 @@ int main(int argc, char** argv) {
             endWall.draw();
             // draw the portals
         } else {
+            SDL_RenderCopy(renderer, splashScreen, NULL, NULL);
             int count = 0;
             for(auto i : rectVector){
                 if (count % 2 == 0) {
