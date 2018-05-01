@@ -136,7 +136,6 @@ int main(int argc, char** argv) {
                     } else {
                         pastPress[LEFT_MOUSE]++;
                         if (pastPress[LEFT_MOUSE] == 1) {
-                            std::cout << "LEFT BUTTON PRESSED" << std::endl;
                             SDL_GetMouseState(&mouse_x,&mouse_y);
                             portal1.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal2);
                             // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
@@ -148,7 +147,6 @@ int main(int argc, char** argv) {
                 else if (events.button.button == SDL_BUTTON_RIGHT){
                     pastPress[RIGHT_MOUSE]++;
                     if (pastPress[RIGHT_MOUSE] == 1) {
-                        std::cout << "RIGHT BUTTON PRESSED" << std::endl;
                         SDL_GetMouseState(&mouse_x,&mouse_y);
                         portal2.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal1);
                         // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};

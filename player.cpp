@@ -307,7 +307,7 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                 */
                 break;
             case LEFT:
-                setX(orange.getX() - CHAR_WIDTH/2 - 25);
+                setX(orange.getX() - CHAR_WIDTH/2 - 5);
                 setY(orange.getY() + orange.getHeight()/2 - CHAR_HEIGHT/2);
                 setXSpeed(-20);
                 setYSpeed(0);
@@ -335,7 +335,7 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                 */
                 break;
             case RIGHT:
-                setX(orange.getX() + orange.getWidth() + 25);
+                setX(orange.getX() + orange.getWidth() + 5);
                 setY(orange.getY() + orange.getWidth()/2 - CHAR_WIDTH/2);
                 setYSpeed(0);
                 setXSpeed(20);
@@ -430,7 +430,7 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                 */
                 break;
             case LEFT:
-                setX(blue.getX() - CHAR_WIDTH/2 - 25);
+                setX(blue.getX() - CHAR_WIDTH/2 - 5);
                 setY(blue.getY() + blue.getHeight()/2 - CHAR_HEIGHT/2);
                 setXSpeed(-20);
                 setYSpeed(0);
@@ -458,7 +458,7 @@ bool Player::teleport(Portal blue, Portal orange, STATE& jumpState) {
                 */
                 break;
             case RIGHT:
-                setX(blue.getX() + blue.getWidth() + 25);
+                setX(blue.getX() + blue.getWidth() + 5);
                 setY(blue.getY() + blue.getWidth()/2 - CHAR_WIDTH/2);
                 setXSpeed(20);
                 setYSpeed(0);

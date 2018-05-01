@@ -212,7 +212,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
     if(collide) {
         if (minx > collisionRect->x && minx < collisionRect->x + collisionRect->w && miny == collisionRect->y)                      // top
         {
-            cout << "top" << endl;
+            //cout << "top" << endl;
             if (minx - 40 >= collisionRect->x && minx + 40 <= collisionRect->x + collisionRect->w){
                 xLoc = minx - 40;
                 width = 80;
@@ -225,7 +225,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
 
         if (minx > collisionRect->x && minx < collisionRect->x + collisionRect->w && miny == collisionRect->y + collisionRect->h - 1)    // bottom
         {
-                        cout << "bot" << endl;
+                        //cout << "bot" << endl;
             if (minx - 40 >= collisionRect->x && minx + 40 <= collisionRect->x + collisionRect->w){
                 xLoc = minx - 40;
                 width = 80;
@@ -238,7 +238,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
 
         if (miny > collisionRect->y && miny < collisionRect->y + collisionRect->h && minx == collisionRect->x)                      // left
         {
-                        cout << "lef" << endl;
+                        //cout << "lef" << endl;
             if ((miny - 40) >= collisionRect->y && miny + 40 <= collisionRect->y + collisionRect->h){
                 xLoc = minx - 5;
                 width = 10;
@@ -251,7 +251,7 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
 
         if (miny > collisionRect->y && miny < collisionRect->y + collisionRect->h && minx == collisionRect->x + collisionRect->w - 1)                      // right
         {
-                        cout << "right" << endl;
+                        //cout << "right" << endl;
             if (miny - 40 >= collisionRect->y && miny + 40 <= collisionRect->y + collisionRect->h){
                 xLoc = minx - 5;
                 width = 10;
