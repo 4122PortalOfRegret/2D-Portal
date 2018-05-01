@@ -14,7 +14,7 @@ bool ground = true;
 
 int level = 0;
 bool loadLevel = true;
-const int NUM_LEVELS = 5;
+const int NUM_LEVELS = 7;
 
 void level0(SDL_Renderer* renderer, vector<SDL_Rect>& rectVec);
 void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
@@ -22,6 +22,8 @@ void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
 void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
+void level6(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
+void level7(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 
 
 int main(int argc, char** argv) {
@@ -202,6 +204,16 @@ int main(int argc, char** argv) {
                     break;
                 case 5:
                     level5(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 6:
+                    level6(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 7:
+                    level7(renderer, blockVector, endWall, player);
                     loadLevel = false;
                     player.draw(&animationRect);
                     break;
@@ -627,9 +639,89 @@ void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(660);
+    end.setY(646);
     p.setX(200);
     p.setY(640);
+
+    end.draw();
+}
+
+void level6(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p) {
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {700,150,510,570};
+    SDL_Rect wall6 = {1265,10,5,150};
+    SDL_Rect wall7 = {100,10,350,5};
+    Block hellowall(700,150,510,570,renderer, wall5, true);
+    Block hellowall2(1265,10,5,150,renderer, wall6, false);
+    Block hellowall3(100,10,350,5,renderer, wall7, false);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+    blockVec.push_back(hellowall);
+    blockVec.push_back(hellowall2);
+    blockVec.push_back(hellowall3);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1070);
+    end.setY(86);
+    p.setX(200);
+    p.setY(640);
+
+    end.draw();
+}
+
+void level7(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p) {
+    SDL_Rect wall1 = {0,0,10,720};
+    SDL_Rect wall2 = {1270,0,10,720};
+    SDL_Rect wall3 = {10,0,1260,10};
+    SDL_Rect wall4 = {10,710,1260,10};
+    Block leftwall(0,0,10,720,renderer, wall1, true);
+    Block rightwall(1270,0,10,720,renderer, wall2, true);
+    Block topwall(10,0,1260,10,renderer, wall3, true);
+    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+
+    SDL_Rect wall5 = {0,200,400,510};  // built
+    SDL_Rect wall6 = {950,520,320,190}; // built
+    SDL_Rect wall7 = {520,10,300,600};  // built
+    SDL_Rect wall8 = {400,705,550,5};   // built
+    SDL_Rect wall9 = {280,10,100,5};    // built
+    Block b_wall5(0,200,400,510,renderer, wall5, true);
+    Block b_wall6(950,520,320,190,renderer, wall6, true);
+    Block b_wall7(520,10,300,600,renderer, wall7, true);
+    Block b_wall8(400,705,550,5,renderer, wall8, false);
+    Block b_wall9(280,10,100,5,renderer, wall9, false);
+
+    blockVec.push_back(leftwall);
+    blockVec.push_back(rightwall);
+    blockVec.push_back(topwall);
+    blockVec.push_back(bottomwall);
+    blockVec.push_back(b_wall5);
+    blockVec.push_back(b_wall6);
+    blockVec.push_back(b_wall7);
+    blockVec.push_back(b_wall8);
+    blockVec.push_back(b_wall9);
+
+    for(auto i : blockVec){
+        i.draw();
+    }
+
+    end.setX(1170);
+    end.setY(456);
+    p.setX(25);
+    p.setY(125);
 
     end.draw();
 }
