@@ -8,20 +8,24 @@ void level8188128318(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWal
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {150,660,30,50};
-    SDL_Rect wall6 = {180,630,30,90};
-    SDL_Rect wall7 = {280,600,30,120};
-    SDL_Rect wall8 = {400,570,30,150};
-    SDL_Rect wall9 = {540,540,30,180};
-    SDL_Rect walla = {700,510,30,210};
-    SDL_Rect wallb = {860,480,30,240};
+    SDL_Rect wall5 = {150,0,20,300};    //done
+    SDL_Rect wall6 = {150,500,20,220};   // done
+    SDL_Rect wall7 = {170,640,10,80};    // done
+    SDL_Rect wall8 = {400,0,20,600};     // done
+    SDL_Rect wall9 = {390,200,10,150};   // done
+    SDL_Rect wallc = {420,200,10,150};   // done
+    SDL_Rect walla = {700,220,50,500};   // done
+    SDL_Rect wallb = {1000,150,20,570};
+    SDL_Rect walld = {1050,10,200,10};
     Block bwall5(150,660,30,50,renderer, wall5, true);
-    Block bwall6(180,630,30,90,renderer, wall6, true);
-    Block bwall7(280,600,30,120,renderer, wall7, true);
-    Block bwall8(400,570,30,150,renderer, wall8, true);
-    Block bwall9(540,540,30,180,renderer, wall9, true);
-    Block bwalla(700,510,30,210,renderer, walla, true);
-    Block bwallb(860,480,30,240,renderer, wallb, true);
+    Block bwall6(150,500,20,2200,renderer, wall6, true);
+    Block bwall7(170,640,10,80,renderer, wall7, false);
+    Block bwall8(400,0,20,600,renderer, wall8, true);
+    Block bwall9(390,200,10,150,renderer, wall9, false);
+    Block bwallc(420,200,10,150,renderer, wallc, false);
+    Block bwalla(700,220,50,500,renderer, walla, true);
+    Block bwallb(1000,150,20,570,renderer, wallb, true);
+    Block bwalld(1050,10,200,10,renderer, walld, true);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
@@ -34,6 +38,8 @@ void level8188128318(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWal
     blockVec.push_back(bwall9);
     blockVec.push_back(bwalla);
     blockVec.push_back(bwallb);
+    blockVec.push_back(bwallc);
+    blockVec.push_back(bwalld);
 
     for(auto i : blockVec){
         i.draw();
