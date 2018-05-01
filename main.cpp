@@ -597,7 +597,7 @@ void level3(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     end.draw();
 }
 
-void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
@@ -607,13 +607,14 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {10,10,800,20};
-    SDL_Rect wall6 = {10,690,1000,30};
-    SDL_Rect wall7 = {1010,210,260,500};
-    Block topGray(10,10,800,20,renderer,wall5,false);
-    Block bottomGray(10,690,1000,30,renderer,wall6,false);
-    Block right(1010,210,260,500,renderer,wall7,true);
-
+    SDL_Rect wall5 = {10,10,250,20};
+    SDL_Rect wall6 = {10,680,500,30};
+    SDL_Rect wall7 = {510,210,760,500};
+    SDL_Rect wall8 = {1240,10,30,200};
+    Block topGray(10,10,250,20,renderer,wall5,false);
+    Block bottomGray(10,680,500,30,renderer,wall6,false);
+    Block right(510,210,760,500,renderer,wall7,true);
+    Block otherRight(1240,10,30,200,renderer,wall8,false);
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
     blockVec.push_back(topwall);
@@ -622,6 +623,7 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     blockVec.push_back(topGray);
     blockVec.push_back(bottomGray);
     blockVec.push_back(right);
+    blockVec.push_back(otherRight);
 
     for(auto i : blockVec){
         i.draw();
@@ -635,7 +637,7 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     end.draw();
 }
 
-void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
+void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p){
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
@@ -645,14 +647,16 @@ void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {40,100,50,610};
-    SDL_Rect wall6 = {1040,100,50,610};
-    SDL_Rect wall7 = {40,10,50,5};
-    SDL_Rect wall8 = {1270,40,5,50};
-    Block hellowall(40,40,50,670,renderer, wall5, true);
-    Block hellowall2(1040,40,50,670,renderer, wall6, true);
-    Block hellowall3(40,10,50,5,renderer, wall7, false);
-    Block hellowall4(1270,40,5,50,renderer, wall8, false);
+    SDL_Rect wall5 = {10,200,100,510};
+    SDL_Rect wall6 = {1000,200,100,510};
+    SDL_Rect wall7 = {10,10,100,25};
+    SDL_Rect wall8 = {1240,100,30,150};
+    SDL_Rect wall9 = {110,680,890,30};
+    Block hellowall(10,200,100,510,renderer, wall5, true);
+    Block hellowall2(1000,200,100,510,renderer, wall6, true);
+    Block hellowall3(10,100,100,25,renderer, wall7, false);
+    Block hellowall4(1240,100,30,150,renderer, wall8, false);
+    Block floor(110,680,890,30,renderer,wall9,false);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
@@ -662,6 +666,7 @@ void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     blockVec.push_back(hellowall2);
     blockVec.push_back(hellowall3);
     blockVec.push_back(hellowall4);
+    blockVec.push_back(floor);
 
     for(auto i : blockVec){
         i.draw();
@@ -670,7 +675,7 @@ void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     end.setX(1170);
     end.setY(646);
     p.setX(200);
-    p.setY(640);
+    p.setY(570);
 
     end.draw();
 }
@@ -685,29 +690,62 @@ void level6(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {700,150,510,570};
-    SDL_Rect wall6 = {1265,10,5,150};
-    SDL_Rect wall7 = {100,10,350,5};
-    Block hellowall(700,150,510,570,renderer, wall5, true);
-    Block hellowall2(1265,10,5,150,renderer, wall6, false);
-    Block hellowall3(100,10,350,5,renderer, wall7, false);
+    SDL_Rect topGray = {10,10,440,30};
+    SDL_Rect topGray2 = {470,10,400,30};
+    SDL_Rect leftGray = {10,40,30,200};
+    SDL_Rect leftPlat = {10,210,200,100};
+    SDL_Rect leftPlat2 = {240,210,430,100};
+    SDL_Rect leftPlat3 = {700,210,430,100};
+    SDL_Rect grayFloor = {10,680,1260,30};
+    SDL_Rect leftBlockTop = {440,10,30,160};
+    SDL_Rect leftBlockBottom = {440,200,30,10};
+    SDL_Rect rightBlockTop = {870,10,30,160};
+    SDL_Rect rightBlockBottom = {870,200,30,10};
+    SDL_Rect rightGray = {1240,10,30,670};
+    SDL_Rect middlePlat1 = {440,310,30,100};
+    SDL_Rect middlePlat2 = {440,410,450,100};
+
+    Block topGrayBlock(10,10,550,30,renderer, topGray, false);
+    Block topGrayBlock2(470,10,400,30,renderer, topGray2, false);
+    Block leftGrayBlock(10,40,30,250,renderer, leftGray, false);
+    Block leftPlatBlock(10,260,200,100,renderer, leftPlat, true);
+    Block leftPlatBlock2(240,260,430,100,renderer, leftPlat2, true);
+    Block leftPlatBlock3(240,260,430,100,renderer, leftPlat3, true);
+    Block grayFloorBlock(10,680,1260,30,renderer, grayFloor, false);
+    Block leftBlockTopBlock(440,10,30,140,renderer, leftBlockTop, true);
+    Block leftBlockBottomBlock(440,180,30,30,renderer, leftBlockBottom, true);
+    Block rightBlockTopBlock(870,10,30,140,renderer, rightBlockTop, true);
+    Block rightBlockBottomBlock(870,180,30,30,renderer, rightBlockBottom, true);
+    Block rightGrayBlock(1240,10,30,700,renderer, rightGray, false);
+    Block middlePlatBlock1(440,310,30,100,renderer, middlePlat1, false);
+    Block middlePlatBlock2(440,410,450,100,renderer, middlePlat2, true);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
     blockVec.push_back(topwall);
     blockVec.push_back(bottomwall);
-    blockVec.push_back(hellowall);
-    blockVec.push_back(hellowall2);
-    blockVec.push_back(hellowall3);
-
+    blockVec.push_back(topGrayBlock);
+    blockVec.push_back(topGrayBlock2);
+    blockVec.push_back(leftGrayBlock);
+    blockVec.push_back(leftPlatBlock);
+    blockVec.push_back(leftPlatBlock2);
+    blockVec.push_back(leftPlatBlock3);
+    blockVec.push_back(grayFloorBlock);
+    blockVec.push_back(leftBlockTopBlock);
+    blockVec.push_back(leftBlockBottomBlock);
+    blockVec.push_back(rightBlockTopBlock);
+    blockVec.push_back(rightBlockBottomBlock);
+    blockVec.push_back(rightGrayBlock);
+    blockVec.push_back(middlePlatBlock1);
+    blockVec.push_back(middlePlatBlock2);
     for(auto i : blockVec){
         i.draw();
     }
 
-    end.setX(1070);
-    end.setY(86);
-    p.setX(200);
-    p.setY(640);
+    end.setX(600);
+    end.setY(146);
+    p.setX(50);
+    p.setY(50);
 
     end.draw();
 }
@@ -765,33 +803,34 @@ void level8(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
-    SDL_Rect wall5 = {150,660,30,50};
-    SDL_Rect wall6 = {180,630,30,90};
-    SDL_Rect wall7 = {280,600,30,120};
-    SDL_Rect wall8 = {400,570,30,150};
-    SDL_Rect wall9 = {540,540,30,180};
-    SDL_Rect walla = {700,510,30,210};
-    SDL_Rect wallb = {860,480,30,240};
-    Block bwall5(150,660,30,50,renderer, wall5, true);
-    Block bwall6(180,630,30,90,renderer, wall6, true);
-    Block bwall7(280,600,30,120,renderer, wall7, true);
-    Block bwall8(400,570,30,150,renderer, wall8, true);
-    Block bwall9(540,540,30,180,renderer, wall9, true);
-    Block bwalla(700,510,30,210,renderer, walla, true);
-    Block bwallb(860,480,30,240,renderer, wallb, true);
+    SDL_Rect wall6 = {10,690,1260,20};
+    SDL_Rect wall7 = {200,600,30,120};
+    SDL_Rect wall8 = {350,550,30,75};
+    SDL_Rect wall9 = {500,500,30,75};
+    SDL_Rect walla = {650,450,30,75};
+    SDL_Rect wallb = {800,400,30,75};
+    SDL_Rect wallc = {950,350,30,360};
 
+    Block bwall6(10,690,1260,20,renderer, wall7, true);
+    Block bwall7(200,600,30,120,renderer, wall7, true);
+    Block bwall8(350,550,30,75,renderer, wall8, true);
+    Block bwall9(500,500,30,75,renderer, wall9, true);
+    Block bwalla(650,450,30,75,renderer, walla, true);
+    Block bwallb(800,400,30,75,renderer, wallb, true);
+    Block bwallc(950,350,30,360,renderer, wallc, true);
+    
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
     blockVec.push_back(topwall);
     blockVec.push_back(bottomwall);
-    blockVec.push_back(bwall5);
+ 
     blockVec.push_back(bwall6);
     blockVec.push_back(bwall7);
     blockVec.push_back(bwall8);
     blockVec.push_back(bwall9);
     blockVec.push_back(bwalla);
     blockVec.push_back(bwallb);
-
+    blockVec.push_back(bwallc);
     for(auto i : blockVec){
         i.draw();
     }

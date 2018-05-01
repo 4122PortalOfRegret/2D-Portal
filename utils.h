@@ -16,7 +16,7 @@ const int WINDOW_HEIGHT = 720;
 
 const int GRAVITY[] = {4,4,5,6,8,10,11,13,15,18};
 const int GRAV_LEN = sizeof(GRAVITY)/ sizeof(GRAVITY[0]);
-const int CHAR_WIDTH = 43;
+const int CHAR_WIDTH = 42;
 const int CHAR_HEIGHT = 64;
 const int FRAMES_PER_SEC = 20;
 const int LEFT = 0;
