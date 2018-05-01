@@ -1,13 +1,13 @@
 #ifndef PORTAL_H
 #define PORTAL_H
-//#include "block.h"
+#include "block.h"
 #include "utils.h"
 
 
 class Portal
 {
     public:
-        explicit Portal(bool portalclr, bool vertOrHoriz, SDL_Renderer* ref);
+        explicit Portal(bool portalclr, SDL_Renderer* ref);
         int getX();
         int getY();
         //int getNewX();
@@ -28,8 +28,11 @@ class Portal
         void setColorB(Uint8 color);
         void setColorA(Uint8 color);
         void toggleClick();
+        void PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mouse_Y, Portal portal);
+        bool getActive();
         //void update();
-        void draw(int mouse_X, int mouse_Y, bool direction);
+        void draw();
+        SDL_Rect* getRect();
 
 //        void draw();
 
@@ -39,12 +42,14 @@ class Portal
         SDL_Renderer* renderer;
         //int newXLoc;
         //int newYLoc;
+        int side;
         int height;
         int width;
         Uint8 red;
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
+        SDL_Rect portalRect;
         bool isActive;
         bool oldDirection;
         bool portalColor; // blue == 0 | orange == 1

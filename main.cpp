@@ -25,7 +25,6 @@ void level5(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
 void level6(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 void level7(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 
-
 int main(int argc, char** argv) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
         cout << "Something went wrong! " << SDL_GetError() << endl;
@@ -35,6 +34,7 @@ int main(int argc, char** argv) {
     if(window == NULL){
         cout << "Something also went wrong here" << endl;
     }
+
     int pastPress[] = {0,0,0,0,0,0,0,0};
     int jumpframes = 0;
     bool quit = false;
@@ -82,28 +82,24 @@ int main(int argc, char** argv) {
     vector<Block> blockVector;
     vector<SDL_Rect> rectVector;
 
-    // call the level function
-    // level0(renderer, rectVector);
-    // loadLevel = false;
-    // player.draw(&animationRect);
-    
-
     long int delayTime;
     clock_t start; clock_t end;
     
-    // // test Block
+    // test Block
     // SDL_Rect platform = {200,670,400,50};
     // Block block(200, 670, 400, 50, renderer, platform, false);
-    // //block.draw();
     // vector<Block> vec;
     // vec.push_back(block);
-    // SDL_Rect plat = {600, 620, 300, 100};
-    // Block block2(600, 620, 300, 100, renderer, plat, true);
+    // SDL_Rect plat = {600, 420, 300, 300};
+    // Block block2(600, 420, 300, 300, renderer, plat, true);
     // vec.push_back(block2);
-    // //SDL_SetRenderDrawColor(renderer, 47, 79, 79, 255);
-    // //SDL_RenderFillRect(renderer, &platform);
-    
+
     SDL_RenderPresent(renderer);
+
+    // SDL_Rect portal1; //LEFT CLICK
+    // SDL_Rect portal2; //RIGHT CLICK
+    Portal portal1(false,renderer);
+    Portal portal2(true,renderer);
 
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
@@ -133,27 +129,28 @@ int main(int argc, char** argv) {
                             }
                             count++;
                         }
-                    }
-                    // pastPress[LEFT_MOUSE]++;
-                    // if (pastPress[LEFT_MOUSE] == 1) {
-                    //     std::cout << "LEFT BUTTON PRESSED" << std::endl;
-                    //     SDL_GetMouseState(&mouse_x,&mouse_y);
-                    //     Portalhit(vec, playerRect, mouse_x, mouse_y, portal1);
-                    //     // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
-                    //     // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
-                    //     // SDL_RenderFillRect(renderer, &draw);
-                    // }
+                    } else {
+                        pastPress[LEFT_MOUSE]++;
+                        if (pastPress[LEFT_MOUSE] == 1) {
+                            std::cout << "LEFT BUTTON PRESSED" << std::endl;
+                            SDL_GetMouseState(&mouse_x,&mouse_y);
+                            portal1.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal2);
+                            // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                            // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+                            // SDL_RenderFillRect(renderer, &draw);
+                        }
+                    }  
                 }
                 else if (events.button.button == SDL_BUTTON_RIGHT){
-                    // pastPress[RIGHT_MOUSE]++;
-                    // if (pastPress[RIGHT_MOUSE] == 1) {
-                    //     std::cout << "RIGHT BUTTON PRESSED" << std::endl;
-                    //     SDL_GetMouseState(&mouse_x,&mouse_y);
-                    //     Portalhit(vec, playerRect, mouse_x, mouse_y, portal2);
-                    //     // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
-                    //     // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
-                    //     // SDL_RenderFillRect(renderer, &draw);
-                    // }
+                    pastPress[RIGHT_MOUSE]++;
+                    if (pastPress[RIGHT_MOUSE] == 1) {
+                        std::cout << "RIGHT BUTTON PRESSED" << std::endl;
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        portal2.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal1);
+                        // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                        // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+                        // SDL_RenderFillRect(renderer, &draw);
+                    }
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
@@ -307,21 +304,21 @@ int main(int argc, char** argv) {
                 break;
             case DESCEND     :
                 player.changeYSpeed(5);
-                if (player.getYSpeed() == GRAVITY) {
+                if (player.getYSpeed() == GRAVITY[5]) {
                     jump = FREEFALL;
                     start = clock();
                 }
                 break;
             case FREEFALL    :
                 jumpframes = 0;
-                player.setYSpeed(GRAVITY);
+                player.setYSpeed(GRAVITY[5]);
                 if (canJump && ground) {
                     jump = READY;
                 }
                 break;
             case READY      :
                 jumpframes = 0;
-                player.setYSpeed(GRAVITY);
+                player.setYSpeed(GRAVITY[5]);
                 break;
         }
 
@@ -380,7 +377,8 @@ int main(int argc, char** argv) {
             // draw the end zone
             endWall.draw();
             // draw the portals
-
+            portal1.draw();
+            portal2.draw();
         } else {
             SDL_RenderCopy(renderer, splashScreen, NULL, NULL);
             int count = 0;
@@ -394,6 +392,18 @@ int main(int argc, char** argv) {
                 count++;
             }
         }
+
+        // switch buffer to display
+
+        // draw portals
+
+        // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+        // SDL_RenderFillRect(renderer, &portal1);
+
+        // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+        // SDL_RenderFillRect(renderer, &portal2);
+        // portal1.draw();
+        // portal2.draw();        
 
         // switch buffer to display the new frame
         SDL_RenderPresent(renderer);
