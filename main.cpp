@@ -42,6 +42,7 @@ int main(int argc, char** argv) {
     int y = 208;
     const int FPS = 60;
     int frameTime;
+    int mouse_x, mouse_y
     
     SDL_Renderer* renderer;
     SDL_Event events;
@@ -139,6 +140,7 @@ int main(int argc, char** argv) {
                     level5(renderer, blockVector, endWall, player);
                     loadLevel = false;
                     player.draw(&animationRect);
+                    break;
                 default: 
                     level0(renderer, rectVector);
                     loadLevel = false;
@@ -148,20 +150,76 @@ int main(int argc, char** argv) {
 
         frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
+        // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
+        SDL_RenderClear(renderer);
+        const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+        // if red X is clicked or ESC
         if(events.type == SDL_QUIT) {
             quit = true;
         }
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
-        SDL_RenderClear(renderer);
-        const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+        // manage mouse clicks
+        switch (events.type) {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (events.button.button == SDL_BUTTON_LEFT) {
+                    if (level == 0) {
+                        SDL_GetMouseState(&mouse_x,&mouse_y);
+                        int count = 1;
+                        for(auto i : rectVector){
+                            SDL_Rect temp = {mouse_x, mouse_y, 1, 1};
+                            if (SDL_HasIntersection(&i, temp)) {
+                                level = count;
+                                loadLevel = true;
+                                break;
+                            }
+                            count++;
+                        }
+                    }
+                    // pastPress[LEFT_MOUSE]++;
+                    // if (pastPress[LEFT_MOUSE] == 1) {
+                    //     std::cout << "LEFT BUTTON PRESSED" << std::endl;
+                    //     SDL_GetMouseState(&mouse_x,&mouse_y);
+                    //     Portalhit(vec, playerRect, mouse_x, mouse_y, portal1);
+                    //     // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                    //     // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
+                    //     // SDL_RenderFillRect(renderer, &draw);
+                    // }
+                }
+                else if (events.button.button == SDL_BUTTON_RIGHT){
+                    // pastPress[RIGHT_MOUSE]++;
+                    // if (pastPress[RIGHT_MOUSE] == 1) {
+                    //     std::cout << "RIGHT BUTTON PRESSED" << std::endl;
+                    //     SDL_GetMouseState(&mouse_x,&mouse_y);
+                    //     Portalhit(vec, playerRect, mouse_x, mouse_y, portal2);
+                    //     // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
+                    //     // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
+                    //     // SDL_RenderFillRect(renderer, &draw);
+                    // }
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if(events.button.button == SDL_BUTTON_LEFT) {
+                    pastPress[LEFT_MOUSE] = 0;
+                } else if (events.button.button == SDL_BUTTON_RIGHT) {
+                    pastPress[RIGHT_MOUSE] = 0;
+                }
+                break;
+            default:
+                break;
+        }
         
+
         // use the arrow keys to control the player
+        // resets the level
         if(state[SDL_SCANCODE_R]) {
-          
             loadLevel = true;
         }
 
-        // allows iteration through the levels
+        // left and right arrows allow iteration through the levels
         if(state[SDL_SCANCODE_LEFT]) {
             ++pastPress[KEY_LEFT];
             if (pastPress[KEY_LEFT] == 1) {
@@ -206,13 +264,13 @@ int main(int argc, char** argv) {
             pastPress[KEY_W] = 0;
             canJump = true;
         }
+        if(!state[SDL_SCANCODE_W]) {
+            canJump = true;
+        }
 
         // escape
         if(state[SDL_SCANCODE_ESCAPE]) {
             quit = true;
-        }
-        if(!state[SDL_SCANCODE_W]) {
-            canJump = true;
         }
 
         // jump state machine
@@ -256,55 +314,51 @@ int main(int argc, char** argv) {
                 break;
         }
 
-        // move the player to the new position based on current momentum
-        // check if the player collides with its environment
         if (level != 0) {
+            // move the player to the new position based on current momentum
+            // check if the player collides with its environment
             player.updateX(blockVector);
             player.updateY(blockVector, &ground, jump);
-        }
+
+            // check if player collides with exit
+            if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
+                loadLevel = true;
+                level++;
+                if (level > NUM_LEVELS)
+                    // game has finished
+                    level = NUM_LEVELS;
+            }
+
+            // check if player collides with portal
         
-
-        // check if player collides with exit
-        if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
-            loadLevel = true;
-            level++;
-            if (level > NUM_LEVELS)
-                // game has finished
-                level = NUM_LEVELS;
-        }
-
-        // check if player collides with portal
-        
-        // update animation if necessary
-        ++frameTime;
-        if (player.getXSpeed() == 0) {
-            if (FPS/frameTime == 4) {   
-                animationRect.y = 0;
-                animationRect.x +=framewidth;
-                if(animationRect.x >= texturewidth)
-                    animationRect.x = 0;
-                frameTime = 0;
+            // update animation if necessary
+            ++frameTime;
+            if (player.getXSpeed() == 0) {
+                if (FPS/frameTime == 4) {   
+                    animationRect.y = 0;
+                    animationRect.x +=framewidth;
+                    if(animationRect.x >= texturewidth)
+                        animationRect.x = 0;
+                    frameTime = 0;
+                }
+            } else if(state[SDL_SCANCODE_A]) {
+                if (FPS/frameTime == 4){
+                    animationRect.y = frameheight;
+                    animationRect.x +=framewidth;
+                    if(animationRect.x >= texturewidth)
+                        animationRect.x = 0;
+                    frameTime = 0;
+                }
+            } else if (state[SDL_SCANCODE_D]) {
+                if (FPS/frameTime == 4){
+                    animationRect.y = frameheight*2;
+                    animationRect.x +=framewidth;
+                    if(animationRect.x >= texturewidth)
+                        animationRect.x = 0;
+                    frameTime = 0;
+                }
             }
-        } else if(state[SDL_SCANCODE_A]) {
-            if (FPS/frameTime == 4){
-                animationRect.y = frameheight;
-                animationRect.x +=framewidth;
-                if(animationRect.x >= texturewidth)
-                    animationRect.x = 0;
-                frameTime = 0;
-            }
-        } else if (state[SDL_SCANCODE_D]) {
-            if (FPS/frameTime == 4){
-                animationRect.y = frameheight*2;
-                animationRect.x +=framewidth;
-                if(animationRect.x >= texturewidth)
-                    animationRect.x = 0;
-                frameTime = 0;
-            }
-        }
 
-
-        if (level != 0) {
             // draw the player and its animation
             player.draw(&animationRect);
             // draw the blocks
@@ -315,6 +369,7 @@ int main(int argc, char** argv) {
             // draw the end zone
             endWall.draw();
             // draw the portals
+
         } else {
             SDL_RenderCopy(renderer, splashScreen, NULL, NULL);
             int count = 0;
@@ -329,9 +384,10 @@ int main(int argc, char** argv) {
             }
         }
 
-        // switch buffer to display
+        // switch buffer to display the new frame
         SDL_RenderPresent(renderer);
         
+        // enables a set frame rate
         frameEnd = sc::high_resolution_clock::now();
         delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
         if(delayTime > 0) {

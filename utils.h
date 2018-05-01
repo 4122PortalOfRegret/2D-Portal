@@ -6,6 +6,7 @@
 #include <ctime>
 #include <chrono>
 #include <vector>
+#include "math.h"
 
 using namespace std;
 namespace sc = std::chrono;
