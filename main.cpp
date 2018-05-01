@@ -424,15 +424,15 @@ int main(int argc, char** argv) {
 
 
 void level0(SDL_Renderer* renderer, vector<SDL_Rect>& rectVec){
-    SDL_Rect level1 = {1045,50,150,60};
-    SDL_Rect level2 = {1045,120,150,60};
-    SDL_Rect level3 = {1045,190,150,60};
-    SDL_Rect level4 = {1045,260,150,60};
-    SDL_Rect level5 = {1045,330,150,60};
-    SDL_Rect level6 = {1045,400,150,60};
-    SDL_Rect level7 = {1045,470,150,60};
-    SDL_Rect level8 = {1045,540,150,60};
-    SDL_Rect level9 = {1045,610,150,60};
+    SDL_Rect level1 = {1045,60,150,60};
+    SDL_Rect level2 = {1045,130,150,60};
+    SDL_Rect level3 = {1045,200,150,60};
+    SDL_Rect level4 = {1045,270,150,60};
+    SDL_Rect level5 = {1045,340,150,60};
+    SDL_Rect level6 = {1045,410,150,60};
+    SDL_Rect level7 = {1045,480,150,60};
+    SDL_Rect level8 = {1045,550,150,60};
+    SDL_Rect level9 = {1045,620,150,60};
 
     rectVec.push_back(level1);
     rectVec.push_back(level2);
