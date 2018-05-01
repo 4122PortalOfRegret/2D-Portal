@@ -12,8 +12,8 @@ void levelY(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     SDL_Rect wall6 = {1265,10,5,150};
     SDL_Rect wall7 = {100,10,350,5};
     Block hellowall(700,150,510,570,renderer, wall5, true);
-    Block hellowall2(40,10,50,5,renderer, wall6, false);
-    Block hellowall3(1270,40,5,50,renderer, wall7, false);
+    Block hellowall2(1265,10,5,150,renderer, wall6, false);
+    Block hellowall3(100,10,350,5,renderer, wall7, false);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
