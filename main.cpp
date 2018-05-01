@@ -3,7 +3,6 @@
 #include "portal.h"
 #include "EndZoneWall.h"
 #include "utils.h"
-using namespace std;
 
 // globals
 auto frameStart = sc::high_resolution_clock::now();
@@ -42,7 +41,7 @@ int main(int argc, char** argv) {
     int y = 208;
     const int FPS = 60;
     int frameTime;
-    int mouse_x, mouse_y
+    int mouse_x, mouse_y;
     
     SDL_Renderer* renderer;
     SDL_Event events;
@@ -105,54 +104,8 @@ int main(int argc, char** argv) {
     SDL_RenderPresent(renderer);
 
     while(!quit){
-        // level handling
-        if (loadLevel == true) {
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
-            SDL_RenderClear(renderer);
-            blockVector.clear();
-            rectVector.clear();
-            switch(level) {
-                case 0:
-                    level0(renderer, rectVector);
-                    loadLevel = false;
-                    break;
-                case 1:
-                    level1(renderer, blockVector, endWall, player);
-                    loadLevel = false;
-                    player.draw(&animationRect);
-                    break;
-                case 2:
-                    level2(renderer, blockVector, endWall, player);
-                    loadLevel = false;
-                    player.draw(&animationRect);
-                    break;
-                case 3:
-                    level3(renderer, blockVector, endWall, player);
-                    loadLevel = false;
-                    player.draw(&animationRect);
-                    break;
-                case 4:
-                    level4(renderer, blockVector, endWall, player);
-                    loadLevel = false;
-                    player.draw(&animationRect);
-                    break;
-                case 5:
-                    level5(renderer, blockVector, endWall, player);
-                    loadLevel = false;
-                    player.draw(&animationRect);
-                    break;
-                default: 
-                    level0(renderer, rectVector);
-                    loadLevel = false;
-                    break;
-            }
-        }
-
         frameStart = sc::high_resolution_clock::now();
         SDL_PollEvent(&events);
-        // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
-        SDL_RenderClear(renderer);
-        const Uint8 *state = SDL_GetKeyboardState(NULL);
 
         // if red X is clicked or ESC
         if(events.type == SDL_QUIT) {
@@ -171,7 +124,7 @@ int main(int argc, char** argv) {
                         int count = 1;
                         for(auto i : rectVector){
                             SDL_Rect temp = {mouse_x, mouse_y, 1, 1};
-                            if (SDL_HasIntersection(&i, temp)) {
+                            if (SDL_HasIntersection(&i, &temp)) {
                                 level = count;
                                 loadLevel = true;
                                 break;
@@ -211,7 +164,53 @@ int main(int argc, char** argv) {
             default:
                 break;
         }
-        
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
+        SDL_RenderClear(renderer);
+        const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+        // level handling
+        if (loadLevel == true) {
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
+            // SDL_RenderClear(renderer);
+            blockVector.clear();
+            rectVector.clear();
+            switch(level) {
+                case 0:
+                    level0(renderer, rectVector);
+                    loadLevel = false;
+                    break;
+                case 1:
+                    level1(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 2:
+                    level2(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 3:
+                    level3(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 4:
+                    level4(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                case 5:
+                    level5(renderer, blockVector, endWall, player);
+                    loadLevel = false;
+                    player.draw(&animationRect);
+                    break;
+                default: 
+                    level0(renderer, rectVector);
+                    loadLevel = false;
+                    break;
+            }
+        } 
 
         // use the arrow keys to control the player
         // resets the level
