@@ -107,7 +107,7 @@ int main(int argc, char** argv) {
 
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
-        std::cout << "X SPEED = " << player.getXSpeed() << "Y SPEED = " << player.getYSpeed() << std::endl;
+        //std::cout << "X SPEED = " << player.getXSpeed() << "Y SPEED = " << player.getYSpeed() << std::endl;
         SDL_PollEvent(&events);
         // if red X is clicked or ESC
         if(events.type == SDL_QUIT) {
