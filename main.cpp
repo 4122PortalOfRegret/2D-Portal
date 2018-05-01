@@ -44,12 +44,14 @@ int main(int argc, char** argv) {
     const int FPS = 60;
     int frameTime = 0;
     int mouse_x, mouse_y;
-    
+    bool hasTeleported;
     SDL_Renderer* renderer;
     SDL_Event events;
     renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
+    int telecounter;
+
 
     // splash screen
     SDL_Surface * img = SDL_LoadBMP("splash screen.bmp");
@@ -287,7 +289,7 @@ int main(int argc, char** argv) {
         switch(jump) {
             case BUTTON_PRESS:
                 canJump = false;
-                player.setYSpeed(-12);
+                player.setYSpeed(-15);
                 end = clock();
                 if (jumpframes > 6)
                 {
@@ -306,30 +308,33 @@ int main(int argc, char** argv) {
                 break;
             case DESCEND     :
                 player.changeYSpeed(5);
-                if (player.getYSpeed() == 25) {
+                if (player.getYSpeed() == 20) {
                     jump = FREEFALL;
                     start = clock();
                 }
                 break;
             case FREEFALL    :
                 jumpframes = 0;
-                player.setYSpeed(25);
+                player.setYSpeed(20);
                 if (canJump && ground) {
                     jump = READY;
                 }
                 break;
             case READY      :
                 jumpframes = 0;
-                player.setYSpeed(GRAVITY[5]);
+                player.setYSpeed(GRAVITY[4]);
                 break;
         }
 
         if (level != 0) {
             // move the player to the new position based on current momentum
             // check if the player collides with its environment
-            player.teleport(portal1, portal2);
-            player.updateX(blockVector);
-            player.updateY(blockVector, &ground, jump);
+            hasTeleported = player.teleport(portal1, portal2, jump);
+
+            if(!hasTeleported) {
+                player.updateX(blockVector);
+                player.updateY(blockVector, &ground, jump);
+            }
 
             // check if player collides with exit
             if (SDL_HasIntersection(player.getRectangle(), endWall.getRectangle())) {
@@ -409,13 +414,14 @@ int main(int argc, char** argv) {
         // portal2.draw();        
 
         // switch buffer to display the new frame
-        SDL_RenderPresent(renderer);
         // enables a set frame rate
         frameEnd = sc::high_resolution_clock::now();
         delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
         if(delayTime > 0) {
             SDL_Delay(delayTime);
         }
+
+        SDL_RenderPresent(renderer);
     }
 
     SDL_DestroyWindow(window);
