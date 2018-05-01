@@ -24,6 +24,7 @@ Portal::Portal(bool portalclr, SDL_Renderer* ref) {
       setColorB(0);
     }
     side = TOP;
+    portalRect = {xLoc, yLoc, width, height};
 	//renderer = ref;
   }
 
@@ -124,6 +125,10 @@ bool Portal::getActive() {
   return isActive;
 }
 
+SDL_Rect* Portal::getRect(){
+  return &portalRect;
+}
+
 
 void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mouse_Y, Portal otherp){
     double x = mouse_X - (player.x + CHAR_WIDTH/2);
@@ -164,11 +169,6 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
     SDL_bool hit;
 
     bool oldState = isActive;
-    int oldXLoc = xLoc;
-    int oldYLoc = yLoc;
-    int oldHeight = height;
-    int oldWidth = width;
-    int oldSide = side;
 
     vector<Block>::iterator it;
     for (it = vec.begin(); it != vec.end(); it++) {
@@ -265,29 +265,23 @@ void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mou
           {
               if(SDL_HasIntersection(&newPortal,rect3)){
                 isActive = oldState;
-                xLoc = oldXLoc;
-                yLoc = oldYLoc;
-                height = oldHeight;
-                width = oldWidth;
-                side = oldSide;
                 return;
               }
           }
       }
       if(otherp.getActive()) {
-        SDL_Rect portalOne = {otherp.getX(), otherp.getY(), otherp.getWidth(), otherp.getHeight()};
-          if(SDL_HasIntersection(&portalOne,&newPortal)){
+          if(SDL_HasIntersection(otherp.getRect(),&newPortal)){
                 isActive = oldState;
-                xLoc = oldXLoc;
-                yLoc = oldYLoc;
-                height = oldHeight;
-                width = oldWidth;
-                side = oldSide;
                 return;
           }
         }
+      portalRect.x = xLoc;
+      portalRect.y = yLoc;
+      portalRect.w = width;
+      portalRect.h = height;
+      isActive = true;
     }
-    isActive = true;
+
 }
 
 void Portal::draw() {
@@ -298,8 +292,8 @@ void Portal::draw() {
         //std::cout << "New Y Location = " << newYLoc << " Y Speed = " << ySpeed << std::endl; 
         //rectangle.x = xLoc;
         //rectangle.y = yLoc;
-        SDL_Rect rectangle = {xLoc, yLoc, width, height};
+        //SDL_Rect portalRect = {xLoc, yLoc, width, height};
         SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
-        SDL_RenderFillRect(renderer, &rectangle);
+        SDL_RenderFillRect(renderer, &portalRect);
     } 
 }

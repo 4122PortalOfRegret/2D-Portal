@@ -32,6 +32,7 @@ class Portal
         bool getActive();
         //void update();
         void draw();
+        SDL_Rect* getRect();
 
 //        void draw();
 
@@ -48,6 +49,7 @@ class Portal
         Uint8 blue;
         Uint8 green;
         Uint8 alpha;
+        SDL_Rect portalRect;
         bool isActive;
         bool oldDirection;
         bool portalColor; // blue == 0 | orange == 1
