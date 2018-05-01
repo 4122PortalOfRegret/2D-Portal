@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     int x = 288;
     int y = 208;
     const int FPS = 60;
-    int frameTime;
+    int frameTime = 0;
     int mouse_x, mouse_y;
     
     SDL_Renderer* renderer;
@@ -98,13 +98,13 @@ int main(int argc, char** argv) {
 
     // SDL_Rect portal1; //LEFT CLICK
     // SDL_Rect portal2; //RIGHT CLICK
-    Portal portal1(false,renderer);
-    Portal portal2(true,renderer);
+    Portal portal1(false,renderer); //Right click, Blue
+    Portal portal2(true,renderer); // Left Click,  Orange
 
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
+        std::cout << "X SPEED = " << player.getXSpeed() << "Y SPEED = " << player.getYSpeed() << std::endl;
         SDL_PollEvent(&events);
-
         // if red X is clicked or ESC
         if(events.type == SDL_QUIT) {
             quit = true;
@@ -172,6 +172,8 @@ int main(int argc, char** argv) {
         if (loadLevel == true) {
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
             // SDL_RenderClear(renderer);
+            portal1.setActive(false);
+            portal2.setActive(false);
             blockVector.clear();
             rectVector.clear();
             switch(level) {
@@ -304,14 +306,14 @@ int main(int argc, char** argv) {
                 break;
             case DESCEND     :
                 player.changeYSpeed(5);
-                if (player.getYSpeed() == GRAVITY[5]) {
+                if (player.getYSpeed() == 25) {
                     jump = FREEFALL;
                     start = clock();
                 }
                 break;
             case FREEFALL    :
                 jumpframes = 0;
-                player.setYSpeed(GRAVITY[5]);
+                player.setYSpeed(25);
                 if (canJump && ground) {
                     jump = READY;
                 }
@@ -325,6 +327,7 @@ int main(int argc, char** argv) {
         if (level != 0) {
             // move the player to the new position based on current momentum
             // check if the player collides with its environment
+            player.teleport(portal1, portal2);
             player.updateX(blockVector);
             player.updateY(blockVector, &ground, jump);
 
@@ -407,7 +410,6 @@ int main(int argc, char** argv) {
 
         // switch buffer to display the new frame
         SDL_RenderPresent(renderer);
-        
         // enables a set frame rate
         frameEnd = sc::high_resolution_clock::now();
         delayTime = 16 - sc::duration_cast<sc::milliseconds>(frameEnd-frameStart).count(); 
@@ -589,10 +591,10 @@ void level4(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
 
     SDL_Rect wall5 = {10,10,800,20};
-    SDL_Rect wall6 = {10,710,1000,200};
+    SDL_Rect wall6 = {10,690,1000,30};
     SDL_Rect wall7 = {1010,210,260,500};
     Block topGray(10,10,800,20,renderer,wall5,false);
-    Block bottomGray(10,710,1000,200,renderer,wall6,false);
+    Block bottomGray(10,690,1000,30,renderer,wall6,false);
     Block right(1010,210,260,500,renderer,wall7,true);
 
     blockVec.push_back(leftwall);

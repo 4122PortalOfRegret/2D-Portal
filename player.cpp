@@ -227,7 +227,7 @@ void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
         // no collision
         if ( left1 > right2 || right1 < left2  || top1 > bottom2 || bottom1 < top2)
             continue;
-        
+       
         // top
         if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2) {
             rectangle.y = rect2->y - rectangle.h - 1;
@@ -260,6 +260,243 @@ void Player::draw(SDL_Rect *anim) {
     SDL_RenderCopy(renderer, image, anim, &rectangle);
     //SDL_SetRenderDrawColor(renderer, red, green, blue, 255);
     //SDL_RenderFillRect(renderer, &rectangle);
-
     //SDL_RenderPresent(renderer);
+}
+
+void Player::teleport(Portal blue, Portal orange) {
+    if(!(blue.getActive() && orange.getActive())){
+        // dont do anything if you dont have both portals active.
+        return;
+    }
+    rectangle.x += xSpeed;
+    rectangle.y += ySpeed;
+    setX(rectangle.x);
+    setY(rectangle.y);
+    if(SDL_HasIntersection(blue.getRect(), &rectangle)) {
+        //cout << "touching blue portal" << endl;
+        // TELEPORT TO ORANGE PORTAL
+        int oldXSpeed = xSpeed;
+        int oldYSpeed = ySpeed;
+        switch (orange.getSide()) {
+            case TOP:
+                setX(orange.getX() + orange.getWidth()/2 - CHAR_WIDTH/2);
+                setY(orange.getY() - CHAR_HEIGHT/2 - 25);
+                /*
+                switch (blue.getSide()) {
+                    case TOP:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(-oldYSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case LEFT:
+                setX(orange.getX() - CHAR_WIDTH/2 - 25);
+                setY(orange.getY() + orange.getHeight()/2 - CHAR_HEIGHT/2);
+                /*
+                switch (blue.getSide()) {
+                    case TOP:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case RIGHT:
+                setX(orange.getX() + orange.getWidth() + 25);
+                setY(orange.getY() + orange.getWidth()/2 - CHAR_WIDTH/2);
+                /*
+                switch (blue.getSide()) {
+                    case TOP:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case BOTTOM:
+                setX(orange.getX() + orange.getWidth()/2 - CHAR_WIDTH/2);
+                setY(orange.getY() + orange.getHeight() + 25);
+                /*
+                switch (blue.getSide()) {
+                    case TOP:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(-oldYSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            default:
+                break;
+        }
+    } else if(SDL_HasIntersection(orange.getRect(), &rectangle)){
+        //cout << "touching orange portal" << endl;
+        // TELEPORT TO BLUE PORTAL
+        int oldXSpeed = xSpeed;
+        int oldYSpeed = ySpeed;
+        switch (blue.getSide()) {
+            case TOP:
+                setX(blue.getX() + blue.getWidth()/2 - CHAR_WIDTH/2);
+                setY(blue.getY() - CHAR_HEIGHT/2 - 25);
+                /*
+                switch (orange.getSide()) {
+                    case TOP:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(-oldYSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case LEFT:
+                setX(blue.getX() - CHAR_WIDTH/2 - 25);
+                setY(blue.getY() + blue.getHeight()/2 - CHAR_HEIGHT/2);
+                /*
+                switch (orange.getSide()) {
+                    case TOP:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case RIGHT:
+                setX(blue.getX() + blue.getWidth() + 25);
+                setY(blue.getY() + blue.getWidth()/2 - CHAR_WIDTH/2);
+                /*
+                switch (orange.getSide()) {
+                    case TOP:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            case BOTTOM:
+                setX(blue.getX() + blue.getWidth()/2 - CHAR_WIDTH/2);
+                setY(blue.getY() + blue.getHeight() + 25);
+                /*
+                switch (orange.getSide()) {
+                    case TOP:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(oldYSpeed);
+                        break;
+                    case LEFT:
+                        setXSpeed(-oldYSpeed);
+                        setYSpeed(oldXSpeed);
+                        break;
+                    case RIGHT:
+                        setXSpeed(oldYSpeed);
+                        setYSpeed(-oldXSpeed);
+                        break;
+                    case BOTTOM:
+                        setXSpeed(oldXSpeed);
+                        setYSpeed(-oldYSpeed);
+                        break;
+                    default:
+                        break;
+                }
+                */
+                break;
+            default:
+                break;
+        }
+    }
 }

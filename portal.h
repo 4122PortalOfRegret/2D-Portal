@@ -30,9 +30,11 @@ class Portal
         void toggleClick();
         void PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mouse_Y, Portal portal);
         bool getActive();
+	void setActive(bool act);
         //void update();
         void draw();
         SDL_Rect* getRect();
+	int getSide();
 
 //        void draw();
 

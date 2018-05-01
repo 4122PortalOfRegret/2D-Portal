@@ -3,7 +3,7 @@
 
 #include "block.h"
 #include "utils.h"
-
+#include "portal.h"
 class Player {
     public:
         explicit Player();
@@ -38,6 +38,7 @@ class Player {
         void update(vector<Block>& vec, bool* ground, STATE& jump);
         void updateX(vector<Block>& vec);
         void updateY(vector<Block>& vec, bool* ground, STATE& lols);
+	void teleport(Portal blue, Portal orange);
 
     private:
         int xLoc;

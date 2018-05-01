@@ -1,4 +1,4 @@
-#pragma once
+
 #include "portal.h"
 // Make sure there are only ever 2 instances of this object
 // One will be blue and the other will be orange
@@ -129,6 +129,13 @@ SDL_Rect* Portal::getRect(){
   return &portalRect;
 }
 
+int Portal::getSide(){
+  return side;
+}
+
+void Portal::setActive(bool act) {
+    isActive = act;
+}
 
 void Portal::PortalHit(vector<Block>& vec, SDL_Rect &player,int mouse_X, int mouse_Y, Portal otherp){
     double x = mouse_X - (player.x + CHAR_WIDTH/2);
