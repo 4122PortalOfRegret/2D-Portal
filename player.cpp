@@ -211,7 +211,7 @@ void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
 
     int oldtop1 = rectangle.y - ySpeed;
     int oldbottom1 = rectangle.y + rectangle.h - ySpeed;
-    
+    bool onBlock = false;
     vector<Block>::iterator it;
     for (it = vec.begin(); it != vec.end(); it++) {
     //for (unsigned int i = 0; i < vec.size(); i++) {             //++i or i++ ??
@@ -229,9 +229,12 @@ void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
             continue;
         
         // top
-        if (top1 < top2 && top2 < bottom1 && bottom1 < bottom2) {
+        if (/*top1 < top2 && */top2 < bottom1 && bottom1 < bottom2) {
             rectangle.y = rect2->y - rectangle.h - 1;
             *ground = true;
+            if(oldbottom1 == rectangle.y) {
+                onBlock = true;
+            }
         }
 
         // bottom, need to change state to free fall
@@ -242,6 +245,12 @@ void Player::updateY(vector<Block>& vec, bool* ground, STATE& lols) {
         }
 
     }
+
+    cout << lols << " READY = " << READY << endl;
+    if (lols == READY && rectangle.y != WINDOW_HEIGHT - CHAR_HEIGHT && !onBlock){
+        lols = DESCEND;
+    }
+
     return;
 }
 

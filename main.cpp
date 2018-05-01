@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
     int x = 288;
     int y = 208;
     const int FPS = 60;
-    int frameTime;
+    int frameTime = 0;
         int mouse_x, mouse_y;
     
     SDL_Renderer* renderer;
@@ -286,7 +286,7 @@ int main(int argc, char** argv) {
             player.changeXSpeed(5);
         }
         // y direction
-        if(state[SDL_SCANCODE_W])
+        if(state[SDL_SCANCODE_W] || state[SDL_SCANCODE_SPACE])
         {
             ++pastPress[KEY_W];
             if(pastPress[KEY_W] == 1)
@@ -294,7 +294,6 @@ int main(int argc, char** argv) {
                 canJump = true;
             }
             if (jump == READY) {
-                start = clock();
                 jump = BUTTON_PRESS;
             }
         }
@@ -310,13 +309,11 @@ int main(int argc, char** argv) {
         if(!state[SDL_SCANCODE_W]) {
             canJump = true;
         }
-        //
         switch(jump) {
             case BUTTON_PRESS:
                 //                if (canJump) {
                 canJump = false;
-                player.setYSpeed(-12);
-                end = clock();
+                player.setYSpeed(-15);
                 if (jumpframes > 6)
                 {
                     jumpframes = 0;
@@ -326,29 +323,39 @@ int main(int argc, char** argv) {
                 ground = false;
                 break;
             case DECELERATE  :
-                player.changeYSpeed(3);
+                if (jumpframes > GRAV_LEN){
+                    jumpframes = GRAV_LEN;
+                }
+                player.changeYSpeed(GRAVITY[jumpframes]);
                 if (player.getYSpeed() >= 0){
                     player.setYSpeed(0);
                     jump = DESCEND;
                 }
+                ++jumpframes;
                 break;
             case DESCEND     :
-                player.changeYSpeed(5);
-                if (player.getYSpeed() == GRAVITY) {
+                if (jumpframes > GRAV_LEN) {
+                    jumpframes = GRAV_LEN;
+                }
+                player.changeYSpeed(GRAVITY[jumpframes]);
+                ++jumpframes;
+                if (player.getYSpeed() >= 20) {
                     jump = FREEFALL;
-                    start = clock();
                 }
                 break;
             case FREEFALL    :
-                jumpframes = 0;
-                player.setYSpeed(GRAVITY);
+                if (jumpframes > GRAV_LEN) {
+                    jumpframes = GRAV_LEN;
+                }
+                player.setYSpeed(20);
+                ++jumpframes;
                 if (canJump && ground) {
                     jump = READY;
                 }
                 break;
             case READY      :
                 jumpframes = 0;
-                player.setYSpeed(GRAVITY);
+                player.setYSpeed(GRAVITY[jumpframes]);
                 break;
         }
         
@@ -362,7 +369,7 @@ int main(int argc, char** argv) {
         if (player.getXSpeed() == 0)
         {
             if (FPS/frameTime == 4)
-            {   
+            {
                 animationRect.y = 0;
                 animationRect.x +=framewidth;
                 if(animationRect.x >= texturewidth)
@@ -396,7 +403,7 @@ int main(int argc, char** argv) {
 
         // draw some platforms
         vector<Block>::iterator it;
-        for (it = vec.begin(); it != vec.end(); it++) {
+        for (it = vec.begin(); it != vec.end(); ++it) {
             (*it).draw();
         }
 
