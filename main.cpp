@@ -849,46 +849,70 @@ void level9(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     Block rightwall(1270,0,10,720,renderer, wall2, true);
     Block topwall(10,0,1260,10,renderer, wall3, true);
     Block bottomwall(10,710,1260,10,renderer, wall4, true);
+    SDL_Rect grayTop1 = {10,10,140,30};
+    SDL_Rect grayTop2 = {290,10,140,30};
+    SDL_Rect grayTop3 = {570,10,140,30};
+    SDL_Rect grayTop4 = {850,10,420,30};
 
-    SDL_Rect wall5 = {150,0,20,300};    //done
-    SDL_Rect wall6 = {150,500,20,220};   // done
-    SDL_Rect wall7 = {170,640,10,80};    // done
-    SDL_Rect wall8 = {400,0,20,600};     // done
-    SDL_Rect wall9 = {390,200,10,150};   // done
-    SDL_Rect wallc = {420,200,10,150};   // done
-    SDL_Rect walla = {700,220,50,500};   // done
-    SDL_Rect wallb = {1000,150,20,570};
-    SDL_Rect walld = {1050,10,200,10};
-    Block bwall5(150,660,30,50,renderer, wall5, true);
-    Block bwall6(150,500,20,2200,renderer, wall6, true);
-    Block bwall7(170,640,10,80,renderer, wall7, false);
-    Block bwall8(400,0,20,600,renderer, wall8, true);
-    Block bwall9(390,200,10,150,renderer, wall9, false);
-    Block bwallc(420,200,10,150,renderer, wallc, false);
-    Block bwalla(700,220,50,500,renderer, walla, true);
-    Block bwallb(1000,150,20,570,renderer, wallb, true);
-    Block bwalld(1050,10,200,10,renderer, walld, true);
+    SDL_Rect grayBot1 = {10,680,140,30};
+    SDL_Rect grayBot2 = {290,680,140,30};
+    SDL_Rect grayBot3 = {570,680,140,30};
+    SDL_Rect grayBot4 = {850,680,140,30};
+    SDL_Rect grayBot5 = {1130,680,140,30};
+
+    SDL_Rect topWall1 = {140,10,140,350};
+    SDL_Rect botWall1 = {140,360,140,350};
+    SDL_Rect topWall2 = {430,10,140,200};
+    SDL_Rect botWall2 = {430,310,140,400};
+    SDL_Rect topWall3 = {710,10,140,400};
+    SDL_Rect botWall3 = {710,450,140,260};
+    SDL_Rect botWall4 = {1130,150,140,560};
+
+    Block g1(10,10,140,30,renderer, grayTop1, false);
+    Block g2(290,10,140,30,renderer, grayTop2, false);
+    Block g3(570,10,140,30,renderer, grayTop2, false);
+    Block g4(850,10,420,30,renderer, grayTop4, false);
+    Block g5(10,680,140,30,renderer, grayBot1, false);
+    Block g6(290,680,140,30,renderer, grayBot2, false);
+    Block g7(570,680,140,30,renderer, grayBot3, false);
+    Block g8(850,680,140,30,renderer, grayBot4, false);
+    Block g9(1130,680,140,30,renderer, grayBot5, false);
+
+    Block b1(140,10,140,350,renderer, topWall1, true);
+    Block b2(140,360,140,350,renderer, botWall1, true);
+    Block b3(430,10,140,200,renderer, topWall2, true);
+    Block b4(430,310,140,400,renderer, botWall2, true);
+    Block b5(710,10,140,400,renderer, topWall3, true);
+    Block b6(710,450,140,260,renderer, botWall3, true);
+    Block b7(1130,150,140,560,renderer, botWall4, true);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
     blockVec.push_back(topwall);
     blockVec.push_back(bottomwall);
-    blockVec.push_back(bwall5);
-    blockVec.push_back(bwall6);
-    blockVec.push_back(bwall7);
-    blockVec.push_back(bwall8);
-    blockVec.push_back(bwall9);
-    blockVec.push_back(bwalla);
-    blockVec.push_back(bwallb);
-    blockVec.push_back(bwallc);
-    blockVec.push_back(bwalld);
+    blockVec.push_back(g1);
+    blockVec.push_back(g2);
+    blockVec.push_back(g3);
+    blockVec.push_back(g4);
+    blockVec.push_back(g5);
+    blockVec.push_back(g6);
+    blockVec.push_back(g7);
+    blockVec.push_back(g8);
+    blockVec.push_back(g9);
+    blockVec.push_back(b1);
+    blockVec.push_back(b2);
+    blockVec.push_back(b3);
+    blockVec.push_back(b4);
+    blockVec.push_back(b5);
+    blockVec.push_back(b6);
+    blockVec.push_back(b7);
 
     for(auto i : blockVec){
         i.draw();
     }
 
     end.setX(1170);
-    end.setY(650);
+    end.setY(670);
     p.setX(75);
     p.setY(640);
 
