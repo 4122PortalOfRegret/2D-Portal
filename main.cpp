@@ -28,6 +28,7 @@ void level8(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
 void level9(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, Player& p);
 
 int main(int argc, char** argv) {
+    cout << "start prog" <<endl;
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1){
         cout << "Something went wrong! " << SDL_GetError() << endl;
     }
@@ -108,13 +109,12 @@ int main(int argc, char** argv) {
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
         //std::cout << "X SPEED = " << player.getXSpeed() << "Y SPEED = " << player.getYSpeed() << std::endl;
-        SDL_PollEvent(&events);
+        //SDL_PollEvent(&events);
         // if red X is clicked or ESC
-        if(events.type == SDL_QUIT) {
-            quit = true;
-        }
 
         // manage mouse clicks
+	while(SDL_PollEvent(&events)) {
+        cout<< "polling" << endl;
         switch (events.type) {
             case SDL_QUIT:
                 quit = true;
@@ -165,6 +165,7 @@ int main(int argc, char** argv) {
             default:
                 break;
         }
+	}
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
         SDL_RenderClear(renderer);
@@ -431,7 +432,7 @@ int main(int argc, char** argv) {
         if(delayTime > 0) {
             SDL_Delay(delayTime);
         }
-
+        cout<< "endframe" << endl;
         SDL_RenderPresent(renderer);
     }
 
