@@ -108,13 +108,11 @@ int main(int argc, char** argv) {
     while(!quit){
         frameStart = sc::high_resolution_clock::now();
         //std::cout << "X SPEED = " << player.getXSpeed() << "Y SPEED = " << player.getYSpeed() << std::endl;
-        SDL_PollEvent(&events);
+        //SDL_PollEvent(&events);
         // if red X is clicked or ESC
-        if(events.type == SDL_QUIT) {
-            quit = true;
-        }
 
         // manage mouse clicks
+	while(SDL_PollEvent(&events)) {
         switch (events.type) {
             case SDL_QUIT:
                 quit = true;
@@ -165,6 +163,7 @@ int main(int argc, char** argv) {
             default:
                 break;
         }
+	}
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
         SDL_RenderClear(renderer);
@@ -431,7 +430,6 @@ int main(int argc, char** argv) {
         if(delayTime > 0) {
             SDL_Delay(delayTime);
         }
-
         SDL_RenderPresent(renderer);
     }
 
@@ -479,16 +477,16 @@ void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
-    SDL_Rect wall4 = {10,710,1260,10};
+    SDL_Rect wall4 = {10,700,1260,20};
     Block leftwall(0,0,10,720,renderer, wall1, true);
     Block rightwall(1270,0,10,720,renderer, wall2, true);
     Block topwall(10,0,1260,10,renderer, wall3, true);
-    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+    Block bottomwall(10,700,1260,20,renderer, wall4, true);
 
-    SDL_Rect wall5 = {400,660,50,50};
-    SDL_Rect wall6 = {450,610,50,100};
-    Block hellowall(400,660,50,50,renderer, wall5, true);
-    Block hellowall2(450,610,50,100,renderer, wall6, true);
+    SDL_Rect wall5 = {400,650,50,50};
+    SDL_Rect wall6 = {450,600,50,100};
+    Block hellowall(400,650,50,50,renderer, wall5, true);
+    Block hellowall2(450,600,50,100,renderer, wall6, true);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
@@ -502,7 +500,7 @@ void level1(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(710-CHAR_HEIGHT);
+    end.setY(700-CHAR_HEIGHT);
     p.setX(20);
     p.setY(640);
 
