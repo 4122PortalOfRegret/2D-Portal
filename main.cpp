@@ -510,11 +510,11 @@ void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
-    SDL_Rect wall4 = {10,710,1260,10};
+    SDL_Rect wall4 = {10,700,1260,20};
     Block leftwall(0,0,10,720,renderer, wall1, true);
     Block rightwall(1270,0,10,720,renderer, wall2, true);
     Block topwall(10,0,1260,10,renderer, wall3, true);
-    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+    Block bottomwall(10,700,1260,20,renderer, wall4, true);
 
     SDL_Rect wall5 = {10,540,100,170};
     SDL_Rect wall6 = {110,590,100,120};
@@ -546,7 +546,7 @@ void level2(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(710-CHAR_HEIGHT);
+    end.setY(700-CHAR_HEIGHT);
     p.setX(240);
     p.setY(500);
 
@@ -794,11 +794,11 @@ void level8(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     SDL_Rect wall1 = {0,0,10,720};
     SDL_Rect wall2 = {1270,0,10,720};
     SDL_Rect wall3 = {10,0,1260,10};
-    SDL_Rect wall4 = {10,710,1260,10};
+    SDL_Rect wall4 = {10,700,1260,20};
     Block leftwall(0,0,10,720,renderer, wall1, true);
     Block rightwall(1270,0,10,720,renderer, wall2, true);
     Block topwall(10,0,1260,10,renderer, wall3, true);
-    Block bottomwall(10,710,1260,10,renderer, wall4, true);
+    Block bottomwall(10,700,1260,20,renderer, wall4, true);
 
     SDL_Rect wall6 = {10,690,1260,20};
     SDL_Rect wall7 = {200,600,30,120};
@@ -833,7 +833,7 @@ void level8(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     }
 
     end.setX(1170);
-    end.setY(650);
+    end.setY(700-CHAR_HEIGHT);
     p.setX(75);
     p.setY(640);
 
