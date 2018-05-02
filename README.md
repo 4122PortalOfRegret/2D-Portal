@@ -1,6 +1,3 @@
-# SDLTest
-Quick test for SDL
+# 2D Portal
 
-After clonining this directory, install SDL2 and run cmake.
-
-Then build the project with Make, and run the executable.
+Check instruction manual submitted on website
