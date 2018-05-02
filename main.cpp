@@ -112,58 +112,57 @@ int main(int argc, char** argv) {
         // if red X is clicked or ESC
 
         // manage mouse clicks
-	while(SDL_PollEvent(&events)) {
-        switch (events.type) {
-            case SDL_QUIT:
-                quit = true;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                if (events.button.button == SDL_BUTTON_LEFT) {
-                    if (level == 0) {
-                        SDL_GetMouseState(&mouse_x,&mouse_y);
-                        int count = 1;
-                        for(auto i : rectVector){
-                            SDL_Rect temp = {mouse_x, mouse_y, 1, 1};
-                            if (SDL_HasIntersection(&i, &temp)) {
-                                level = count;
-                                loadLevel = true;
-                                break;
-                            }
-                            count++;
-                        }
-                    } else {
-                        pastPress[LEFT_MOUSE]++;
-                        if (pastPress[LEFT_MOUSE] == 1) {
+	    while(SDL_PollEvent(&events)) {
+            switch (events.type) {
+                case SDL_QUIT:
+                    quit = true;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (events.button.button == SDL_BUTTON_LEFT) {
+                        if (level == 0) {
                             SDL_GetMouseState(&mouse_x,&mouse_y);
-                            portal1.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal2);
+                            int count = 1;
+                            for(auto i : rectVector){
+                                SDL_Rect temp = {mouse_x, mouse_y, 1, 1};
+                                if (SDL_HasIntersection(&i, &temp)) {
+                                    level = count;
+                                    loadLevel = true;
+                                    break;
+                                }
+                                count++;
+                            }
+                        } else {
+                            pastPress[LEFT_MOUSE]++;
+                            if (pastPress[LEFT_MOUSE] == 1) {
+                                SDL_GetMouseState(&mouse_x,&mouse_y);
+                                portal1.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal2);
                             // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
                             // SDL_SetRenderDrawColor(renderer, 255,128,0,130);
                             // SDL_RenderFillRect(renderer, &draw);
-                        }
-                    }  
-                }
-                else if (events.button.button == SDL_BUTTON_RIGHT){
-                    pastPress[RIGHT_MOUSE]++;
-                    if (pastPress[RIGHT_MOUSE] == 1) {
-                        SDL_GetMouseState(&mouse_x,&mouse_y);
-                        portal2.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal1);
+                            }
+                        }  
+                    } else if (events.button.button == SDL_BUTTON_RIGHT){
+                        pastPress[RIGHT_MOUSE]++;
+                        if (pastPress[RIGHT_MOUSE] == 1) {
+                            SDL_GetMouseState(&mouse_x,&mouse_y);
+                            portal2.PortalHit(blockVector, *player.getRectangle(), mouse_x, mouse_y, portal1);
                         // SDL_Rect draw = {mouse_x-10, mouse_y-10, 20,20};
                         // SDL_SetRenderDrawColor(renderer, 0,128,255,130);
                         // SDL_RenderFillRect(renderer, &draw);
+                        }
                     }
-                }
-                break;
-            case SDL_MOUSEBUTTONUP:
-                if(events.button.button == SDL_BUTTON_LEFT) {
-                    pastPress[LEFT_MOUSE] = 0;
-                } else if (events.button.button == SDL_BUTTON_RIGHT) {
-                    pastPress[RIGHT_MOUSE] = 0;
-                }
-                break;
-            default:
-                break;
-        }
-	}
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    if(events.button.button == SDL_BUTTON_LEFT) {
+                        pastPress[LEFT_MOUSE] = 0;
+                    } else if (events.button.button == SDL_BUTTON_RIGHT) {
+                        pastPress[RIGHT_MOUSE] = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+	    }
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);        
         SDL_RenderClear(renderer);
