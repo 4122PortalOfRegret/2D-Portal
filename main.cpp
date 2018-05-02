@@ -56,11 +56,11 @@ int main(int argc, char** argv) {
 
 
     // splash screen
-    SDL_Surface * img = SDL_LoadBMP("splash screen.bmp");
+    SDL_Surface * img = SDL_LoadBMP("splash_screen.bmp");
     SDL_Texture * splashScreen = SDL_CreateTextureFromSurface(renderer, img);
     
     // player
-    SDL_Surface * image = SDL_LoadBMP("lols.bmp");
+    SDL_Surface * image = SDL_LoadBMP("sprite.bmp");
     SDL_Texture * currentimage = SDL_CreateTextureFromSurface(renderer, image);
     SDL_Rect playerRect = {600, 100, CHAR_WIDTH, CHAR_HEIGHT};
     // player texture
