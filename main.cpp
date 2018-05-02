@@ -763,13 +763,13 @@ void level7(SDL_Renderer* renderer, vector<Block>& blockVec, EndZoneWall& end, P
     SDL_Rect wall5 = {0,200,400,510};  // built
     SDL_Rect wall6 = {950,520,320,190}; // built
     SDL_Rect wall7 = {520,10,300,600};  // built
-    SDL_Rect wall8 = {400,705,550,5};   // built
-    SDL_Rect wall9 = {280,10,100,5};    // built
+    SDL_Rect wall8 = {400,705,550,10};   // built
+    SDL_Rect wall9 = {280,10,150,10};    // built
     Block b_wall5(0,200,400,510,renderer, wall5, true);
     Block b_wall6(950,520,320,190,renderer, wall6, true);
     Block b_wall7(520,10,300,600,renderer, wall7, true);
-    Block b_wall8(400,705,550,5,renderer, wall8, false);
-    Block b_wall9(280,10,100,5,renderer, wall9, false);
+    Block b_wall8(400,705,550,10,renderer, wall8, false);
+    Block b_wall9(280,10,150,10,renderer, wall9, false);
 
     blockVec.push_back(leftwall);
     blockVec.push_back(rightwall);
