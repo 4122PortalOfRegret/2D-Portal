@@ -324,7 +324,7 @@ int main(int argc, char** argv) {
             case FREEFALL    :
                 jumpframes = 0;
                 player.setYSpeed(20);
-                if (ground) {
+                if (ground && canJump) {
                     jump = READY;
                 }
                 break;
